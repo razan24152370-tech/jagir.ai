@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+
+{% block title %}Choose Your Role - Pro Recruiter AI{% endblock %}
+
+{% block extra_css %}
+<style>
+    .role-page {
+        min-height: calc(100vh - 76px);
+        background: linear-gradient(135deg, #0a1628 0%, #1e3a5f 100%);
+        display: flex;
+        align-items: center;
+        padding: 3rem 0;
+    }
+    
+    .role-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .role-header h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 0.5rem;
+    }
+    
+    .role-header .brand-text {
+        color: #6ea8fe;
+    }
+    
+    .role-header p {
+        color: rgba(255,255,255,0.7);
+        font-size: 1.1rem;
+    }
+    
+    .selection-text {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .role-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        height: 100%;
+        transition: all 0.3s;
+        border: 3px solid transparent;
+    }
+    
+    .role-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    }
+    
+    .role-card.jobseeker:hover {
+        border-color: #0d6efd;
+    }
+    
+    .role-card.recruiter:hover {
+        border-color: #6ea8fe;
+    }
+    
+    .role-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .jobseeker .role-icon {
+        background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+    }
+    
+    .recruiter .role-icon {
+        background: linear-gradient(135deg, #6ea8fe 0%, #0d6efd 100%);
+    }
+    
+    .role-icon i {
+        font-size: 2rem;
+        color: white;
+    }
+    
+    .role-card h2 {
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #1e293b;
+    }
+    
+    .role-card > p {
+        color: #64748b;
+        margin-bottom: 1.5rem;
+    }
+    
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 2rem;
+    }
+    
+    .feature-list li {
+        padding: 0.5rem 0;
+        color: #475569;
+    }
+    
+    .feature-list li i {
+        color: #0d6efd;
+        margin-right: 0.5rem;
+    }
+    
+    .role-actions {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .role-actions .btn {
+        flex: 1;
+        padding: 0.75rem;
+        font-weight: 600;
+    }
+    
+    .logged-in-card {
+        background: white;
+        border-radius: 20px;
+        padding: 3rem;
+        text-align: center;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .logged-in-card h2 {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .logged-in-card p {
+        color: #64748b;
+        margin-bottom: 2rem;
+    }
+    
+    .user-avatar {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #0d6efd 0%, #6ea8fe 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+    }
+    
+    .user-avatar i {
+        font-size: 2.5rem;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="role-page">
+    <div class="container">
+        <div class="role-header">
+            <h1>Welcome to <span class="brand-text">Pro Recruiter AI</span></h1>
+            <p>AI-Powered Recruitment Platform for Smart Hiring</p>
+        </div>
+        
+        {% if user.is_authenticated %}
+        <div class="logged-in-card">
+            <div class="user-avatar">
+                <i class="bi bi-person-fill"></i>
+            </div>
+            <h2>Hello, {{ user.username }}!</h2>
+            <p>Welcome back to Pro Recruiter AI</p>
+            <div class="d-flex gap-3 justify-content-center">
+                {% if user.profile.user_type == 'recruiter' %}
+                <a href="{% url 'jobs:recruiter_dashboard' %}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
+                </a>
+                {% else %}
+                <a href="{% url 'jobs:user_dashboard' %}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
+                </a>
+                {% endif %}
+                <a href="{% url 'project_home' %}" class="btn btn-outline-secondary btn-lg px-4">Return Home</a>
+                <a href="{% url 'accounts:logout' %}" class="btn btn-outline-secondary btn-lg">
+                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                </a>
+            </div>
+        </div>
+        {% else %}
+        
+        <p class="selection-text">I am a...</p>
+        
+        <div class="row g-4 justify-content-center">
+            <!-- Job Seeker Card -->
+            <div class="col-lg-5 col-md-6">
+                <div class="role-card jobseeker">
+                    <div class="role-icon">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <h2>Job Seeker</h2>
+                    <p>Find your dream job with AI-powered recommendations tailored to your skills and experience.</p>
+                    <ul class="feature-list">
+                        <li><i class="bi bi-check-circle-fill"></i> Personalized job recommendations</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Easy application tracking</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Profile optimization tips</li>
+                    </ul>
+                    <div class="role-actions">
+                        <a href="{% url 'accounts:jobseeker_login' %}" class="btn btn-outline-primary">Login</a>
+                        <a href="{% url 'accounts:jobseeker_signup' %}" class="btn btn-primary">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recruiter Card -->
+            <div class="col-lg-5 col-md-6">
+                <div class="role-card recruiter">
+                    <div class="role-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <h2>Recruiter</h2>
+                    <p>Find top talent faster with AI-powered candidate ranking and smart screening tools.</p>
+                    <ul class="feature-list">
+                        <li><i class="bi bi-check-circle-fill"></i> AI-ranked candidates</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Easy job posting</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Application management</li>
+                    </ul>
+                    <div class="role-actions">
+                        <a href="{% url 'accounts:recruiter_login' %}" class="btn btn-outline-primary">Login</a>
+                        <a href="{% url 'accounts:recruiter_signup' %}" class="btn btn-primary">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

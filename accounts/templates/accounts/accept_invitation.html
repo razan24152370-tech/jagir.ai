@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Accept Invitation - ProRecruiter AI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/style.css' %}">
+<style>
+    .invitation-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .invitation-header {
+        text-align: center;
+        padding: 30px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px 10px 0 0;
+        margin: -30px -30px 30px -30px;
+    }
+    
+    .invitation-icon {
+        font-size: 60px;
+        margin-bottom: 15px;
+    }
+    
+    .company-info {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 25px 0;
+        border-left: 4px solid #667eea;
+    }
+    
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0;
+        padding: 8px 0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .info-row:last-child {
+        border-bottom: none;
+    }
+    
+    .label {
+        font-weight: 600;
+        color: #667eea;
+    }
+    
+    .value {
+        color: #333;
+    }
+    
+    .signup-form {
+        margin-top: 30px;
+    }
+    
+    .btn-accept {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        width: 100%;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    
+    .btn-accept:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: border-color 0.3s;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .help-text {
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
+    }
+    
+    .errorlist {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0;
+        color: #dc3545;
+        font-size: 14px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="invitation-container">
+    <div class="invitation-header">
+        <div class="invitation-icon">🎉</div>
+        <h1>You're Invited!</h1>
+        <p style="margin: 0;">Join {{ company_name }} on ProRecruiter AI</p>
+    </div>
+    
+    <p style="text-align: center; font-size: 18px; color: #333;">
+        <strong>{{ team_member.first_name }} {{ team_member.last_name }}</strong>, you've been invited to join the recruitment team!
+    </p>
+    
+    <div class="company-info">
+        <h3 style="margin-top: 0; color: #667eea;">📋 Your Role Details</h3>
+        <div class="info-row">
+            <span class="label">Company:</span>
+            <span class="value">{{ company_name }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Role:</span>
+            <span class="value">{{ team_member.get_role_display }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Permissions:</span>
+            <span class="value">{{ team_member.get_permissions_display }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Email:</span>
+            <span class="value">{{ team_member.email }}</span>
+        </div>
+    </div>
+    
+    <h3 style="color: #667eea;">Create Your Account</h3>
+    <p>Complete the form below to accept the invitation and create your account.</p>
+    
+    <form method="post" class="signup-form">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+            <ul class="errorlist">
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <ul class="errorlist">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if field.help_text %}
+                    <div class="help-text">{{ field.help_text|safe }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+        <button type="submit" class="btn-accept">
+            ✓ Accept Invitation & Create Account
+        </button>
+    </form>
+    
+    <p style="text-align: center; margin-top: 30px; color: #666; font-size: 14px;">
+        Already have an account? <a href="{% url 'accounts:recruiter_login' %}" style="color: #667eea; text-decoration: none; font-weight: bold;">Log in</a> to link this invitation to your existing account.
+    </p>
+</div>
+{% endblock %}

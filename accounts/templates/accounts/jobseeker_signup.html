@@ -1,0 +1,311 @@
+{% extends 'base.html' %}
+
+{% block title %}Job Seeker Sign Up - Pro Recruiter AI{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-page {
+        min-height: calc(100vh - 76px);
+        background: linear-gradient(135deg, #0B57D0 0%, #000000 50%, #1a1a2e 100%);
+        display: flex;
+        align-items: center;
+        padding: 3rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .auth-page::before {
+        content: '';
+        position: absolute;
+        top: -150px;
+        right: -150px;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(77, 141, 255, 0.12) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: float 25s ease-in-out infinite;
+    }
+    
+    .auth-page::after {
+        content: '';
+        position: absolute;
+        bottom: -200px;
+        left: -200px;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(circle, rgba(0, 230, 118, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: float 30s ease-in-out infinite reverse;
+    }
+    
+    @keyframes float {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+        }
+        50% {
+            transform: translate(30px, 30px) scale(1.1);
+        }
+    }
+    
+    .auth-card {
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95));
+        border-radius: 28px;
+        padding: 3.5rem;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 15px 40px rgba(77, 141, 255, 0.3);
+        max-width: 480px;
+        margin: 0 auto;
+        border: 2px solid rgba(77, 141, 255, 0.2);
+        position: relative;
+        z-index: 1;
+        backdrop-filter: blur(20px);
+        animation: cardFadeIn 0.8s ease;
+    }
+    
+    @keyframes cardFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+    
+    .auth-icon {
+        width: 90px;
+        height: 90px;
+        background: linear-gradient(135deg, #4D8DFF 0%, #00E676 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        box-shadow: 0 15px 40px rgba(77, 141, 255, 0.4), 0 0 60px rgba(0, 230, 118, 0.3);
+        animation: iconPulse 3s ease-in-out infinite;
+        border: 3px solid rgba(255, 255, 255, 0.5);
+    }
+    
+    @keyframes iconPulse {
+        0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 15px 40px rgba(77, 141, 255, 0.4), 0 0 60px rgba(0, 230, 118, 0.3);
+        }
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(77, 141, 255, 0.6), 0 0 80px rgba(0, 230, 118, 0.5);
+        }
+    }
+    
+    .auth-icon i {
+        font-size: 2.2rem;
+        color: white;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+    
+    .auth-header h2 {
+        font-weight: 900;
+        background: linear-gradient(135deg, #4D8DFF, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.75rem;
+        font-size: 2rem;
+    }
+    
+    .auth-header p {
+        color: #64748b;
+        font-size: 1.05rem;
+        font-weight: 500;
+    }
+    
+    .form-label {
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 0.6rem;
+        font-size: 0.95rem;
+    }
+    
+    .form-control {
+        padding: 0.9rem 1.25rem;
+        border-radius: 12px;
+        border: 2px solid rgba(77, 141, 255, 0.15);
+        transition: all 0.4s ease;
+        font-size: 1rem;
+    }
+    
+    .form-control:focus {
+        border-color: #4D8DFF;
+        box-shadow: 0 0 0 0.2rem rgba(77, 141, 255, 0.15), 0 0 30px rgba(0, 230, 118, 0.2);
+        transform: translateY(-2px);
+    }
+    
+    .btn-auth {
+        padding: 1rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #4D8DFF, #00E676);
+        border: none;
+        box-shadow: 0 15px 40px rgba(77, 141, 255, 0.3);
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-auth::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.6s ease;
+    }
+    
+    .btn-auth:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 20px 60px rgba(77, 141, 255, 0.5), 0 0 80px rgba(0, 230, 118, 0.3);
+    }
+    
+    .btn-auth:hover::before {
+        left: 100%;
+    }
+    
+    .auth-footer {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid rgba(77, 141, 255, 0.1);
+    }
+    
+    .auth-footer a {
+        color: #4D8DFF;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .auth-footer a:hover {
+        color: #00E676;
+        text-decoration: underline;
+    }
+    
+    .switch-role {
+        font-size: 0.95rem;
+        color: #64748b;
+        margin-top: 1rem;
+        font-weight: 500;
+    }
+    
+    .switch-role a {
+        color: #4D8DFF;
+        font-weight: 700;
+    }
+    
+    .errorlist {
+        color: #dc3545;
+        font-size: 0.875rem;
+        list-style: none;
+        padding: 0;
+        margin: 0.25rem 0 0;
+    }
+    
+    .alert {
+        border-radius: 12px;
+        border: 2px solid;
+        padding: 1rem 1.25rem;
+        font-weight: 500;
+    }
+    
+    .alert-danger {
+        background: rgba(220, 53, 69, 0.1);
+        border-color: rgba(220, 53, 69, 0.3);
+        color: #dc3545;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-icon">
+                    <i class="bi bi-person-plus-fill"></i>
+                </div>
+                <h2>Create Account</h2>
+                <p>Find your dream job with AI-powered recommendations</p>
+            </div>
+            
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <div class="mb-3">
+                    <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                    <ul class="errorlist">{{ form.username.errors }}</ul>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="{{ form.email.id_for_label }}" class="form-label">Email Address</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                    <ul class="errorlist">{{ form.email.errors }}</ul>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="{{ form.password1.id_for_label }}" class="form-label">Password</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                    <ul class="errorlist">{{ form.password1.errors }}</ul>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                    <ul class="errorlist">{{ form.password2.errors }}</ul>
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-auth w-100">
+                    <i class="bi bi-person-plus me-2"></i>Create Account
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Already have an account? <a href="{% url 'accounts:jobseeker_login' %}">Sign in</a></p>
+                <p class="switch-role">Are you a recruiter? <a href="{% url 'accounts:recruiter_signup' %}">Create recruiter account</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

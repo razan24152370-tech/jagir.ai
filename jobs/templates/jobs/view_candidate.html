@@ -1,0 +1,335 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}{{ application.applicant.get_full_name }} - Application{% endblock %}
+
+{% block page_title %}Candidate Application{% endblock %}
+
+{% block content %}
+<!-- Back Link -->
+<a href="{% url 'jobs:view_all_applications' %}" class="btn btn-link text-decoration-none ps-0 mb-3">
+    <i class="bi bi-arrow-left me-2"></i>Back to Applications
+</a>
+
+<div class="row g-4">
+    <!-- Main Content -->
+    <div class="col-lg-8">
+        <!-- Candidate Profile Card -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="avatar-lg bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; font-size: 2rem; font-weight: 600;">
+                            {{ application.applicant.first_name|first|default:application.applicant.username|first }}
+                        </div>
+                        <div>
+                            <h3 class="fw-bold mb-1">{{ application.applicant.get_full_name|default:application.applicant.username }}</h3>
+                            {% if application.applicant.profile.headline %}
+                            <p class="text-muted mb-2">{{ application.applicant.profile.headline }}</p>
+                            {% endif %}
+                            <div class="d-flex flex-wrap gap-3 text-muted small">
+                                <span><i class="bi bi-envelope me-1"></i>{{ application.applicant.email }}</span>
+                                {% if application.applicant.profile.phone %}
+                                <span><i class="bi bi-telephone me-1"></i>{{ application.applicant.profile.phone }}</span>
+                                {% endif %}
+                                {% if application.applicant.profile.location %}
+                                <span><i class="bi bi-geo-alt me-1"></i>{{ application.applicant.profile.location }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div class="match-circle {% if application.match_score >= 70 %}high{% elif application.match_score >= 50 %}medium{% else %}low{% endif %}">
+                            {{ application.match_score }}%
+                        </div>
+                        <div class="small text-muted mt-1">Match Score</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Application Details -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-1">
+                    <i class="bi bi-briefcase text-primary me-2"></i>Application for: {{ application.job.title }}
+                </h5>
+                <p class="text-muted small mb-4">Applied on {{ application.applied_at|date:"F d, Y" }}</p>
+                
+                {% if application.cover_letter %}
+                <div class="mb-4">
+                    <h6 class="fw-bold mb-3">Cover Letter</h6>
+                    <div class="bg-light rounded-3 p-4">
+                        {{ application.cover_letter|linebreaks }}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if xai_data or application.ranking_notes %}
+                <div class="alert alert-info border-0 rounded-3">
+                    <h6 class="fw-bold mb-3">
+                        <i class="bi bi-robot me-2"></i>AI Analysis
+                    </h6>
+                    
+                    {% if xai_data %}
+                        <!-- Skill Matching -->
+                        <div class="mb-3">
+                            <p class="mb-1">
+                                <i class="bi bi-check-circle text-success me-2"></i>
+                                <strong>Skills Match:</strong> 
+                                <span class="badge bg-{% if xai_data.matched_skills|length == 0 %}danger{% elif skill_score >= 70 %}success{% elif skill_score >= 40 %}warning{% else %}danger{% endif %} ms-1">
+                                    {{ xai_data.matched_skills|length }}/{{ xai_data.matched_skills|length|add:xai_data.missing_skills|length }} required skills ({{ skill_score|floatformat:0 }}%)
+                                </span>
+                            </p>
+                            {% if xai_data.matched_skills %}
+                            <div class="ms-4 small">
+                                <span class="text-success">✓ Matched:</span> 
+                                {% for skill in xai_data.matched_skills %}
+                                    <span class="badge bg-success-subtle text-success me-1">{{ skill }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% if xai_data.missing_skills %}
+                            <div class="ms-4 small mt-1">
+                                <span class="text-danger">✗ Missing:</span> 
+                                {% for skill in xai_data.missing_skills %}
+                                    <span class="badge bg-danger-subtle text-danger me-1">{{ skill }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Experience -->
+                        {% if xai_data.experience_years is not None %}
+                        <div class="mb-3">
+                            <p class="mb-0">
+                                <i class="bi bi-briefcase text-primary me-2"></i>
+                                <strong>Experience:</strong> {{ xai_data.experience_years }} years 
+                                {% if application.job.experience_required %}
+                                    (Required: {{ application.job.experience_required }} years - {{ exp_score|floatformat:0 }}%)
+                                {% endif %}
+                            </p>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Market Insights -->
+                        {% if xai_data.market_insights %}
+                        <div class="mb-3">
+                            <p class="mb-1">
+                                <i class="bi bi-graph-up text-info me-2"></i>
+                                <strong>Market Insights:</strong>
+                            </p>
+                            <div class="ms-4 small">
+                                {% if xai_data.market_insights.market_success_rate %}
+                                <div class="mb-1">
+                                    📊 Market success rate: <strong>{{ xai_data.market_insights.market_success_rate|floatformat:1 }}%</strong> 
+                                    <span class="text-muted">(from {{ xai_data.market_insights.sample_size }} similar profiles)</span>
+                                </div>
+                                {% endif %}
+                                {% if xai_data.market_insights.upskilling_recommendations %}
+                                <div>
+                                    💡 Top upskilling: 
+                                    {% for rec in xai_data.market_insights.upskilling_recommendations %}
+                                        <span class="badge bg-info-subtle text-info me-1">
+                                            {{ rec.skill }} ({{ rec.success_rate|floatformat:0 }}% success)
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="mb-3">
+                            <p class="mb-0">
+                                <i class="bi bi-info-circle text-muted me-2"></i>
+                                <strong>Market Insights:</strong> <span class="text-muted">Not available for this role</span>
+                            </p>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Feature Importance -->
+                        {% if feature_importance %}
+                        <div class="mb-0">
+                            <p class="mb-1">
+                                <i class="bi bi-bar-chart text-warning me-2"></i>
+                                <strong>AI Score Breakdown:</strong>
+                            </p>
+                            <div class="ms-4 small">
+                                <div class="mb-1">
+                                    📈 Similarity: <strong>{{ similarity_score|floatformat:1 }}%</strong> 
+                                    <span class="text-muted">({{ feature_importance.0|floatformat:0 }}% of total score)</span>
+                                </div>
+                                <div class="mb-1">
+                                    🎯 Skills: <strong>{{ skill_score|floatformat:1 }}%</strong> 
+                                    <span class="text-muted">({{ feature_importance.1|floatformat:0 }}% of total score)</span>
+                                </div>
+                                <div>
+                                    💼 Experience: <strong>{{ exp_score|floatformat:1 }}%</strong> 
+                                    <span class="text-muted">({{ feature_importance.2|floatformat:0 }}% of total score)</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% else %}
+                        <!-- Fallback to saved ranking notes if XAI regeneration failed -->
+                        <p class="mb-0">{{ application.ranking_notes|linebreaksbr }}</p>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Professional Background -->
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-4">
+                    <i class="bi bi-person-vcard text-primary me-2"></i>Professional Background
+                </h5>
+                
+                {% if application.applicant.profile.bio %}
+                <div class="mb-4">
+                    <h6 class="fw-semibold mb-2">About</h6>
+                    <p class="text-secondary">{{ application.applicant.profile.bio }}</p>
+                </div>
+                {% endif %}
+
+                {% if application.applicant.profile.skills %}
+                <div class="mb-4">
+                    <h6 class="fw-semibold mb-2">Skills</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for skill in application.applicant.profile.get_skills_list %}
+                        <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if application.applicant.profile.experience_years %}
+                <div class="mb-4">
+                    <h6 class="fw-semibold mb-2">Experience</h6>
+                    <p class="text-secondary">{{ application.applicant.profile.experience_years }} years of experience</p>
+                </div>
+                {% endif %}
+
+                {% if application.applicant.profile.education %}
+                <div>
+                    <h6 class="fw-semibold mb-2">Education</h6>
+                    <p class="text-secondary mb-0">{{ application.applicant.profile.education }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <!-- Update Status Card -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h6 class="fw-bold mb-3">Update Status</h6>
+                <form method="post" id="statusForm">
+                    {% csrf_token %}
+                    <select name="status" id="statusSelect" class="form-select mb-3">
+                        <option value="pending" {% if application.status == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="reviewed" {% if application.status == 'reviewed' %}selected{% endif %}>Reviewed</option>
+                        <option value="shortlisted" {% if application.status == 'shortlisted' %}selected{% endif %}>Shortlisted</option>
+                        <option value="rejected" {% if application.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                        <option value="hired" {% if application.status == 'hired' %}selected{% endif %}>Hired</option>
+                    </select>
+                    
+                    <!-- Rejection Reason Field (shown only when status is rejected) -->
+                    <div id="rejectionReasonDiv" class="mb-3" style="display: {% if application.status == 'rejected' %}block{% else %}none{% endif %};">
+                        <label for="rejectionReason" class="form-label small text-muted">
+                            <i class="bi bi-chat-left-text me-1"></i>Rejection Reason (will be visible to candidate)
+                        </label>
+                        <textarea name="rejection_reason" id="rejectionReason" class="form-control" rows="4" 
+                                  placeholder="Please provide constructive feedback to help the candidate improve...">{{ application.rejection_reason }}</textarea>
+                        <div class="form-text small">Providing feedback helps candidates improve for future opportunities.</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-check-lg me-2"></i>Update Status
+                    </button>
+                </form>
+            </div>
+        </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const statusSelect = document.getElementById('statusSelect');
+    const rejectionReasonDiv = document.getElementById('rejectionReasonDiv');
+    const rejectionReason = document.getElementById('rejectionReason');
+    
+    statusSelect.addEventListener('change', function() {
+        if (this.value === 'rejected') {
+            rejectionReasonDiv.style.display = 'block';
+        } else {
+            rejectionReasonDiv.style.display = 'none';
+            rejectionReason.value = '';
+        }
+    });
+});
+</script>
+
+        <!-- Documents Card -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h6 class="fw-bold mb-3">Documents</h6>
+                
+                {% if application.resume %}
+                <!-- Resume attached with this application -->
+                <a href="{{ application.resume.url }}" class="btn btn-outline-primary w-100 mb-2" target="_blank">
+                    <i class="bi bi-file-earmark-pdf me-2"></i>Application Resume
+                </a>
+                {% endif %}
+                
+                {% if application.applicant.profile.resume %}
+                <!-- Resume from profile -->
+                <a href="{{ application.applicant.profile.resume.url }}" class="btn btn-outline-secondary w-100" target="_blank">
+                    <i class="bi bi-file-pdf me-2"></i>Profile Resume
+                </a>
+                {% endif %}
+                
+                {% if not application.resume and not application.applicant.profile.resume %}
+                <p class="text-muted small mb-0">No resume uploaded</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Links Card -->
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <h6 class="fw-bold mb-3">Links</h6>
+                {% if application.applicant.profile.linkedin_url %}
+                <a href="{{ application.applicant.profile.linkedin_url }}" class="btn btn-outline-primary w-100" target="_blank">
+                    <i class="bi bi-linkedin me-2"></i>LinkedIn Profile
+                </a>
+                {% else %}
+                <p class="text-muted small mb-0">No LinkedIn profile</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-primary-subtle {
+        background-color: rgba(13, 110, 253, 0.1);
+    }
+    
+    .match-circle {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: white;
+    }
+    
+    .match-circle.high { background: linear-gradient(135deg, #198754 0%, #20c997 100%); }
+    .match-circle.medium { background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%); color: #212529; }
+    .match-circle.low { background: linear-gradient(135deg, #dc3545 0%, #e91e63 100%); }
+</style>
+{% endblock %}

@@ -1,0 +1,177 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}Apply for {{ job.title }} - Pro Recruiter AI{% endblock %}
+
+{% block page_title %}Apply for Job{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <!-- Back Link -->
+        <a href="{% url 'jobs:job_detail' job.id %}" class="btn btn-link text-decoration-none ps-0 mb-3">
+            <i class="bi bi-arrow-left me-2"></i>Back to Job
+        </a>
+
+        <div class="row g-4">
+            <!-- Main Form -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="mb-4">
+                            <h4 class="fw-bold">Apply for {{ job.title }}</h4>
+                            <p class="text-muted">{{ job.company }} • {{ job.location }}</p>
+                        </div>
+
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            <!-- Your Information Section -->
+                            <div class="mb-5">
+                                <h6 class="fw-bold mb-3">
+                                    <i class="bi bi-person text-primary me-2"></i>Your Information
+                                </h6>
+                                <p class="text-muted small mb-3">The following information from your profile will be shared with the employer:</p>
+                                
+                                <div class="bg-light rounded-3 p-4 mb-3">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-muted">Name:</span>
+                                                <span class="fw-semibold">{{ user.get_full_name|default:user.username }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-muted">Email:</span>
+                                                <span class="fw-semibold">{{ user.email }}</span>
+                                            </div>
+                                        </div>
+                                        {% if user.profile.phone %}
+                                        <div class="col-md-6">
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-muted">Phone:</span>
+                                                <span class="fw-semibold">{{ user.profile.phone }}</span>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        {% if user.profile.skills %}
+                                        <div class="col-12">
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-muted">Skills:</span>
+                                                <span class="fw-semibold">{{ user.profile.skills }}</span>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <a href="{% url 'accounts:edit_profile' %}" class="btn btn-link text-decoration-none p-0">
+                                    <i class="bi bi-pencil me-1"></i>Update your profile
+                                </a>
+                            </div>
+
+                            <!-- Cover Letter Section -->
+                            <div class="mb-5">
+                                <h6 class="fw-bold mb-3">
+                                    <i class="bi bi-envelope-paper text-primary me-2"></i>Cover Letter
+                                </h6>
+                                <div class="mb-3">
+                                    <label for="id_cover_letter" class="form-label">Why are you interested in this position?</label>
+                                    <textarea name="cover_letter" class="form-control" id="id_cover_letter" rows="6" 
+                                              placeholder="Tell the employer why you're a great fit for this role...">{{ form.cover_letter.value|default:'' }}</textarea>
+                                    <div class="form-text">A good cover letter can increase your chances of getting noticed.</div>
+                                </div>
+                            </div>
+
+                            <!-- Resume Section -->
+                            <div class="mb-4">
+                                <h6 class="fw-bold mb-3">
+                                    <i class="bi bi-file-earmark-text text-primary me-2"></i>Resume
+                                </h6>
+                                
+                                {% if user.profile.resume %}
+                                <div class="alert alert-info d-flex align-items-center mb-3">
+                                    <i class="bi bi-file-pdf me-2 fs-5"></i>
+                                    <div>
+                                        <div class="fw-semibold">Current resume:</div>
+                                        <div class="small">{{ user.profile.resume.name }}</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                <div class="mb-3">
+                                    <label for="id_resume" class="form-label">Upload a new resume (optional)</label>
+                                    <input type="file" name="resume" class="form-control" id="id_resume" accept=".pdf,.doc,.docx">
+                                    <div class="form-text">PDF, DOC, or DOCX files up to 5MB</div>
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="d-flex gap-3 pt-4 border-top">
+                                <a href="{% url 'jobs:job_detail' job.id %}" class="btn btn-outline-secondary px-4">
+                                    <i class="bi bi-x-lg me-2"></i>Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary px-5">
+                                    <i class="bi bi-send me-2"></i>Submit Application
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold mb-3">Job Summary</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li class="d-flex align-items-center py-2 border-bottom">
+                                <i class="bi bi-building text-primary me-3"></i>
+                                <span>{{ job.company }}</span>
+                            </li>
+                            <li class="d-flex align-items-center py-2 border-bottom">
+                                <i class="bi bi-geo-alt text-primary me-3"></i>
+                                <span>{{ job.location }}</span>
+                            </li>
+                            <li class="d-flex align-items-center py-2 border-bottom">
+                                <i class="bi bi-briefcase text-primary me-3"></i>
+                                <span>{{ job.job_type }}</span>
+                            </li>
+                            {% if job.salary %}
+                            <li class="d-flex align-items-center py-2 border-bottom">
+                                <i class="bi bi-currency-dollar text-primary me-3"></i>
+                                <span>{{ job.salary }}</span>
+                            </li>
+                            {% endif %}
+                            <li class="d-flex align-items-center py-2">
+                                <i class="bi bi-calendar text-primary me-3"></i>
+                                <span>Posted {{ job.created_at|timesince }} ago</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card border-0 shadow-sm rounded-4 mt-4">
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold mb-3">Application Tips</h6>
+                        <ul class="list-unstyled text-muted small mb-0">
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Tailor your cover letter to the job</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Highlight relevant skills and experience</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Keep your resume updated</li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i>Proofread before submitting</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+    }
+</style>
+{% endblock %}

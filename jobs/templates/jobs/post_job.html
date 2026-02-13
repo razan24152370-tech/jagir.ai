@@ -1,0 +1,521 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}Post a Job - Pro Recruiter AI{% endblock %}
+
+{% block page_title %}Post a New Job{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4 p-lg-5">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <!-- Job Details Section -->
+                    <div class="mb-5">
+                        <h5 class="fw-bold mb-4">
+                            <i class="bi bi-briefcase text-primary me-2"></i>Job Details
+                        </h5>
+                        
+                        <div class="mb-3">
+                            <label for="id_title" class="form-label fw-semibold">Job Title <span class="text-danger">*</span></label>
+                            <input type="text" name="title" class="form-control form-control-lg" id="id_title" 
+                                   placeholder="e.g., Senior Software Engineer" value="{{ form.title.value|default:'' }}" required>
+                            {% if form.title.errors %}
+                            <div class="text-danger small mt-1">{{ form.title.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_company" class="form-label fw-semibold">Company Name</label>
+                            <input type="text" name="company" class="form-control" id="id_company" 
+                                   placeholder="Your company name" value="{{ form.company.value|default:'' }}">
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="id_location" class="form-label fw-semibold">Location</label>
+                                <input type="text" name="location" class="form-control" id="id_location" 
+                                       placeholder="e.g., San Francisco, CA" value="{{ form.location.value|default:'' }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_job_type" class="form-label fw-semibold">Job Type</label>
+                                <select name="job_type" class="form-select" id="id_job_type">
+                                    <option value="full_time" {% if form.job_type.value == 'full_time' %}selected{% endif %}>Full Time</option>
+                                    <option value="part_time" {% if form.job_type.value == 'part_time' %}selected{% endif %}>Part Time</option>
+                                    <option value="contract" {% if form.job_type.value == 'contract' %}selected{% endif %}>Contract</option>
+                                    <option value="internship" {% if form.job_type.value == 'internship' %}selected{% endif %}>Internship</option>
+                                    <option value="remote" {% if form.job_type.value == 'remote' %}selected{% endif %}>Remote</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="id_salary_min" class="form-label fw-semibold">Minimum Salary</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" name="salary_min" class="form-control" id="id_salary_min" 
+                                           placeholder="50000" value="{{ form.salary_min.value|default:'' }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_salary_max" class="form-label fw-semibold">Maximum Salary</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" name="salary_max" class="form-control" id="id_salary_max" 
+                                           placeholder="80000" value="{{ form.salary_max.value|default:'' }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_description" class="form-label fw-semibold">Job Description <span class="text-danger">*</span></label>
+                            <textarea name="description" class="form-control" id="id_description" rows="6" 
+                                      placeholder="Describe the role, responsibilities, and what a typical day looks like..." required>{{ form.description.value|default:'' }}</textarea>
+                            <div class="form-text">Describe the role, responsibilities, and what a typical day looks like.</div>
+                            {% if form.description.errors %}
+                            <div class="text-danger small mt-1">{{ form.description.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Requirements Section -->
+                    <div class="mb-5">
+                        <h5 class="fw-bold mb-4">
+                            <i class="bi bi-list-check text-primary me-2"></i>Requirements
+                        </h5>
+                        
+                        <div class="mb-3">
+                            <label for="id_requirements" class="form-label fw-semibold">Requirements</label>
+                            <textarea name="requirements" class="form-control" id="id_requirements" rows="4" 
+                                      placeholder="List the qualifications, education, and experience required...">{{ form.requirements.value|default:'' }}</textarea>
+                            <div class="form-text">List the qualifications, education, and experience required.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_skills_required" class="form-label fw-semibold">Required Skills</label>
+                            <input type="text" name="skills_required" class="form-control" id="id_skills_required" 
+                                   placeholder="e.g., Python, Django, PostgreSQL, React" value="{{ form.skills_required.value|default:'' }}">
+                            <div class="form-text">Enter skills separated by commas</div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_experience_required" class="form-label fw-semibold">Experience Required (years)</label>
+                                <input type="number" name="experience_required" class="form-control" id="id_experience_required" 
+                                       placeholder="3" value="{{ form.experience_required.value|default:'' }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_deadline" class="form-label fw-semibold">Application Deadline</label>
+                                <input type="date" name="deadline" class="form-control" id="id_deadline" 
+                                       value="{{ form.deadline.value|default:'' }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Publish Section -->
+                    <div class="mb-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="is_active" id="id_is_active" 
+                                   {% if form.is_active.value %}checked{% endif %} style="width: 3em; height: 1.5em;">
+                            <label class="form-check-label fw-semibold ms-2" for="id_is_active">
+                                Publish this job immediately
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex gap-3 pt-4 border-top">
+                        <a href="{% url 'jobs:recruiter_dashboard' %}" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-x-lg me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary px-5">
+                            <i class="bi bi-send me-2"></i>Post Job
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Premium Post Job Page Styling */
+    
+    /* Card Enhancements */
+    .card {
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.02), rgba(0, 230, 118, 0.02));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+    
+    .card:hover {
+        border-color: rgba(0, 230, 118, 0.3);
+        box-shadow: 0 15px 40px rgba(11, 87, 208, 0.12) !important;
+    }
+    
+    .card:hover::before {
+        opacity: 1;
+    }
+    
+    .card-body {
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Section Headers */
+    h5.fw-bold {
+        position: relative;
+        padding-bottom: 0.75rem;
+        margin-bottom: 1.5rem !important;
+    }
+    
+    h5.fw-bold::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 70px;
+        height: 4px;
+        background: linear-gradient(90deg, #0B57D0, #00E676);
+        border-radius: 2px;
+    }
+    
+    h5.fw-bold i {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    /* Form Labels */
+    .form-label {
+        color: #1e293b;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+    
+    .form-label .text-danger {
+        color: #dc3545 !important;
+        font-size: 1.1rem;
+    }
+    
+    /* Form Controls */
+    .form-control,
+    .form-select {
+        border: 2px solid rgba(11, 87, 208, 0.12);
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-size: 0.95rem;
+    }
+    
+    .form-control-lg {
+        padding: 0.9rem 1.2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #0B57D0;
+        box-shadow: 0 0 0 0.3rem rgba(11, 87, 208, 0.15), 0 4px 15px rgba(11, 87, 208, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .form-control:hover:not(:focus),
+    .form-select:hover:not(:focus) {
+        border-color: rgba(0, 230, 118, 0.3);
+    }
+    
+    /* Textarea */
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+        line-height: 1.6;
+    }
+    
+    /* Input Groups */
+    .input-group-text {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.08), rgba(0, 230, 118, 0.05));
+        border: 2px solid rgba(11, 87, 208, 0.12);
+        border-right: none;
+        color: #0B57D0;
+        font-weight: 700;
+        border-radius: 12px 0 0 12px;
+        transition: all 0.3s ease;
+    }
+    
+    .input-group:focus-within .input-group-text {
+        border-color: #0B57D0;
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.12), rgba(0, 230, 118, 0.08));
+    }
+    
+    .input-group .form-control {
+        border-left: none;
+        border-radius: 0 12px 12px 0;
+    }
+    
+    /* Form Text */
+    .form-text {
+        color: #64748b;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    .form-text::before {
+        content: '💡';
+        font-size: 0.875rem;
+    }
+    
+    /* Error Messages */
+    .text-danger.small {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    .text-danger.small::before {
+        content: '⚠️';
+        font-size: 0.875rem;
+    }
+    
+    /* Switch Toggle */
+    .form-check-input {
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(11, 87, 208, 0.3);
+    }
+    
+    .form-check-input:checked {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        border-color: #0B57D0;
+        box-shadow: 0 4px 12px rgba(11, 87, 208, 0.3);
+    }
+    
+    .form-check-input:focus {
+        border-color: #0B57D0;
+        box-shadow: 0 0 0 0.3rem rgba(11, 87, 208, 0.15);
+    }
+    
+    .form-check-input:hover {
+        border-color: #00E676;
+    }
+    
+    .form-check-label {
+        cursor: pointer;
+        user-select: none;
+    }
+    
+    /* Buttons */
+    .btn {
+        font-weight: 700;
+        padding: 0.7rem 2rem;
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        border: none;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        box-shadow: 0 4px 15px rgba(11, 87, 208, 0.3);
+        flex: 1;
+    }
+    
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .btn-primary:hover {
+        box-shadow: 0 6px 20px rgba(11, 87, 208, 0.4), 0 0 30px rgba(0, 230, 118, 0.2);
+        transform: translateY(-2px) scale(1.02);
+    }
+    
+    .btn-primary:hover::before {
+        left: 100%;
+    }
+    
+    .btn-outline-secondary {
+        color: #64748b;
+        border: 2px solid #64748b;
+        background: transparent;
+    }
+    
+    .btn-outline-secondary::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: #64748b;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: -1;
+    }
+    
+    .btn-outline-secondary:hover {
+        color: #ffffff;
+        border-color: #64748b;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(100, 116, 139, 0.3);
+    }
+    
+    .btn-outline-secondary:hover::before {
+        transform: scaleX(1);
+    }
+    
+    /* Button Group */
+    .d-flex.gap-3.pt-4 {
+        margin-top: 1rem;
+        position: sticky;
+        bottom: 1rem;
+        background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.95) 20%, rgba(255,255,255,0.98));
+        padding: 1.5rem 0 1rem;
+        z-index: 10;
+    }
+    
+    /* Section Spacing */
+    .mb-5 {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(11, 87, 208, 0.08);
+    }
+    
+    .mb-5:last-of-type {
+        border-bottom: none;
+    }
+    
+    /* Placeholder Styling */
+    .form-control::placeholder {
+        color: #94a3b8;
+        font-style: italic;
+    }
+    
+    .form-control:focus::placeholder {
+        opacity: 0.6;
+    }
+    
+    /* Number Input */
+    input[type="number"].form-control {
+        -moz-appearance: textfield;
+    }
+    
+    input[type="number"].form-control::-webkit-inner-spin-button,
+    input[type="number"].form-control::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    
+    /* Date Input */
+    input[type="date"].form-control {
+        position: relative;
+    }
+    
+    input[type="date"].form-control::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        filter: opacity(0.6);
+        transition: filter 0.3s ease;
+    }
+    
+    input[type="date"].form-control:hover::-webkit-calendar-picker-indicator {
+        filter: opacity(1);
+    }
+    
+    /* Select Dropdown */
+    .form-select {
+        cursor: pointer;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%230B57D0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 12px;
+        padding-right: 2.5rem;
+    }
+    
+    /* Form Validation */
+    .form-control.is-valid {
+        border-color: #00E676;
+        background-image: none;
+    }
+    
+    .form-control.is-invalid {
+        border-color: #dc3545;
+        background-image: none;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .btn {
+            padding: 0.65rem 1.5rem;
+        }
+        
+        .d-flex.gap-3.pt-4 {
+            flex-direction: column;
+            gap: 0.75rem !important;
+        }
+        
+        .btn-primary {
+            order: 1;
+        }
+        
+        .btn-outline-secondary {
+            order: 2;
+        }
+        
+        .form-control-lg {
+            font-size: 1rem;
+        }
+    }
+    
+    /* Focus Visible */
+    .form-control:focus-visible,
+    .form-select:focus-visible {
+        outline: none;
+    }
+    
+    /* Smooth Scroll */
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Loading State Animation */
+    .btn-primary:active {
+        transform: scale(0.98);
+    }
+    
+    /* Success State */
+    @keyframes successPulse {
+        0%, 100% {
+            box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.4);
+        }
+        50% {
+            box-shadow: 0 0 0 10px rgba(0, 230, 118, 0);
+        }
+    }
+</style>
+{% endblock %}

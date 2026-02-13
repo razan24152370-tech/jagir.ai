@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}Admin Login - Pro Recruiter AI{% endblock %}
+
+{% block content %}
+<div class="min-vh-100 d-flex align-items-center justify-content-center py-5" style="background: linear-gradient(135deg, #f8fafc 0%, #e7f1ff 100%);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="border: 2px solid rgba(11, 87, 208, 0.1);">
+                    <!-- Header with gradient -->
+                    <div class="text-center text-white py-5 position-relative" style="background: linear-gradient(135deg, #0B57D0 0%, #00E676 100%);">
+                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E&quot;); opacity: 0.3; pointer-events: none;"></div>
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-15 mb-3 position-relative" style="width: 90px; height: 90px; animation: pulse 2s ease-in-out infinite;">
+                            <img src="{% static 'images/White_Logo.svg' %}" alt="Pro Recruiter AI" style="height: 60px; width: auto;">
+                        </div>
+                        <h3 class="fw-bold mb-2 position-relative" style="font-size: 1.75rem;">Admin Portal</h3>
+                        <p class="mb-0 opacity-90 position-relative" style="font-weight: 500;">Authorized access only</p>
+                    </div>
+                    
+                    <style>
+                        @keyframes pulse {
+                            0%, 100% {
+                                transform: scale(1);
+                            }
+                            50% {
+                                transform: scale(1.05);
+                            }
+                        }
+                    </style>
+                    
+                    <div class="card-body p-4 p-md-5">
+                        {% if form.errors and not form.non_field_errors %}
+                        <div class="alert border-0 rounded-3 mb-4" style="background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.05)); border: 2px solid rgba(220, 53, 69, 0.3) !important; color: #dc3545; font-weight: 600;">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+                        </div>
+                        {% endif %}
+
+                        {% if form.non_field_errors %}
+                        <div class="alert border-0 rounded-3 mb-4" style="background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.05)); border: 2px solid rgba(220, 53, 69, 0.3) !important; color: #dc3545; font-weight: 600;">
+                            {% for error in form.non_field_errors %}
+                            <div><i class="bi bi-exclamation-triangle me-2"></i>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <form action="{{ app_path }}" method="post">
+                            {% csrf_token %}
+                            
+                            <div class="mb-4">
+                                <label for="{{ form.username.id_for_label }}" class="form-label fw-semibold" style="color: #1e293b; font-weight: 700;">
+                                    <i class="bi bi-person me-1" style="color: #0B57D0;"></i>Username
+                                </label>
+                                <input type="text" name="username" id="{{ form.username.id_for_label }}" 
+                                       class="form-control form-control-lg rounded-3 {% if form.username.errors %}is-invalid{% endif %}"
+                                       placeholder="Enter admin username" required autofocus
+                                       style="border: 2px solid rgba(11, 87, 208, 0.15); transition: all 0.3s ease;">
+                                {% if form.username.errors %}
+                                <div class="invalid-feedback">{{ form.username.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="{{ form.password.id_for_label }}" class="form-label fw-semibold" style="color: #1e293b; font-weight: 700;">
+                                    <i class="bi bi-lock me-1" style="color: #0B57D0;"></i>Password
+                                </label>
+                                <input type="password" name="password" id="{{ form.password.id_for_label }}" 
+                                       class="form-control form-control-lg rounded-3 {% if form.password.errors %}is-invalid{% endif %}"
+                                       placeholder="Enter password" required
+                                       style="border: 2px solid rgba(11, 87, 208, 0.15); transition: all 0.3s ease;">
+                                {% if form.password.errors %}
+                                <div class="invalid-feedback">{{ form.password.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <input type="hidden" name="next" value="{{ next }}">
+
+                            <button type="submit" class="btn btn-lg w-100 rounded-3 py-3 fw-semibold position-relative overflow-hidden" style="background: linear-gradient(135deg, #0B57D0, #00E676); border: none; font-weight: 800; box-shadow: 0 6px 20px rgba(11, 87, 208, 0.3); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Access Dashboard
+                            </button>
+                        </form>
+                        
+                        <style>
+                            .form-control:focus {
+                                border-color: #0B57D0 !important;
+                                box-shadow: 0 0 0 0.3rem rgba(11, 87, 208, 0.15) !important;
+                            }
+                            
+                            .btn:hover {
+                                transform: translateY(-2px);
+                                box-shadow: 0 8px 25px rgba(11, 87, 208, 0.4) !important;
+                            }
+                        </style>
+                    </div>
+                    
+                    <div class="card-footer bg-light border-0 text-center py-3">
+                        <a href="{% url 'project_home' %}" class="text-decoration-none" style="color: #0B57D0; font-weight: 600; transition: color 0.3s ease;">
+                            <i class="bi bi-arrow-left me-1"></i>Return to Home Page
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

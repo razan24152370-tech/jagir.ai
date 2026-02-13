@@ -1,0 +1,375 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}My Applications - Pro Recruiter AI{% endblock %}
+
+{% block page_title %}My Applications{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        {% if applications %}
+        <div class="d-flex flex-column gap-3">
+            {% for app in applications %}
+            <div class="card border-0 shadow-sm rounded-4 hover-shadow">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <div class="d-flex align-items-center gap-3 mb-2">
+                                <h5 class="mb-0 fw-bold">{{ app.job.title }}</h5>
+                                <span class="badge rounded-pill px-3 py-2 
+                                    {% if app.status == 'pending' %}bg-warning-subtle text-warning
+                                    {% elif app.status == 'reviewed' %}bg-info-subtle text-info
+                                    {% elif app.status == 'shortlisted' %}bg-success-subtle text-success
+                                    {% elif app.status == 'rejected' %}bg-danger-subtle text-danger
+                                    {% elif app.status == 'hired' %}bg-success text-white
+                                    {% else %}bg-secondary-subtle text-secondary{% endif %}">
+                                    {{ app.get_status_display }}
+                                </span>
+                            </div>
+                            <p class="text-muted mb-2">{{ app.job.company }}</p>
+                            <div class="d-flex flex-wrap gap-3 text-muted small">
+                                <span><i class="bi bi-geo-alt me-1"></i>{{ app.job.location }}</span>
+                                <span><i class="bi bi-calendar me-1"></i>Applied {{ app.applied_at|date:"M d, Y" }}</span>
+                            </div>
+                            {% if app.match_score %}
+                            <div class="mt-2">
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">
+                                    <i class="bi bi-stars me-1"></i>{{ app.match_score }}% Match
+                                </span>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Show Rejection Reason if rejected -->
+                            {% if app.status == 'rejected' and app.rejection_reason %}
+                            <div class="alert alert-danger border-0 rounded-3 mt-3 mb-0">
+                                <h6 class="fw-bold mb-2">
+                                    <i class="bi bi-info-circle me-2"></i>Feedback from Recruiter
+                                </h6>
+                                <p class="mb-0 small">{{ app.rejection_reason }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-4 d-flex justify-content-lg-end mt-3 mt-lg-0">
+                            <a href="{% url 'jobs:job_detail' app.job.id %}" class="btn btn-outline-primary">
+                                <i class="bi bi-eye me-2"></i>View Job
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Empty State -->
+        <div class="empty-state">
+            <i class="bi bi-file-earmark-text"></i>
+            <h3>No Applications Yet</h3>
+            <p>Start exploring jobs and apply to positions that match your skills.</p>
+            <a href="{% url 'jobs:browse_jobs' %}" class="btn btn-primary btn-lg">
+                <i class="bi bi-search me-2"></i>Browse Jobs
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    /* Premium My Applications Styling */
+    .card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        position: relative;
+        border: 2px solid rgba(11, 87, 208, 0.1);
+    }
+    
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.02), rgba(0, 230, 118, 0.02));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+    
+    .card:hover::before {
+        opacity: 1;
+    }
+    
+    /* Enhanced Status Badges */
+    .badge {
+        font-weight: 700;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+        border: 2px solid;
+    }
+    
+    .bg-primary-subtle {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.15), rgba(11, 87, 208, 0.08)) !important;
+        border-color: rgba(11, 87, 208, 0.3) !important;
+        color: #0B57D0 !important;
+    }
+    
+    .bg-warning-subtle {
+        background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.1)) !important;
+        border-color: rgba(255, 193, 7, 0.4) !important;
+        color: #d97706 !important;
+    }
+    
+    .bg-info-subtle {
+        background: linear-gradient(135deg, rgba(77, 141, 255, 0.15), rgba(77, 141, 255, 0.08)) !important;
+        border-color: rgba(77, 141, 255, 0.3) !important;
+        color: #4D8DFF !important;
+    }
+    
+    .bg-success-subtle {
+        background: linear-gradient(135deg, rgba(0, 230, 118, 0.15), rgba(0, 230, 118, 0.08)) !important;
+        border-color: rgba(0, 230, 118, 0.3) !important;
+        color: #00a36c !important;
+    }
+    
+    .bg-danger-subtle {
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.15), rgba(220, 53, 69, 0.08)) !important;
+        border-color: rgba(220, 53, 69, 0.3) !important;
+        color: #dc3545 !important;
+    }
+    
+    .bg-secondary-subtle {
+        background: linear-gradient(135deg, rgba(108, 117, 125, 0.15), rgba(108, 117, 125, 0.08)) !important;
+        border-color: rgba(108, 117, 125, 0.3) !important;
+        color: #6c757d !important;
+    }
+    
+    .badge:hover {
+        transform: scale(1.08);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Card Hover Effects */
+    .hover-shadow {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hover-shadow:hover {
+        box-shadow: 0 20px 50px rgba(11, 87, 208, 0.15) !important;
+        transform: translateY(-5px) scale(1.01);
+        border-color: rgba(0, 230, 118, 0.4);
+    }
+    
+    /* Enhanced Buttons */
+    .btn {
+        font-weight: 700;
+        padding: 0.6rem 1.5rem;
+        border-radius: 10px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        border: none;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        box-shadow: 0 4px 15px rgba(11, 87, 208, 0.3);
+    }
+    
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .btn-primary:hover {
+        box-shadow: 0 6px 20px rgba(11, 87, 208, 0.4), 0 0 30px rgba(0, 230, 118, 0.2);
+        transform: translateY(-2px) scale(1.03);
+    }
+    
+    .btn-primary:hover::before {
+        left: 100%;
+    }
+    
+    .btn-outline-primary {
+        color: #0B57D0;
+        border: 2px solid #0B57D0;
+        background: transparent;
+    }
+    
+    .btn-outline-primary::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: -1;
+    }
+    
+    .btn-outline-primary:hover {
+        color: #ffffff;
+        border-color: #0B57D0;
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 6px 20px rgba(11, 87, 208, 0.3);
+    }
+    
+    .btn-outline-primary:hover::before {
+        transform: scaleX(1);
+    }
+    
+    /* Enhanced Alert for Rejection Reason */
+    .alert-danger {
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.12), rgba(220, 53, 69, 0.05));
+        border: 2px solid rgba(220, 53, 69, 0.3) !important;
+        color: #dc3545;
+        border-radius: 12px !important;
+        padding: 1rem 1.25rem;
+    }
+    
+    .alert-danger h6 {
+        color: #dc3545;
+        font-weight: 700;
+    }
+    
+    /* Title Styling */
+    h5.fw-bold {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover h5.fw-bold {
+        transform: translateX(5px);
+    }
+    
+    /* Empty State Enhancement */
+    .empty-state {
+        text-align: center;
+        padding: 5rem 2rem;
+        position: relative;
+    }
+    
+    .empty-state::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(11, 87, 208, 0.1) 0%, transparent 70%);
+        animation: pulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 0.5;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+    }
+    
+    .empty-state i {
+        font-size: 6rem;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1.5rem;
+        animation: iconFloat 3s ease-in-out infinite;
+        position: relative;
+        z-index: 1;
+    }
+    
+    @keyframes iconFloat {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+    
+    .empty-state h3 {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+        font-weight: 800;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .empty-state p {
+        color: #64748b;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Icon Animations */
+    .bi-stars {
+        animation: starRotate 4s ease-in-out infinite;
+    }
+    
+    @keyframes starRotate {
+        0%, 100% {
+            transform: rotate(0deg) scale(1);
+        }
+        50% {
+            transform: rotate(15deg) scale(1.1);
+        }
+    }
+    
+    /* Meta Info Hover */
+    .text-muted.small span {
+        transition: color 0.3s ease;
+    }
+    
+    .text-muted.small span:hover {
+        color: #0B57D0 !important;
+    }
+    
+    /* Card Body */
+    .card-body {
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Company Name */
+    .text-muted {
+        font-weight: 500;
+    }
+    
+    /* Status-specific Card Borders */
+    .card:has(.bg-success-subtle) {
+        border-left: 4px solid #00E676 !important;
+    }
+    
+    .card:has(.bg-warning-subtle) {
+        border-left: 4px solid #ffc107 !important;
+    }
+    
+    .card:has(.bg-danger-subtle) {
+        border-left: 4px solid #dc3545 !important;
+    }
+    
+    .card:has(.bg-info-subtle) {
+        border-left: 4px solid #4D8DFF !important;
+    }
+</style>
+{% endblock %}

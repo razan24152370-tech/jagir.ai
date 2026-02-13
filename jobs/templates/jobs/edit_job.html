@@ -1,0 +1,154 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}Edit Job - Pro Recruiter AI{% endblock %}
+
+{% block page_title %}Edit Job: {{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4 p-lg-5">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <!-- Job Details Section -->
+                    <div class="mb-5">
+                        <h5 class="fw-bold mb-4">
+                            <i class="bi bi-briefcase text-primary me-2"></i>Job Details
+                        </h5>
+                        
+                        <div class="mb-3">
+                            <label for="id_title" class="form-label fw-semibold">Job Title <span class="text-danger">*</span></label>
+                            <input type="text" name="title" class="form-control form-control-lg" id="id_title" 
+                                   value="{{ form.title.value|default:job.title }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_company" class="form-label fw-semibold">Company Name</label>
+                            <input type="text" name="company" class="form-control" id="id_company" 
+                                   value="{{ form.company.value|default:job.company }}">
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="id_location" class="form-label fw-semibold">Location</label>
+                                <input type="text" name="location" class="form-control" id="id_location" 
+                                       value="{{ form.location.value|default:job.location }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_job_type" class="form-label fw-semibold">Job Type</label>
+                                <select name="job_type" class="form-select" id="id_job_type">
+                                    <option value="full_time" {% if job.job_type == 'full_time' %}selected{% endif %}>Full Time</option>
+                                    <option value="part_time" {% if job.job_type == 'part_time' %}selected{% endif %}>Part Time</option>
+                                    <option value="contract" {% if job.job_type == 'contract' %}selected{% endif %}>Contract</option>
+                                    <option value="internship" {% if job.job_type == 'internship' %}selected{% endif %}>Internship</option>
+                                    <option value="remote" {% if job.job_type == 'remote' %}selected{% endif %}>Remote</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="id_salary_min" class="form-label fw-semibold">Minimum Salary</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" name="salary_min" class="form-control" id="id_salary_min" 
+                                           value="{{ form.salary_min.value|default:job.salary_min }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_salary_max" class="form-label fw-semibold">Maximum Salary</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" name="salary_max" class="form-control" id="id_salary_max" 
+                                           value="{{ form.salary_max.value|default:job.salary_max }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_description" class="form-label fw-semibold">Job Description <span class="text-danger">*</span></label>
+                            <textarea name="description" class="form-control" id="id_description" rows="6" required>{{ form.description.value|default:job.description }}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Requirements Section -->
+                    <div class="mb-5">
+                        <h5 class="fw-bold mb-4">
+                            <i class="bi bi-list-check text-primary me-2"></i>Requirements
+                        </h5>
+                        
+                        <div class="mb-3">
+                            <label for="id_requirements" class="form-label fw-semibold">Requirements</label>
+                            <textarea name="requirements" class="form-control" id="id_requirements" rows="4">{{ form.requirements.value|default:job.requirements }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_skills_required" class="form-label fw-semibold">Required Skills</label>
+                            <input type="text" name="skills_required" class="form-control" id="id_skills_required" 
+                                   value="{{ form.skills_required.value|default:job.skills_required }}">
+                            <div class="form-text">Enter skills separated by commas</div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_experience_required" class="form-label fw-semibold">Experience Required (years)</label>
+                                <input type="number" name="experience_required" class="form-control" id="id_experience_required" 
+                                       value="{{ form.experience_required.value|default:job.experience_required }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_deadline" class="form-label fw-semibold">Application Deadline</label>
+                                <input type="date" name="deadline" class="form-control" id="id_deadline" 
+                                       value="{{ form.deadline.value|default:job.deadline|date:'Y-m-d' }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status Section -->
+                    <div class="mb-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="is_active" id="id_is_active" 
+                                   {% if job.is_active %}checked{% endif %} style="width: 3em; height: 1.5em;">
+                            <label class="form-check-label fw-semibold ms-2" for="id_is_active">
+                                Job is active and accepting applications
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex flex-wrap gap-3 pt-4 border-top">
+                        <a href="{% url 'jobs:recruiter_jobs' %}" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-x-lg me-2"></i>Cancel
+                        </a>
+                        <a href="{% url 'jobs:delete_job' job.id %}" class="btn btn-outline-danger px-4">
+                            <i class="bi bi-trash me-2"></i>Delete Job
+                        </a>
+                        <button type="submit" class="btn btn-primary px-5 ms-auto">
+                            <i class="bi bi-check-lg me-2"></i>Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+    }
+    
+    .form-control-lg {
+        padding: 0.75rem 1rem;
+        font-size: 1.1rem;
+    }
+    
+    .form-check-input:checked {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+</style>
+{% endblock %}

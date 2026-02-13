@@ -1,0 +1,132 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}Add Team Member - Pro Recruiter AI{% endblock %}
+
+{% block page_title %}Add Team Member{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <!-- Back Link -->
+        <a href="{% url 'accounts:team_members' %}" class="btn btn-link text-decoration-none ps-0 mb-3">
+            <i class="bi bi-arrow-left me-2"></i>Back to Team
+        </a>
+
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <div class="avatar-lg mx-auto mb-3">
+                        <div class="rounded-circle bg-primary-subtle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                            <i class="bi bi-person-plus text-primary" style="font-size: 2rem;"></i>
+                        </div>
+                    </div>
+                    <h4 class="fw-bold mb-2">Add Team Member</h4>
+                    <p class="text-muted">Invite a new member to your recruitment team</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row g-3">
+                        <!-- First Name -->
+                        <div class="col-md-6">
+                            <label for="{{ form.first_name.id_for_label }}" class="form-label fw-semibold">
+                                First Name <span class="text-danger">*</span>
+                            </label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                            <div class="text-danger small mt-1">{{ form.first_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="col-md-6">
+                            <label for="{{ form.last_name.id_for_label }}" class="form-label fw-semibold">
+                                Last Name <span class="text-danger">*</span>
+                            </label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                            <div class="text-danger small mt-1">{{ form.last_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-12">
+                            <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold">
+                                Email Address <span class="text-danger">*</span>
+                            </label>
+                            {{ form.email }}
+                            {% if form.email.help_text %}
+                            <div class="form-text">{{ form.email.help_text }}</div>
+                            {% endif %}
+                            {% if form.email.errors %}
+                            <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Role -->
+                        <div class="col-md-6">
+                            <label for="{{ form.role.id_for_label }}" class="form-label fw-semibold">
+                                Role <span class="text-danger">*</span>
+                            </label>
+                            {{ form.role }}
+                            {% if form.role.help_text %}
+                            <div class="form-text">{{ form.role.help_text }}</div>
+                            {% endif %}
+                            {% if form.role.errors %}
+                            <div class="text-danger small mt-1">{{ form.role.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Permissions -->
+                        <div class="col-md-6">
+                            <label for="{{ form.permissions.id_for_label }}" class="form-label fw-semibold">
+                                Access Level <span class="text-danger">*</span>
+                            </label>
+                            {{ form.permissions }}
+                            {% if form.permissions.help_text %}
+                            <div class="form-text">{{ form.permissions.help_text }}</div>
+                            {% endif %}
+                            {% if form.permissions.errors %}
+                            <div class="text-danger small mt-1">{{ form.permissions.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Active Status -->
+                        <div class="col-12">
+                            <div class="form-check">
+                                {{ form.is_active }}
+                                <label class="form-check-label" for="{{ form.is_active.id_for_label }}">
+                                    Active (Team member can access the system)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Info Box -->
+                    <div class="alert alert-info border-0 rounded-3 mt-4">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Note:</strong> The team member will be added to your company's recruitment portal with the selected access level.
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary flex-fill">
+                            <i class="bi bi-check-lg me-2"></i>Add Team Member
+                        </button>
+                        <a href="{% url 'accounts:team_members' %}" class="btn btn-outline-secondary flex-fill">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-primary-subtle {
+        background-color: rgba(13, 110, 253, 0.1);
+    }
+</style>
+{% endblock %}

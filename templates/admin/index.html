@@ -1,0 +1,431 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrahead %}
+{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .dashboard-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .stat-card {
+        background: #ffffff;
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(11, 87, 208, 0.08);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #0B57D0, #00E676);
+    }
+    
+    .stat-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.02), rgba(0, 230, 118, 0.02));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(11, 87, 208, 0.15);
+        border-color: rgba(0, 230, 118, 0.3);
+    }
+    
+    .stat-card:hover::after {
+        opacity: 1;
+    }
+
+    .stat-card h3 {
+        font-size: 0.85rem;
+        color: #64748b;
+        font-weight: 700;
+        margin: 0 0 1rem 0;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        position: relative;
+        z-index: 1;
+    }
+
+    .stat-card .value {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1;
+        position: relative;
+        z-index: 1;
+        animation: countUp 0.8s ease-out;
+    }
+    
+    @keyframes countUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .stat-card .icon {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        font-size: 3rem;
+        color: rgba(11, 87, 208, 0.08);
+        transition: all 0.4s ease;
+        z-index: 0;
+    }
+    
+    .stat-card:hover .icon {
+        color: rgba(0, 230, 118, 0.15);
+        transform: rotate(10deg) scale(1.1);
+    }
+
+    .charts-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    @media (max-width: 1024px) {
+        .charts-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .chart-container {
+            height: 350px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .dashboard-stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .stat-card .value {
+            font-size: 2.5rem;
+        }
+    }
+
+    .chart-container {
+        position: relative;
+        min-width: 0;
+        background: #ffffff;
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(11, 87, 208, 0.08);
+        height: 400px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .chart-container:hover {
+        border-color: rgba(0, 230, 118, 0.3);
+        box-shadow: 0 8px 30px rgba(11, 87, 208, 0.15);
+    }
+
+    .chart-container h2 {
+        font-size: 1.1rem;
+        color: #1e293b;
+        margin: 0 0 1.5rem 0;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .chart-container h2 i {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+        font-weight: 900;
+        color: #1e293b;
+        margin: 3rem 0 2rem 0;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        position: relative;
+        padding: 2rem 2.5rem;
+        background: linear-gradient(135deg, #ffffff, #f8faff);
+        border-radius: 24px;
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        box-shadow: 0 4px 20px rgba(11, 87, 208, 0.08);
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .section-title::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.03), rgba(0, 230, 118, 0.03));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 0;
+    }
+    
+    .section-title:hover::before {
+        opacity: 1;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 6px;
+        height: 100%;
+        background: linear-gradient(180deg, #0B57D0, #00E676);
+        border-radius: 0 4px 4px 0;
+    }
+    
+    .section-title:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 35px rgba(11, 87, 208, 0.15);
+        border-color: rgba(0, 230, 118, 0.3);
+    }
+    
+    .section-title i {
+        font-size: 2.2rem;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: iconPulse 2s ease-in-out infinite;
+        position: relative;
+        z-index: 1;
+        filter: drop-shadow(0 2px 4px rgba(11, 87, 208, 0.2));
+    }
+    
+    .section-title span {
+        position: relative;
+        z-index: 1;
+    }
+    
+    @keyframes iconPulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Welcome Header -->
+<div class="mb-4">
+    <h2 class="section-title"><i class="bi bi-speedometer2"></i> Admin Dashboard</h2>
+    <p class="text-muted">Welcome back! Here's an overview of your platform.</p>
+</div>
+
+<!-- Stats Cards -->
+<div class="dashboard-stats-grid">
+    <div class="stat-card">
+        <i class="bi bi-people icon"></i>
+        <h3>Total Users</h3>
+        <span class="value" id="total-users">-</span>
+    </div>
+    <div class="stat-card">
+        <i class="bi bi-building icon"></i>
+        <h3>Recruiters</h3>
+        <span class="value" id="recruiters-count">-</span>
+    </div>
+    <div class="stat-card">
+        <i class="bi bi-person-badge icon"></i>
+        <h3>Job Seekers</h3>
+        <span class="value" id="seekers-count">-</span>
+    </div>
+    <div class="stat-card">
+        <i class="bi bi-briefcase icon"></i>
+        <h3>Active Jobs</h3>
+        <span class="value" id="total-jobs">-</span>
+    </div>
+</div>
+
+<!-- Charts area -->
+<div class="charts-grid">
+    <div class="chart-container">
+        <h2><i class="bi bi-pie-chart text-primary me-2"></i>User Distribution</h2>
+        <canvas id="userChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <h2><i class="bi bi-bar-chart text-primary me-2"></i>Platform Activity</h2>
+        <canvas id="activityChart"></canvas>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="module" id="recent-actions-module"
+    style="margin-bottom: 2rem; border: 2px solid rgba(11, 87, 208, 0.1); border-radius: 20px; width: 100%; box-shadow: 0 4px 20px rgba(11, 87, 208, 0.08);">
+    <div style="background: linear-gradient(135deg, #0B57D0, #00E676); padding: 1.25rem 1.5rem; border-radius: 20px 20px 0 0; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E&quot;); opacity: 0.3; pointer-events: none;"></div>
+        <h2 style="margin: 0; font-size: 1.1rem; color: #ffffff; display: flex; align-items: center; gap: 0.75rem; font-weight: 800; position: relative; z-index: 1;">
+            <i class="bi bi-clock-history"></i> Recent Activity
+        </h2>
+    </div>
+    <div style="padding: 1.5rem;">
+        {% load log %}
+        {% get_admin_log 5 as admin_log for_user user %}
+        {% if not admin_log %}
+        <p style="color: #64748b; font-style: italic; text-align: center; padding: 2rem 0;">No recent activity.</p>
+        {% else %}
+        <ul class="actionlist" style="margin: 0; padding: 0; list-style: none;">
+            {% for entry in admin_log %}
+            <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}"
+                style="margin-bottom: 0.75rem; padding: 1rem 1.25rem; position: relative; background: linear-gradient(90deg, rgba(11, 87, 208, 0.03), rgba(0, 230, 118, 0.02)); border-radius: 12px; border-left: 4px solid rgba(11, 87, 208, 0.2); transition: all 0.3s ease;">
+                {% if entry.is_deletion or not entry.get_admin_url %}
+                <span style="font-weight: 600; color: #1e293b;">{{ entry.object_repr }}</span>
+                {% else %}
+                <a href="{{ entry.get_admin_url }}" style="color: #0B57D0; font-weight: 700; text-decoration: none; transition: color 0.3s ease;">{{ entry.object_repr }}</a>
+                {% endif %}
+                <br>
+                {% if entry.content_type %}
+                <span class="mini quiet" style="font-size: 0.8rem; color: #64748b; font-weight: 500;">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
+                {% else %}
+                <span class="mini quiet" style="font-size: 0.8rem; color: #64748b;">Unknown content</span>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('/admin-stats/')
+            .then(response => response.json())
+            .then(data => {
+                // Update Stat Cards
+                document.getElementById('total-users').textContent = data.total_users;
+                document.getElementById('recruiters-count').textContent = data.recruiters_count;
+                document.getElementById('seekers-count').textContent = data.seekers_count;
+                document.getElementById('total-jobs').textContent = data.total_jobs;
+
+                // User Distribution Chart (Doughnut) - Brand theme
+                new Chart(document.getElementById('userChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Recruiters', 'Job Seekers'],
+                        datasets: [{
+                            data: [data.recruiters_count, data.seekers_count],
+                            backgroundColor: ['#0B57D0', '#00E676'],
+                            borderWidth: 0,
+                            hoverOffset: 10
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    font: {
+                                        family: "'Poppins', sans-serif",
+                                        weight: '600'
+                                    },
+                                    usePointStyle: true,
+                                    pointStyle: 'circle'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Activity Chart (Bar) - Brand theme
+                new Chart(document.getElementById('activityChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jobs Posted', 'Total Users'],
+                        datasets: [
+                            {
+                                label: 'Count',
+                                data: [data.total_jobs, data.total_users],
+                                backgroundColor: ['#0B57D0', '#00E676'],
+                                borderRadius: 12,
+                                borderSkipped: false
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { 
+                                    color: 'rgba(11, 87, 208, 0.05)',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    font: {
+                                        family: "'Poppins', sans-serif",
+                                        weight: '600'
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: {
+                                    font: {
+                                        family: "'Poppins', sans-serif",
+                                        weight: '600'
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching admin stats:', error));
+    });
+</script>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

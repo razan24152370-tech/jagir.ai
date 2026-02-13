@@ -1,0 +1,189 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}Team Members - Pro Recruiter AI{% endblock %}
+
+{% block page_title %}Team Management{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-11">
+        <!-- Header with Add Button -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h4 class="fw-bold mb-1">{{ profile.company_name }} Team</h4>
+                <p class="text-muted mb-0">Manage team members and their access permissions</p>
+            </div>
+            <a href="{% url 'accounts:add_team_member' %}" class="btn btn-primary">
+                <i class="bi bi-person-plus me-2"></i>Add Team Member
+            </a>
+        </div>
+
+        {% if team_members %}
+        <!-- Team Members List -->
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="border-0 px-4 py-3">Name</th>
+                                <th class="border-0 py-3">Email</th>
+                                <th class="border-0 py-3">Role</th>
+                                <th class="border-0 py-3">Access Level</th>
+                                <th class="border-0 py-3">Status</th>
+                                <th class="border-0 py-3 text-end pe-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for member in team_members %}
+                            <tr>
+                                <td class="px-4 py-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                            {{ member.first_name|first }}{{ member.last_name|first }}
+                                        </div>
+                                        <div>
+                                            <div class="fw-semibold">{{ member.get_full_name }}</div>
+                                            <small class="text-muted">Added {{ member.invited_at|date:"M d, Y" }}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3">
+                                    <i class="bi bi-envelope me-1 text-muted"></i>{{ member.email }}
+                                </td>
+                                <td class="py-3">
+                                    <span class="badge bg-info-subtle text-info rounded-pill px-3 py-2">
+                                        {{ member.get_role_display }}
+                                    </span>
+                                </td>
+                                <td class="py-3">
+                                    <div class="text-truncate" style="max-width: 200px;">
+                                        <small>{{ member.get_permissions_display }}</small>
+                                    </div>
+                                </td>
+                                <td class="py-3">
+                                    {% if not member.invitation_accepted %}
+                                    <span class="badge bg-warning-subtle text-warning rounded-pill px-3 py-2">
+                                        <i class="bi bi-hourglass-split me-1"></i>Pending Invitation
+                                    </span>
+                                    {% elif member.is_active %}
+                                    <span class="badge bg-success-subtle text-success rounded-pill px-3 py-2">
+                                        <i class="bi bi-check-circle me-1"></i>Active
+                                    </span>
+                                    {% else %}
+                                    <span class="badge bg-secondary-subtle text-secondary rounded-pill px-3 py-2">
+                                        <i class="bi bi-x-circle me-1"></i>Inactive
+                                    </span>
+                                    {% endif %}
+                                </td>
+                                <td class="py-3 text-end pe-4">
+                                    <div class="btn-group" role="group">
+                                        {% if not member.invitation_accepted %}
+                                        <a href="{% url 'accounts:resend_team_invitation' member.id %}" class="btn btn-sm btn-outline-info" title="Resend Invitation">
+                                            <i class="bi bi-envelope"></i>
+                                        </a>
+                                        {% endif %}
+                                        <a href="{% url 'accounts:edit_team_member' member.id %}" class="btn btn-sm btn-outline-primary" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a href="{% url 'accounts:toggle_team_member_status' member.id %}" class="btn btn-sm btn-outline-secondary" title="{% if member.is_active %}Deactivate{% else %}Activate{% endif %}">
+                                            <i class="bi bi-{% if member.is_active %}pause{% else %}play{% endif %}-circle"></i>
+                                        </a>
+                                        <a href="{% url 'accounts:delete_team_member' member.id %}" class="btn btn-sm btn-outline-danger" title="Remove">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Permission Info Card -->
+        <div class="card border-0 shadow-sm rounded-4 mt-4">
+            <div class="card-body p-4">
+                <h6 class="fw-bold mb-3">
+                    <i class="bi bi-info-circle text-primary me-2"></i>Access Levels Explained
+                </h6>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="bg-light rounded-3 p-3">
+                            <h6 class="fw-semibold mb-2">
+                                <i class="bi bi-star-fill text-warning me-1"></i>Full Access
+                            </h6>
+                            <p class="small text-muted mb-0">Can manage everything including jobs, applications, and other team members.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="bg-light rounded-3 p-3">
+                            <h6 class="fw-semibold mb-2">
+                                <i class="bi bi-briefcase-fill text-primary me-1"></i>Manage Jobs
+                            </h6>
+                            <p class="small text-muted mb-0">Can post, edit, and delete job listings, and review applications.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="bg-light rounded-3 p-3">
+                            <h6 class="fw-semibold mb-2">
+                                <i class="bi bi-eye-fill text-info me-1"></i>View Applications
+                            </h6>
+                            <p class="small text-muted mb-0">Can view and review applications, update application status.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="bg-light rounded-3 p-3">
+                            <h6 class="fw-semibold mb-2">
+                                <i class="bi bi-people-fill text-success me-1"></i>Interview Candidates
+                            </h6>
+                            <p class="small text-muted mb-0">Can review applications and update candidate status after interviews.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="bg-light rounded-3 p-3">
+                            <h6 class="fw-semibold mb-2">
+                                <i class="bi bi-eye text-secondary me-1"></i>View Only
+                            </h6>
+                            <p class="small text-muted mb-0">Can only view jobs and applications without making any changes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-people display-1 text-muted mb-3"></i>
+                <h4 class="fw-bold mb-2">No Team Members Yet</h4>
+                <p class="text-muted mb-4">Start building your recruitment team by adding members with different roles and permissions.</p>
+                <a href="{% url 'accounts:add_team_member' %}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-person-plus me-2"></i>Add Your First Team Member
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .bg-info-subtle {
+        background-color: rgba(13, 202, 240, 0.1);
+    }
+    
+    .bg-success-subtle {
+        background-color: rgba(25, 135, 84, 0.1);
+    }
+    
+    .bg-secondary-subtle {
+        background-color: rgba(108, 117, 125, 0.1);
+    }
+    
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+</style>
+{% endblock %}

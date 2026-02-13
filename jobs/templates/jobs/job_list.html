@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}All Jobs - Pro Recruiter AI{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="fw-bold">All Job Listings</h1>
+            <p class="text-muted">Explore opportunities from top companies</p>
+        </div>
+
+        {% if jobs %}
+        <div class="row g-4">
+            {% for job in jobs %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 h-100 hover-shadow">
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-bold mb-2">{{ job.title }}</h5>
+                        <p class="text-muted mb-3">{{ job.company|default:"Company" }}</p>
+                        <p class="text-secondary small mb-3">{{ job.description|truncatewords:20 }}</p>
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            {% if job.location %}
+                            <span class="badge bg-light text-dark"><i class="bi bi-geo-alt me-1"></i>{{ job.location }}</span>
+                            {% endif %}
+                            {% if job.job_type %}
+                            <span class="badge bg-primary-subtle text-primary">{{ job.job_type }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="text-muted small">Posted by {{ job.posted_by.username }}</div>
+                    </div>
+                    <div class="card-footer bg-white border-0 p-4 pt-0">
+                        <a href="{% url 'accounts:home' %}" class="btn btn-outline-primary w-100">
+                            Sign in to Apply
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-briefcase display-1 text-muted mb-4"></i>
+            <h4 class="fw-bold">No Jobs Posted Yet</h4>
+            <p class="text-muted">Check back later for new opportunities.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    .hover-shadow {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 2rem rgba(0,0,0,0.1) !important;
+    }
+    
+    .bg-primary-subtle {
+        background-color: rgba(13, 110, 253, 0.1);
+    }
+</style>
+{% endblock %}

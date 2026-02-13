@@ -1,0 +1,174 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | Pro Recruiter AI Admin{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'admin_theme.css' %}">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Google Fonts - Poppins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    /* Force sidebar to always be visible */
+    body.main #nav-sidebar,
+    #nav-sidebar {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        left: 0 !important;
+        transform: translateX(0) !important;
+    }
+    
+    /* Ensure main container shows sidebar */
+    #main {
+        display: flex !important;
+    }
+    
+    /* Prevent sidebar from being hidden */
+    body:not(.popup) #nav-sidebar {
+        display: flex !important;
+    }
+    
+    /* Force text to be visible in sidebar */
+    #nav-sidebar * {
+        color: rgba(255, 255, 255, 0.95) !important;
+    }
+    
+    #nav-sidebar .caption {
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+    
+    #nav-sidebar a,
+    #nav-sidebar a:link,
+    #nav-sidebar a:visited {
+        color: rgba(255, 255, 255, 0.95) !important;
+    }
+    
+    #nav-sidebar a:hover,
+    #nav-sidebar a:focus {
+        color: #ffffff !important;
+    }
+    
+    /* Force all backgrounds in sidebar to be transparent - CRITICAL FIX */
+    #nav-sidebar .module,
+    #nav-sidebar .caption,
+    #nav-sidebar table,
+    #nav-sidebar tbody,
+    #nav-sidebar thead,
+    #nav-sidebar tr,
+    #nav-sidebar th,
+    #nav-sidebar td,
+    #nav-sidebar .section,
+    #nav-sidebar .model-row {
+        background: transparent !important;
+        background-color: transparent !important;
+    }
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="{% static 'images/White_Logo.svg' %}" alt="Pro Recruiter AI" style="height: 50px; width: auto; transition: transform 0.3s ease;">
+    </a>
+</h1>
+<style>
+    #site-name a:hover img {
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block nav-sidebar %}
+{% include 'admin/nav_sidebar.html' %}
+{% endblock %}
+
+{% block footer %}
+{{ block.super }}
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Force sidebar to be visible
+        const sidebar = document.getElementById('nav-sidebar');
+        if (sidebar) {
+            // Remove any hidden classes
+            sidebar.classList.remove('hidden');
+            sidebar.style.display = 'flex';
+            sidebar.style.visibility = 'visible';
+            sidebar.style.opacity = '1';
+            
+            // Ensure body has correct class for sidebar visibility
+            document.body.classList.remove('sidebar-collapsed');
+            
+            const logoutHtml = `
+                <div class="sidebar-logout" style="padding: 1.5rem; border-top: 2px solid rgba(11, 87, 208, 0.1); margin-top: auto; background: linear-gradient(135deg, rgba(11, 87, 208, 0.02), rgba(0, 230, 118, 0.02));">
+                    <a href="{% url 'project_home' %}" style="
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        padding: 0.85rem 1rem;
+                        background: linear-gradient(135deg, rgba(11, 87, 208, 0.08), rgba(0, 230, 118, 0.05));
+                        border-radius: 12px;
+                        color: #0B57D0;
+                        font-weight: 700;
+                        text-decoration: none;
+                        font-size: 0.9rem;
+                        font-family: 'Poppins', sans-serif;
+                        margin-bottom: 0.75rem;
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        border: 2px solid rgba(11, 87, 208, 0.15);
+                    ">
+                        <i class="bi bi-house-door" style="font-size: 1.1rem;"></i>
+                        Back to Site
+                    </a>
+                    <form action="{% url 'admin:logout' %}" method="post" style="display: block;">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <button type="submit" style="
+                            background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.05));
+                            border: 2px solid rgba(220, 53, 69, 0.2);
+                            border-radius: 12px;
+                            color: #dc3545;
+                            font-weight: 700;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.75rem;
+                            padding: 0.85rem 1rem;
+                            cursor: pointer;
+                            width: 100%;
+                            font-size: 0.9rem;
+                            font-family: 'Poppins', sans-serif;
+                            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        ">
+                            <i class="bi bi-box-arrow-right" style="font-size: 1.1rem;"></i>
+                            Sign Out
+                        </button>
+                    </form>
+                </div>
+                <style>
+                    .sidebar-logout a:hover {
+                        background: linear-gradient(135deg, rgba(11, 87, 208, 0.15), rgba(0, 230, 118, 0.08));
+                        transform: translateX(5px);
+                        box-shadow: 0 4px 12px rgba(11, 87, 208, 0.15);
+                    }
+                    .sidebar-logout button:hover {
+                        background: linear-gradient(135deg, rgba(220, 53, 69, 0.15), rgba(220, 53, 69, 0.08));
+                        transform: translateX(5px);
+                        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+                    }
+                </style>
+            `;
+            sidebar.insertAdjacentHTML('beforeend', logoutHtml);
+        }
+    });
+</script>
+{% endblock %}

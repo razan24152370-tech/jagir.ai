@@ -1,0 +1,50 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}Delete Job - Pro Recruiter AI{% endblock %}
+
+{% block page_title %}Delete Job{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-5 text-center">
+                <div class="mb-4">
+                    <div class="bg-danger-subtle text-danger rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <i class="bi bi-exclamation-triangle fs-1"></i>
+                    </div>
+                </div>
+                
+                <h4 class="fw-bold mb-3">Delete This Job?</h4>
+                
+                <div class="bg-light rounded-3 p-4 mb-4 text-start">
+                    <h5 class="fw-bold mb-1">{{ job.title }}</h5>
+                    <p class="text-muted mb-1">{{ job.company }} • {{ job.location }}</p>
+                    <p class="text-muted small mb-0">Posted {{ job.created_at|date:"M d, Y" }}</p>
+                </div>
+                
+                <div class="alert alert-warning border-0 text-start">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Warning:</strong> This action cannot be undone. All applications for this job will also be deleted.
+                </div>
+
+                <form method="post" class="d-flex gap-3 justify-content-center mt-4">
+                    {% csrf_token %}
+                    <a href="{% url 'jobs:recruiter_jobs' %}" class="btn btn-outline-secondary px-4">
+                        <i class="bi bi-x-lg me-2"></i>Cancel
+                    </a>
+                    <button type="submit" class="btn btn-danger px-4">
+                        <i class="bi bi-trash me-2"></i>Yes, Delete Job
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-danger-subtle {
+        background-color: rgba(220, 53, 69, 0.1);
+    }
+</style>
+{% endblock %}

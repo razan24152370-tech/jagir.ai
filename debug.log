@@ -1,0 +1,331 @@
+INFO 2026-02-05 01:15:19,801 views 3740 14804 Ranked 2 candidates for job 1
+INFO 2026-02-06 00:33:12,679 views 19472 11560 Ranked 2 candidates for job 1
+INFO 2026-02-06 00:37:50,970 views 20200 19348 Ranked 2 candidates
+INFO 2026-02-06 01:23:50,684 views 6904 10352 Ranked 1 candidates
+INFO 2026-02-06 01:25:11,803 views 6904 10352 Ranked 1 candidates
+INFO 2026-02-06 01:25:24,231 views 6904 10352 Ranked 2 candidates
+INFO 2026-02-06 01:30:40,069 views 6904 10352 Ranked 2 candidates
+INFO 2026-02-06 01:37:08,708 views 6904 12004 Ranked 1 candidates
+INFO 2026-02-06 01:37:40,806 views 6904 12004 Ranked 1 candidates
+INFO 2026-02-06 01:53:31,161 ai_service 14184 19868 Job recommendation: senior developer for testtesttest: 0.0%
+INFO 2026-02-06 01:53:31,162 ai_service 14184 19868 Job recommendation: reer for testtesttest: 25.0%
+INFO 2026-02-06 01:53:31,162 ai_service 14184 19868 Job recommendation: job test for testtesttest: 0.0%
+INFO 2026-02-06 01:53:31,162 ai_service 14184 19868 Job recommendation: post a job for testtesttest: 0.0%
+INFO 2026-02-06 01:53:31,162 ai_service 14184 19868 Job recommendation: test job for testtesttest: 0.0%
+INFO 2026-02-06 01:54:23,009 ai_service 2340 13608 Skill match - User: ['test skills'], Job: ['python'], Score: 0.0%
+INFO 2026-02-06 01:54:23,009 ai_service 2340 13608 Job recommendation: senior developer for user: 35.0%
+INFO 2026-02-06 01:54:23,010 ai_service 2340 13608 Skill match - User: ['test skills'], Job: ['sarfd ewfer er'], Score: 0.0%
+INFO 2026-02-06 01:54:23,010 ai_service 2340 13608 Job recommendation: reer for user: 35.0%
+INFO 2026-02-06 01:54:23,010 ai_service 2340 13608 Skill match - User: ['test skills'], Job: ['testtesttetsttttetetete'], Score: 0.0%
+INFO 2026-02-06 01:54:23,010 ai_service 2340 13608 Job recommendation: job test for user: 35.0%
+INFO 2026-02-06 01:54:23,011 ai_service 2340 13608 Skill match - User: ['test skills'], Job: ['dishwasher'], Score: 0.0%
+INFO 2026-02-06 01:54:23,011 ai_service 2340 13608 Job recommendation: post a job for user: 40.0%
+INFO 2026-02-06 01:54:23,011 ai_service 2340 13608 Skill match - User: ['test skills'], Job: ['django'], Score: 0.0%
+INFO 2026-02-06 01:54:23,011 ai_service 2340 13608 Job recommendation: test job for user: 55.0%
+INFO 2026-02-06 01:57:32,811 ai_service 21196 9728 FILTERED: senior developer for testtesttest (Skills 0%, Exp gap -1y)
+INFO 2026-02-06 01:57:32,812 ai_service 21196 9728 STRICT: reer for testtesttest: 35.0%
+INFO 2026-02-06 01:57:32,812 ai_service 21196 9728 FILTERED: job test for testtesttest (Skills 0%, Exp gap -10y)
+INFO 2026-02-06 01:57:32,812 ai_service 21196 9728 FILTERED: post a job for testtesttest (Skills 0%, Exp gap -13y)
+INFO 2026-02-06 01:57:32,812 ai_service 21196 9728 FILTERED: test job for testtesttest (Skills 0%, Exp gap -1y)
+INFO 2026-02-06 01:57:43,933 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['python'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:57:43,933 ai_service 16644 21216 STRICT: senior developer for user: 35.0%
+INFO 2026-02-06 01:57:43,933 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['sarfd ewfer er'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:57:43,933 ai_service 16644 21216 STRICT: reer for user: 35.0%
+INFO 2026-02-06 01:57:43,934 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['testtesttetsttttetetete'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:57:43,934 ai_service 16644 21216 STRICT: job test for user: 35.0%
+INFO 2026-02-06 01:57:43,934 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['dishwasher'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:57:43,934 ai_service 16644 21216 STRICT: post a job for user: 35.0%
+INFO 2026-02-06 01:57:43,935 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['django'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:57:43,935 ai_service 16644 21216 STRICT: test job for user: 50.0%
+INFO 2026-02-06 01:57:53,694 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['python'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:57:53,694 ai_service 16644 21216 STRICT: senior developer for user: 35.0%
+INFO 2026-02-06 01:57:53,695 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['sarfd ewfer er'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:57:53,695 ai_service 16644 21216 STRICT: reer for user: 35.0%
+INFO 2026-02-06 01:57:53,695 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['testtesttetsttttetetete'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:57:53,695 ai_service 16644 21216 STRICT: job test for user: 35.0%
+INFO 2026-02-06 01:57:53,696 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['dishwasher'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:57:53,696 ai_service 16644 21216 STRICT: post a job for user: 35.0%
+INFO 2026-02-06 01:57:53,696 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['django'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:57:53,696 ai_service 16644 21216 STRICT: test job for user: 50.0%
+INFO 2026-02-06 01:58:52,939 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['python'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:58:52,939 ai_service 16644 21216 STRICT: senior developer for user: 35.0%
+INFO 2026-02-06 01:58:52,939 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['sarfd ewfer er'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:58:52,940 ai_service 16644 21216 STRICT: reer for user: 35.0%
+INFO 2026-02-06 01:58:52,940 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['testtesttetsttttetetete'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:58:52,940 ai_service 16644 21216 STRICT: job test for user: 35.0%
+INFO 2026-02-06 01:58:52,941 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['dishwasher'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:58:52,941 ai_service 16644 21216 STRICT: post a job for user: 35.0%
+INFO 2026-02-06 01:58:52,941 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['django'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:58:52,942 ai_service 16644 21216 STRICT: test job for user: 50.0%
+INFO 2026-02-06 01:59:00,827 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['python'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:59:00,828 ai_service 16644 21216 STRICT: senior developer for user: 35.0%
+INFO 2026-02-06 01:59:00,828 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['sarfd ewfer er'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:59:00,829 ai_service 16644 21216 STRICT: reer for user: 35.0%
+INFO 2026-02-06 01:59:00,829 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['dishwasher'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:59:00,830 ai_service 16644 21216 STRICT: post a job for user: 35.0%
+INFO 2026-02-06 01:59:15,325 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['python'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:59:15,325 ai_service 16644 21216 STRICT: senior developer for user: 35.0%
+INFO 2026-02-06 01:59:15,326 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['sarfd ewfer er'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:59:15,326 ai_service 16644 21216 STRICT: reer for user: 35.0%
+INFO 2026-02-06 01:59:15,326 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['dishwasher'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:59:15,327 ai_service 16644 21216 STRICT: post a job for user: 35.0%
+INFO 2026-02-06 01:59:30,913 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['sarfd ewfer er'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:59:30,913 ai_service 16644 21216 STRICT: reer for user: 35.0%
+INFO 2026-02-06 01:59:42,574 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['python'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:59:42,574 ai_service 16644 21216 STRICT: senior developer for user: 35.0%
+INFO 2026-02-06 01:59:42,575 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['sarfd ewfer er'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:59:42,575 ai_service 16644 21216 STRICT: reer for user: 35.0%
+INFO 2026-02-06 01:59:42,575 ai_service 16644 21216 STRICT Skill match - User: ['test skills'], Job: ['dishwasher'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 01:59:42,576 ai_service 16644 21216 STRICT: post a job for user: 35.0%
+INFO 2026-02-06 12:49:16,335 ai_service 20156 2140 STRICT Skill match - User: ['test skills'], Job: ['django'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-06 12:49:16,351 ai_service 20156 2140 STRICT RANK:  for test job: 50.0% (S:0% E:100%)
+INFO 2026-02-06 12:49:16,356 ai_service 20156 2140 STRICT RANK:  for test job: 13.8% (S:0% E:25%)
+INFO 2026-02-06 12:49:16,356 views 20156 2140 Ranked 2 candidates
+INFO 2026-02-08 07:05:37,676 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:05:37,677 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:05:37,677 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:05:37,677 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:05:37,677 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:06:15,899 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:06:15,899 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:06:15,899 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:06:15,899 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:06:15,899 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:07:24,619 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:07:24,619 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:07:24,619 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:07:24,619 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:07:24,619 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:08:38,719 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:08:38,719 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:08:38,719 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:08:38,719 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:08:38,719 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:11:31,685 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:11:31,686 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:11:31,686 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:11:31,686 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:11:31,686 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:11:35,138 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:11:35,138 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:11:35,138 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:11:35,138 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:11:35,138 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:12:01,038 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:12:01,039 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:12:01,039 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:12:01,039 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:12:01,039 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:12:03,889 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:12:03,890 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:12:03,890 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:12:03,890 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:12:03,890 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:12:05,338 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:12:05,338 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:12:05,338 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:12:05,338 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:12:05,338 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:12:09,935 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:12:09,935 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:12:09,936 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:12:09,936 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:12:09,936 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:12:38,210 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:12:38,211 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:12:38,211 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:12:38,211 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:12:38,211 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:15:47,816 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:15:47,817 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:15:47,817 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:15:47,817 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:15:47,817 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:16:17,547 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:16:17,547 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:16:17,547 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:16:17,547 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:16:17,547 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:16:39,750 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:16:39,751 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:16:39,751 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:16:39,751 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:16:39,751 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:16:40,447 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:16:40,447 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:16:40,447 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:16:40,447 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:16:40,447 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:16:42,528 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:16:42,528 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:16:42,528 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:16:42,528 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:16:42,528 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:16:47,264 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:16:47,264 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:16:47,264 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:16:47,264 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:16:47,264 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:16:53,887 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:16:53,887 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:16:53,887 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:16:53,888 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:16:53,888 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:17:01,187 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:17:01,187 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:17:01,187 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:17:01,187 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:17:01,187 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:17:16,921 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:17:16,922 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:17:16,922 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:17:16,922 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:17:16,922 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:17:35,943 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:17:35,944 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:17:35,944 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:17:35,944 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:17:35,944 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:17:37,830 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:17:37,830 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:17:37,830 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:17:37,830 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:17:37,830 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:18:29,213 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:18:29,215 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:18:29,215 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:18:29,215 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:18:29,215 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:28:24,380 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:28:24,380 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:28:24,380 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:28:24,380 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:28:24,380 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:28:25,462 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:28:25,462 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:28:25,463 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:28:25,463 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:28:25,463 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:28:26,111 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 07:28:26,111 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 07:28:26,112 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 07:28:26,112 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 07:28:26,112 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 14:06:14,305 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 14:06:14,305 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 14:06:14,305 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 14:06:14,305 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 14:06:14,305 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 14:06:21,320 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 14:06:21,320 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 14:06:21,320 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 14:06:21,320 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 14:06:21,320 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 14:08:14,599 ai_service 20934 6191788032 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 14:08:14,599 ai_service 20934 6191788032 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 14:08:14,599 ai_service 20934 6191788032 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 14:08:14,599 ai_service 20934 6191788032 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 14:08:14,600 ai_service 20934 6191788032 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 14:11:02,705 ai_service 28968 6156349440 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 14:11:02,707 ai_service 28968 6156349440 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 14:11:02,707 ai_service 28968 6156349440 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 14:11:02,707 ai_service 28968 6156349440 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 14:11:02,707 ai_service 28968 6156349440 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 14:16:11,481 ai_service 28968 6156349440 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 14:16:11,482 ai_service 28968 6156349440 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 14:16:11,482 ai_service 28968 6156349440 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 14:16:11,482 ai_service 28968 6156349440 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 14:16:11,482 ai_service 28968 6156349440 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 14:16:16,665 ai_service 28968 6156349440 FILTERED: senior developer for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 14:16:16,665 ai_service 28968 6156349440 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 14:16:16,665 ai_service 28968 6156349440 FILTERED: job test for Puranjan (Skills 0%, Exp gap -10y)
+INFO 2026-02-08 14:16:16,665 ai_service 28968 6156349440 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -13y)
+INFO 2026-02-08 14:16:16,665 ai_service 28968 6156349440 FILTERED: test job for Puranjan (Skills 0%, Exp gap -1y)
+INFO 2026-02-08 14:46:54,617 ai_service 29853 6122418176 STRICT Skill match - User: ['nbasdbfj', 'ahgsvfw', 'hgavsf', 'asdv'], Job: ['python'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-08 14:46:54,619 ai_service 29853 6122418176 STRICT: senior developer for Puranjan: 35.0%
+INFO 2026-02-08 14:46:54,619 ai_service 29853 6122418176 STRICT Skill match - User: ['nbasdbfj', 'ahgsvfw', 'hgavsf', 'asdv'], Job: ['sarfd ewfer er'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-08 14:46:54,619 ai_service 29853 6122418176 STRICT: reer for Puranjan: 35.0%
+INFO 2026-02-08 14:46:54,619 ai_service 29853 6122418176 STRICT Skill match - User: ['nbasdbfj', 'ahgsvfw', 'hgavsf', 'asdv'], Job: ['testtesttetsttttetetete'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-08 14:46:54,619 ai_service 29853 6122418176 FILTERED: job test for Puranjan (Skills 0%, Exp gap -8y)
+INFO 2026-02-08 14:46:54,619 ai_service 29853 6122418176 STRICT Skill match - User: ['nbasdbfj', 'ahgsvfw', 'hgavsf', 'asdv'], Job: ['dishwasher'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-08 14:46:54,619 ai_service 29853 6122418176 FILTERED: post a job for Puranjan (Skills 0%, Exp gap -11y)
+INFO 2026-02-08 14:46:54,619 ai_service 29853 6122418176 STRICT Skill match - User: ['nbasdbfj', 'ahgsvfw', 'hgavsf', 'asdv'], Job: ['django'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-08 14:46:54,619 ai_service 29853 6122418176 STRICT: test job for Puranjan: 35.0%
+INFO 2026-02-09 07:41:32,767 ai_service 19212 21304 STRICT Skill match - User: ['test skills'], Job: ['testtesttetsttttetetete'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-09 07:41:32,781 ai_service 19212 21304 STRICT RANK:  for job test: 50.0% (S:0% E:100%)
+INFO 2026-02-09 07:41:32,781 views 19212 21304 Ranked 1 candidates
+INFO 2026-02-09 07:41:41,919 ai_service 19212 21304 STRICT Skill match - User: ['test skills'], Job: ['django'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-09 07:41:41,923 ai_service 19212 21304 STRICT RANK:  for test job: 50.0% (S:0% E:100%)
+INFO 2026-02-09 07:41:41,929 ai_service 19212 21304 STRICT RANK:  for test job: 13.8% (S:0% E:25%)
+INFO 2026-02-09 07:41:41,929 views 19212 21304 Ranked 2 candidates
+INFO 2026-02-09 07:48:09,010 ai_service 19212 8892 STRICT Skill match - User: ['test skills'], Job: ['django'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-09 07:48:09,014 ai_service 19212 8892 STRICT RANK:  for test job: 50.0% (S:0% E:100%)
+INFO 2026-02-09 07:48:09,019 ai_service 19212 8892 STRICT RANK:  for test job: 13.8% (S:0% E:25%)
+INFO 2026-02-09 07:48:21,873 ai_service 19212 8892 STRICT Skill match - User: ['test skills'], Job: ['django'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-09 07:48:21,887 ai_service 19212 8892 STRICT RANK:  for test job: 50.0% (S:0% E:100%)
+INFO 2026-02-09 07:48:21,892 ai_service 19212 8892 STRICT RANK:  for test job: 13.8% (S:0% E:25%)
+INFO 2026-02-09 07:48:21,892 views 19212 8892 Ranked 2 candidates
+INFO 2026-02-09 07:48:28,873 ai_service 19212 8892 STRICT Skill match - User: ['test skills'], Job: ['testtesttetsttttetetete'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-09 07:48:28,878 ai_service 19212 8892 STRICT RANK:  for job test: 50.0% (S:0% E:100%)
+INFO 2026-02-09 07:48:28,879 views 19212 8892 Ranked 1 candidates
+INFO 2026-02-09 07:54:14,765 ai_service 19212 8892 STRICT Skill match - User: ['test skills'], Job: ['django'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-09 07:54:14,779 ai_service 19212 8892 STRICT RANK:  for test job: 50.0% (S:0% E:100%)
+INFO 2026-02-09 07:54:14,783 ai_service 19212 8892 STRICT RANK:  for test job: 13.8% (S:0% E:25%)
+INFO 2026-02-09 07:54:14,784 views 19212 8892 Ranked 2 candidates
+INFO 2026-02-09 08:07:21,873 ai_service 19212 8892 STRICT Skill match - User: ['test skills'], Job: ['django'], Exact: 0/1, Score: 0.0%
+INFO 2026-02-09 08:07:21,886 ai_service 19212 8892 STRICT RANK:  for test job: 50.0% (S:0% E:100%)
+INFO 2026-02-09 08:07:21,892 ai_service 19212 8892 STRICT RANK:  for test job: 13.8% (S:0% E:25%)
+INFO 2026-02-09 08:07:21,892 views 19212 8892 Ranked 2 candidates
+INFO 2026-02-11 19:19:09,698 email_utils 10600 2364 Invitation email sent to testmember@example.com for Test Company Inc.
+INFO 2026-02-11 19:23:57,777 email_utils 21628 17740 Invitation email sent to sad@sfdsdf.dddc for test company
+INFO 2026-02-11 19:24:04,764 email_utils 21628 17740 Invitation email sent to sad@sfdsdf.dddc for test company
+INFO 2026-02-11 19:41:18,786 email_utils 5708 4400 Invitation email sent to ashimslw@gmail.com for test company
+INFO 2026-02-11 19:43:38,737 email_utils 5708 4400 Invitation email sent to ashimslw@gmail.com for test company
+INFO 2026-02-11 19:48:01,066 email_utils 10584 7052 Invitation email sent to ashimslw@gmail.com for test company
+INFO 2026-02-11 19:52:59,807 email_utils 10584 7052 Invitation email sent to ashimslw@gmail.com for test company
+INFO 2026-02-11 22:44:07,806 ai_service 4924 2840 AI resume ranking complete for 1 candidates
+INFO 2026-02-11 22:44:08,463 ai_service 4924 2840 AI resume ranking complete for 2 candidates
+INFO 2026-02-11 22:44:27,523 ai_service 4924 2840 AI resume ranking complete for 1 candidates
+INFO 2026-02-11 22:44:28,168 ai_service 4924 2840 AI resume ranking complete for 2 candidates
+INFO 2026-02-11 22:53:56,385 ai_service 11936 21812 AI resume ranking complete for 1 candidates
+INFO 2026-02-11 22:53:57,098 ai_service 11936 21812 AI resume ranking complete for 2 candidates
+INFO 2026-02-11 23:32:13,371 ai_service 6352 16280 Loaded upskilling dataset: 3000 records
+INFO 2026-02-11 23:33:46,655 ai_service 19916 7268 Loaded upskilling dataset: 3000 records
+ERROR 2026-02-11 23:33:46,802 ai_service 19916 7268 AI resume ranking failed: module 'numpy' has no attribute 'trapz'
+ERROR 2026-02-11 23:33:47,457 ai_service 19916 7268 AI resume ranking failed: module 'numpy' has no attribute 'trapz'
+ERROR 2026-02-11 23:33:56,461 ai_service 19916 7268 AI resume ranking failed: module 'numpy' has no attribute 'trapz'
+INFO 2026-02-11 23:33:56,477 views 19916 7268 Ranked 2 candidates
+ERROR 2026-02-11 23:34:13,190 ai_service 19916 7268 AI resume ranking failed: module 'numpy' has no attribute 'trapz'
+INFO 2026-02-11 23:34:13,203 views 19916 7268 Ranked 1 candidates
+ERROR 2026-02-11 23:34:23,691 ai_service 19916 7268 AI resume ranking failed: module 'numpy' has no attribute 'trapz'
+INFO 2026-02-11 23:34:23,707 views 19916 7268 Ranked 2 candidates
+INFO 2026-02-11 23:36:56,375 ai_service 14672 8516 Loaded upskilling dataset: 3000 records
+ERROR 2026-02-11 23:36:56,522 ai_service 14672 8516 AI resume ranking failed: module 'numpy' has no attribute 'trapz'
+ERROR 2026-02-11 23:36:57,168 ai_service 14672 8516 AI resume ranking failed: module 'numpy' has no attribute 'trapz'
+ERROR 2026-02-11 23:37:04,100 ai_service 14672 8516 AI resume ranking failed: module 'numpy' has no attribute 'trapz'
+INFO 2026-02-11 23:37:04,108 views 14672 8516 Ranked 2 candidates
+INFO 2026-02-11 23:38:37,952 ai_service 3120 11776 Loaded upskilling dataset: 3000 records
+INFO 2026-02-11 23:38:38,011 ai_service 3120 11776 AI resume ranking complete for 1 candidates
+INFO 2026-02-11 23:38:38,860 ai_service 3120 11776 AI resume ranking complete for 2 candidates
+INFO 2026-02-11 23:38:59,166 ai_service 4100 3024 Loaded upskilling dataset: 3000 records
+INFO 2026-02-11 23:39:01,674 ai_service 3120 11776 AI resume ranking complete for 2 candidates
+INFO 2026-02-11 23:39:01,675 views 3120 11776 Ranked 2 candidates
+INFO 2026-02-11 23:39:23,345 ai_service 3896 2148 Loaded upskilling dataset: 3000 records
+INFO 2026-02-11 23:41:18,069 ai_service 14912 19244 Loaded upskilling dataset: 3000 records
+INFO 2026-02-11 23:41:18,120 ai_service 14912 19244 AI resume ranking complete for 1 candidates
+INFO 2026-02-11 23:41:18,828 ai_service 14912 19244 AI resume ranking complete for 2 candidates
+INFO 2026-02-11 23:41:30,635 ai_service 14912 19244 AI resume ranking complete for 1 candidates
+INFO 2026-02-11 23:41:31,333 ai_service 14912 19244 AI resume ranking complete for 2 candidates
+INFO 2026-02-11 23:42:09,011 ai_service 14912 19244 AI resume ranking complete for 1 candidates
+INFO 2026-02-11 23:42:09,710 ai_service 14912 19244 AI resume ranking complete for 2 candidates
+INFO 2026-02-11 23:43:30,395 ai_service 14912 19244 AI resume ranking complete for 1 candidates
+INFO 2026-02-11 23:43:31,316 ai_service 14912 19244 AI resume ranking complete for 2 candidates
+INFO 2026-02-12 11:39:45,581 ai_service 20136 24080 Loaded upskilling dataset: 3000 records
+INFO 2026-02-12 11:39:45,619 ai_service 20136 24080 AI resume ranking complete for 1 candidates
+INFO 2026-02-12 11:39:46,299 ai_service 20136 24080 AI resume ranking complete for 2 candidates
+INFO 2026-02-12 11:39:56,746 ai_service 20136 24080 AI resume ranking complete for 2 candidates
+INFO 2026-02-12 11:39:56,746 views 20136 24080 Ranked 2 candidates
+INFO 2026-02-12 11:53:03,018 ai_service 23608 24572 Loaded upskilling dataset: 3000 records
+INFO 2026-02-12 11:55:44,191 ai_service 18528 18252 Loaded upskilling dataset: 3000 records
+INFO 2026-02-12 11:56:00,724 ai_service 18528 18252 AI resume ranking complete for 1 candidates
+INFO 2026-02-12 11:56:01,413 ai_service 18528 18252 AI resume ranking complete for 2 candidates

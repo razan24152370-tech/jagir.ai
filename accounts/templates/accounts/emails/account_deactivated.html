@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Deactivated</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: #dc3545;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            background: #ffffff;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            border-top: none;
+        }
+        .notice {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            color: #721c24;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚠️ Account Deactivated</h1>
+    </div>
+    
+    <div class="content">
+        <p>Hi {{ team_member.first_name }},</p>
+        
+        <div class="notice">
+            <p style="margin: 0;"><strong>Your account access has been deactivated.</strong></p>
+        </div>
+        
+        <p>Your access to <strong>{{ company_name }}</strong>'s recruitment portal on ProRecruiter AI has been deactivated by <strong>{{ deactivated_by }}</strong>.</p>
+        
+        <p><strong>What this means:</strong></p>
+        <ul>
+            <li>You can no longer access job postings or applications</li>
+            <li>You cannot perform any recruitment activities</li>
+            <li>Your account may be reactivated by an administrator</li>
+        </ul>
+        
+        <p>If you believe this is an error or need more information, please contact {{ deactivated_by }} or your HR department at {{ company_name }}.</p>
+    </div>
+    
+    <div class="footer">
+        <p>© 2026 ProRecruiter AI. All rights reserved.</p>
+        <p>This is an automated email. Please do not reply to this message.</p>
+    </div>
+</body>
+</html>

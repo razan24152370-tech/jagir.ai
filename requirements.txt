@@ -1,0 +1,6 @@
+sentence-transformers==3.0.1
+pypdf>=4.2.0
+pandas>=2.2.2
+numpy>=1.26.4
+scikit-learn>=1.5.1
+tqdm>=4.66.5

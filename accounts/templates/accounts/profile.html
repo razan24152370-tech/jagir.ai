@@ -1,0 +1,1442 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}{% if user.profile.user_type == 'recruiter' %}Company Profile{% else %}My Profile{% endif %} - Pro Recruiter AI{% endblock %}
+
+{% block page_title %}{% if user.profile.user_type == 'recruiter' %}Company Profile{% else %}My Profile{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-11">
+        {% if user.profile.user_type == 'recruiter' %}
+        <!-- RECRUITER PROFILE VIEW -->
+        
+        <!-- Profile Header Card with Enhanced Design -->
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4 profile-header-card">
+            <!-- Modern Cover with Gradient and Pattern -->
+            <div class="profile-cover-modern position-relative">
+                <div class="overlay-pattern"></div>
+                <div class="position-absolute top-0 end-0 p-4">
+                    <span class="badge bg-white bg-opacity-90 text-dark px-3 py-2">
+                        <i class="bi bi-shield-check me-1"></i>Verified Company
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Profile Info -->
+            <div class="card-body px-4 px-md-5 pb-4 pt-3 position-relative" style="margin-top: -80px; z-index: 10;">
+                <div class="row align-items-end g-4">
+                    <div class="col-md-8">
+                        <div class="d-flex align-items-end gap-3 gap-md-4">
+                            <div class="profile-avatar-modern bg-white shadow-lg d-flex align-items-center justify-content-center position-relative">
+                                <i class="bi bi-building text-primary" style="font-size: 3.5rem;"></i>
+                                <div class="avatar-badge">
+                                    <i class="bi bi-patch-check-fill text-success"></i>
+                                </div>
+                            </div>
+                            <div class="pb-2 flex-grow-1 position-relative" style="z-index: 20;">
+                                <div class="company-name-container mb-2">
+                                    <h1 class="company-name-heading">{{ user.profile.company_name|default:"Your Company" }}</h1>
+                                </div>
+                                <p class="text-muted mb-2 d-flex align-items-center gap-2" style="font-size: 0.95rem;">
+                                    <i class="bi bi-person-circle"></i>
+                                    <span>Managed by {{ user.get_full_name|default:user.username }}</span>
+                                </p>
+                                <div class="d-flex flex-wrap gap-2 mt-3">
+                                    {% if user.email %}
+                                    <span class="badge bg-light text-dark border px-3 py-2">
+                                        <i class="bi bi-envelope-fill me-1"></i>{{ user.email }}
+                                    </span>
+                                    {% endif %}
+                                    {% if user.profile.phone %}
+                                    <span class="badge bg-light text-dark border px-3 py-2">
+                                        <i class="bi bi-telephone-fill me-1"></i>{{ user.profile.phone }}
+                                    </span>
+                                    {% endif %}
+                                    {% if user.profile.location %}
+                                    <span class="badge bg-light text-dark border px-3 py-2">
+                                        <i class="bi bi-geo-alt-fill me-1"></i>{{ user.profile.location }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-md-end position-relative" style="z-index: 20;">
+                        <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary btn-lg px-4 shadow-sm">
+                            <i class="bi bi-pencil-square me-2"></i>Edit Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Company Stats Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3 col-6">
+                <div class="recruiter-stat-card card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+                    <div class="card-body p-4 position-relative">
+                        <div class="stat-icon-bg bg-primary"></div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="stat-icon-circle bg-primary bg-opacity-10 text-primary">
+                                <i class="bi bi-briefcase-fill"></i>
+                            </div>
+                        </div>
+                        <h2 class="stat-number-large mb-2" style="background: linear-gradient(135deg, #0B57D0, #00E676); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ total_jobs|default:0 }}</h2>
+                        <p class="stat-label-text text-muted mb-0">Total Jobs Posted</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="recruiter-stat-card card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+                    <div class="card-body p-4 position-relative">
+                        <div class="stat-icon-bg bg-success"></div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="stat-icon-circle bg-success bg-opacity-10 text-success">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </div>
+                        </div>
+                        <h2 class="stat-number-large mb-2" style="background: linear-gradient(135deg, #00E676, #0B57D0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ active_jobs|default:0 }}</h2>
+                        <p class="stat-label-text text-muted mb-0">Active Listings</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="recruiter-stat-card card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+                    <div class="card-body p-4 position-relative">
+                        <div class="stat-icon-bg bg-info"></div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="stat-icon-circle bg-info bg-opacity-10 text-info">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                        </div>
+                        <h2 class="stat-number-large mb-2" style="background: linear-gradient(135deg, #0dcaf0, #0B57D0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ total_applications|default:0 }}</h2>
+                        <p class="stat-label-text text-muted mb-0">Total Applications</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="recruiter-stat-card card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+                    <div class="card-body p-4 position-relative">
+                        <div class="stat-icon-bg bg-warning"></div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="stat-icon-circle bg-warning bg-opacity-10 text-warning">
+                                <i class="bi bi-person-badge-fill"></i>
+                            </div>
+                        </div>
+                        <h2 class="stat-number-large mb-2" style="background: linear-gradient(135deg, #ffc107, #0B57D0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ team_count|default:0 }}</h2>
+                        <p class="stat-label-text text-muted mb-0">Team Members</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Company Description -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4 hover-lift">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box bg-primary-subtle text-primary me-3">
+                                    <i class="bi bi-building"></i>
+                                </div>
+                                <h5 class="fw-bold mb-0">About the Company</h5>
+                            </div>
+                            <a href="{% url 'accounts:edit_profile' %}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil me-1"></i>{% if user.profile.company_description %}Edit{% else %}Add{% endif %}
+                            </a>
+                        </div>
+                        {% if user.profile.company_description %}
+                        <div class="company-description">
+                            <p class="text-secondary mb-0 lh-lg" style="font-size: 1.05rem; white-space: pre-line;">{{ user.profile.company_description }}</p>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-5">
+                            <div class="empty-state-icon mb-3">
+                                <i class="bi bi-file-text"></i>
+                            </div>
+                            <h6 class="fw-semibold text-muted mb-2">No Description Added</h6>
+                            <p class="text-muted mb-4 small">Share your company's mission, vision, and culture with potential candidates</p>
+                            <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary px-4">
+                                <i class="bi bi-plus-circle me-2"></i>Add Company Description
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Company Info Grid -->
+                <div class="row g-4 mb-4">
+                    <!-- Company Website -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm rounded-4 h-100 hover-lift">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="icon-box bg-success-subtle text-success me-3">
+                                        <i class="bi bi-globe2"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-0">Website</h6>
+                                </div>
+                                {% if user.profile.company_website %}
+                                <a href="{{ user.profile.company_website }}" class="btn btn-outline-success w-100" target="_blank">
+                                    <i class="bi bi-box-arrow-up-right me-2"></i>Visit Website
+                                </a>
+                                <p class="text-muted small mb-0 mt-2 text-truncate">{{ user.profile.company_website }}</p>
+                                {% else %}
+                                <a href="{% url 'accounts:edit_profile' %}" class="btn btn-outline-secondary w-100">
+                                    <i class="bi bi-plus-circle me-2"></i>Add Website
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Info -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm rounded-4 h-100 hover-lift">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="icon-box bg-info-subtle text-info me-3">
+                                        <i class="bi bi-telephone"></i>
+                                    </div>
+                                    <h6 class="fw-bold mb-0">Contact</h6>
+                                </div>
+                                <div class="d-flex flex-column gap-2">
+                                    <div class="d-flex align-items-center p-2 bg-light rounded-3">
+                                        <i class="bi bi-envelope-fill text-primary me-2"></i>
+                                        <span class="small">{{ user.email }}</span>
+                                    </div>
+                                    {% if user.profile.phone %}
+                                    <div class="d-flex align-items-center p-2 bg-light rounded-3">
+                                        <i class="bi bi-telephone-fill text-success me-2"></i>
+                                        <span class="small">{{ user.profile.phone }}</span>
+                                    </div>
+                                    {% else %}
+                                    <a href="{% url 'accounts:edit_profile' %}" class="btn btn-sm btn-outline-secondary">
+                                        <i class="bi bi-plus-circle me-1"></i>Add Phone
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                {% if recent_applications %}
+                <div class="card border-0 shadow-sm rounded-4 hover-lift">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box bg-warning-subtle text-warning me-3">
+                                    <i class="bi bi-clock-history"></i>
+                                </div>
+                                <h5 class="fw-bold mb-0">Recent Activity</h5>
+                            </div>
+                            <a href="{% url 'jobs:view_all_applications' %}" class="btn btn-sm btn-outline-primary">
+                                View All <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                        <div class="activity-list">
+                            {% for app in recent_applications %}
+                            <div class="activity-item d-flex align-items-center gap-3 p-3 rounded-3 mb-2">
+                                <div class="activity-avatar bg-primary text-white">
+                                    {{ app.applicant.first_name|first|default:app.applicant.username|first }}
+                                </div>
+                                <div class="flex-grow-1">
+                                    <p class="mb-1 fw-semibold">{{ app.applicant.get_full_name|default:app.applicant.username }}</p>
+                                    <p class="text-muted small mb-0">Applied for {{ app.job.title }} • {{ app.applied_at|timesince }} ago</p>
+                                </div>
+                                <a href="{% url 'jobs:view_candidate' app.id %}" class="btn btn-sm btn-outline-primary">
+                                    View
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Profile Completion -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4 hover-lift">
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold mb-3">
+                            <i class="bi bi-graph-up text-success me-2"></i>Profile Strength
+                        </h6>
+                        <div class="position-relative mb-3">
+                            <div class="progress" style="height: 12px;">
+                                <div class="progress-bar bg-gradient-success" role="progressbar" 
+                                     style="width: {{ profile_completion }}%" 
+                                     aria-valuenow="{{ profile_completion }}" 
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="text-center mt-2">
+                                <span class="h4 fw-bold text-success">{{ profile_completion }}%</span>
+                                <p class="text-muted small mb-0">Complete</p>
+                            </div>
+                        </div>
+                        {% if profile_completion < 100 %}
+                        <p class="text-muted small mb-0">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Complete your profile to attract more candidates!
+                        </p>
+                        {% else %}
+                        <div class="alert alert-success border-0 rounded-3 mb-0">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            <strong>Excellent!</strong> Your profile is complete.
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4 hover-lift">
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold mb-4">
+                            <i class="bi bi-lightning-charge-fill text-warning me-2"></i>Quick Actions
+                        </h6>
+                        <div class="d-grid gap-3">
+                            <a href="{% url 'jobs:post_job' %}" class="btn btn-primary d-flex align-items-center justify-content-center py-3 position-relative overflow-hidden">
+                                <i class="bi bi-plus-circle me-2"></i>Post New Job
+                            </a>
+                            <a href="{% url 'jobs:recruiter_jobs' %}" class="btn btn-outline-primary d-flex align-items-center justify-content-center py-3">
+                                <i class="bi bi-briefcase me-2"></i>My Jobs
+                            </a>
+                            <a href="{% url 'jobs:view_all_applications' %}" class="btn btn-outline-primary d-flex align-items-center justify-content-center py-3">
+                                <i class="bi bi-file-earmark-person me-2"></i>Candidates
+                            </a>
+                            <a href="{% url 'accounts:team_members' %}" class="btn btn-outline-secondary d-flex align-items-center justify-content-center py-3">
+                                <i class="bi bi-people me-2"></i>Team
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Tips -->
+                <div class="card border-0 shadow-sm rounded-4 hover-lift">
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold mb-3">
+                            <i class="bi bi-lightbulb-fill text-warning me-2"></i>Profile Tips
+                        </h6>
+                        <ul class="list-unstyled mb-0">
+                            {% if not user.profile.company_description %}
+                            <li class="mb-3">
+                                <div class="alert alert-warning border-0 rounded-3 py-2 px-3 mb-0">
+                                    <div class="d-flex align-items-start">
+                                        <i class="bi bi-exclamation-triangle-fill me-2 mt-1"></i>
+                                        <small>Add a company description to attract candidates</small>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% if not user.profile.company_website %}
+                            <li class="mb-3">
+                                <div class="alert alert-warning border-0 rounded-3 py-2 px-3 mb-0">
+                                    <div class="d-flex align-items-start">
+                                        <i class="bi bi-exclamation-triangle-fill me-2 mt-1"></i>
+                                        <small>Add your company website</small>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% if not user.profile.location %}
+                            <li class="mb-3">
+                                <div class="alert alert-warning border-0 rounded-3 py-2 px-3 mb-0">
+                                    <div class="d-flex align-items-start">
+                                        <i class="bi bi-exclamation-triangle-fill me-2 mt-1"></i>
+                                        <small>Add your company location</small>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% if profile_completion == 100 %}
+                            <li>
+                                <div class="alert alert-success border-0 rounded-3 py-3 px-3 mb-0">
+                                    <div class="d-flex align-items-start">
+                                        <i class="bi bi-check-circle-fill me-2 mt-1"></i>
+                                        <small class="fw-semibold">Your company profile is complete!</small>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <!-- JOB SEEKER PROFILE VIEW -->
+        <!-- Profile Header Card -->
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4 jobseeker-profile-header">
+            <!-- Cover with Gradient -->
+            <div class="jobseeker-profile-cover position-relative">
+                <div class="cover-overlay"></div>
+                <div class="position-absolute top-0 end-0 p-4">
+                    <span class="badge bg-white bg-opacity-90 text-dark px-3 py-2">
+                        <i class="bi bi-person-check me-1"></i>Job Seeker
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Profile Info -->
+            <div class="card-body px-4 px-md-5 pb-4 pt-3 position-relative" style="margin-top: -80px; z-index: 10;">
+                <div class="row align-items-end g-4">
+                    <div class="col-md-8">
+                        <div class="d-flex align-items-end gap-3 gap-md-4">
+                            <div class="jobseeker-avatar bg-white shadow-lg d-flex align-items-center justify-content-center position-relative">
+                                <span class="avatar-letter">{{ user.first_name|first|default:user.username|first }}</span>
+                                <div class="avatar-badge-jobseeker">
+                                    <i class="bi bi-patch-check-fill text-success"></i>
+                                </div>
+                            </div>
+                            <div class="pb-2 flex-grow-1">
+                                <h1 class="jobseeker-name-heading mb-2">{{ user.get_full_name|default:user.username }}</h1>
+                                {% if user.profile.headline %}
+                                <p class="text-muted mb-2 fs-5 fw-medium">{{ user.profile.headline }}</p>
+                                {% else %}
+                                <p class="text-muted mb-2 fst-italic">No headline added yet</p>
+                                {% endif %}
+                                <div class="d-flex flex-wrap gap-2 mt-3">
+                                    <span class="badge bg-light text-dark border px-3 py-2">
+                                        <i class="bi bi-envelope-fill me-1"></i>{{ user.email }}
+                                    </span>
+                                    {% if user.profile.phone %}
+                                    <span class="badge bg-light text-dark border px-3 py-2">
+                                        <i class="bi bi-telephone-fill me-1"></i>{{ user.profile.phone }}
+                                    </span>
+                                    {% endif %}
+                                    {% if user.profile.location %}
+                                    <span class="badge bg-light text-dark border px-3 py-2">
+                                        <i class="bi bi-geo-alt-fill me-1"></i>{{ user.profile.location }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary btn-lg px-4 shadow-sm">
+                            <i class="bi bi-pencil-square me-2"></i>Edit Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Main Content - Left Side -->
+            <div class="col-lg-8">
+                <!-- Resume/CV Section -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4 hover-lift">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box bg-danger-subtle text-danger me-3">
+                                    <i class="bi bi-file-earmark-pdf"></i>
+                                </div>
+                                <h5 class="fw-bold mb-0">Resume / CV</h5>
+                            </div>
+                        </div>
+                        {% if user.profile.resume %}
+                        <div class="resume-card p-4 rounded-3 mb-4" style="background: linear-gradient(135deg, rgba(11, 87, 208, 0.05), rgba(0, 230, 118, 0.05)); border: 2px solid rgba(11, 87, 208, 0.1);">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="icon-circle-large bg-danger">
+                                    <i class="bi bi-file-pdf-fill text-white fs-3"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold mb-1">{{ user.profile.resume.name|default:"Resume.pdf" }}</h6>
+                                    <p class="text-muted small mb-0"><i class="bi bi-check-circle-fill text-success me-1"></i>Resume uploaded successfully</p>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="{{ user.profile.resume.url }}" class="btn btn-primary flex-grow-1" target="_blank">
+                                    <i class="bi bi-eye-fill me-2"></i>View Resume
+                                </a>
+                                <a href="{% url 'edit_profile' %}" class="btn btn-outline-primary flex-grow-1">
+                                    <i class="bi bi-arrow-repeat me-2"></i>Update
+                                </a>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-5">
+                            <div class="empty-state-icon mb-3">
+                                <i class="bi bi-file-earmark-plus"></i>
+                            </div>
+                            <h6 class="fw-semibold text-muted mb-2">No Resume Uploaded</h6>
+                            <p class="text-muted mb-4 small">Upload your resume to apply for jobs and get noticed by recruiters</p>
+                            <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary btn-lg px-5">
+                                <i class="bi bi-upload me-2"></i>Upload Resume
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Skills & Expertise Section -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4 hover-lift">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box bg-success-subtle text-success me-3">
+                                    <i class="bi bi-stars"></i>
+                                </div>
+                                <h5 class="fw-bold mb-0">Skills & Expertise</h5>
+                            </div>
+                            <a href="{% url 'edit_profile' %}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil me-1"></i>Edit
+                            </a>
+                        </div>
+                        {% if user.profile.skills %}
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for skill in user.profile.get_skills_list %}
+                            <span class="badge skill-badge">
+                                <i class="bi bi-check-circle-fill me-1"></i>{{ skill }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-5">
+                            <div class="empty-state-icon mb-3">
+                                <i class="bi bi-gear-fill"></i>
+                            </div>
+                            <h6 class="fw-semibold text-muted mb-2">No Skills Added</h6>
+                            <p class="text-muted mb-4 small">Add your skills to match with relevant job opportunities</p>
+                            <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary">
+                                <i class="bi bi-plus-circle me-2"></i>Add Skills
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Professional Background -->
+                <div class="card border-0 shadow-sm rounded-4 hover-lift">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box bg-info-subtle text-info me-3">
+                                    <i class="bi bi-briefcase"></i>
+                                </div>
+                                <h5 class="fw-bold mb-0">Background</h5>
+                            </div>
+                            <a href="{% url 'accounts:edit_profile' %}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil me-1"></i>Edit
+                            </a>
+                        </div>
+                        {% if user.profile.experience_years or user.profile.education %}
+                        <div class="row g-3">
+                            {% if user.profile.experience_years %}
+                            <div class="col-md-6">
+                                <div class="background-card p-4 rounded-3 h-100">
+                                    <div class="d-flex align-items-center gap-3 mb-2">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="bi bi-briefcase-fill text-white"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-muted small mb-1">Experience</p>
+                                            <h5 class="fw-bold mb-0">{{ user.profile.experience_years }} Years</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if user.profile.education %}
+                            <div class="col-md-6">
+                                <div class="background-card p-4 rounded-3 h-100">
+                                    <div class="d-flex align-items-center gap-3 mb-2">
+                                        <div class="icon-circle bg-success">
+                                            <i class="bi bi-mortarboard-fill text-white"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-muted small mb-1">Education</p>
+                                            <h6 class="fw-bold mb-0">{{ user.profile.education }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-5">
+                            <div class="empty-state-icon mb-3">
+                                <i class="bi bi-journal-bookmark-fill"></i>
+                            </div>
+                            <h6 class="fw-semibold text-muted mb-2">No Background Added</h6>
+                            <p class="text-muted mb-4 small">Add your experience and education details</p>
+                            <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary">
+                                <i class="bi bi-plus-circle me-2"></i>Add Background
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar - Right Side -->
+            <div class="col-lg-4">
+                <!-- Profile Completion -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4 hover-lift">
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold mb-3">
+                            <i class="bi bi-graph-up text-success me-2"></i>Profile Strength
+                        </h6>
+                        <div class="position-relative mb-3">
+                            <div class="progress" style="height: 12px; border-radius: 10px;">
+                                <div class="progress-bar" role="progressbar" 
+                                     style="width: {{ profile_completion }}%; background: linear-gradient(135deg, #0B57D0, #00E676);" 
+                                     aria-valuenow="{{ profile_completion }}" 
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="text-center mt-3">
+                                <span class="h2 fw-bold" style="background: linear-gradient(135deg, #0B57D0, #00E676); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ profile_completion }}%</span>
+                                <p class="text-muted small mb-0">Complete</p>
+                            </div>
+                        </div>
+                        {% if profile_completion < 100 %}
+                        <div class="alert alert-warning border-0 rounded-3 py-2 px-3 mb-0 small">
+                            <i class="bi bi-lightbulb-fill me-1"></i>
+                            Complete your profile to stand out!
+                        </div>
+                        {% else %}
+                        <div class="alert alert-success border-0 rounded-3 mb-0 small">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            <strong>Excellent!</strong> Profile is complete.
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card border-0 shadow-sm rounded-4 mb-4 hover-lift">
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold mb-3">
+                            <i class="bi bi-lightning-charge-fill text-warning me-2"></i>Quick Actions
+                        </h6>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'jobs:browse_jobs' %}" class="btn btn-primary">
+                                <i class="bi bi-search me-2"></i>Browse Jobs
+                            </a>
+                            <a href="{% url 'jobs:my_applications' %}" class="btn btn-outline-primary">
+                                <i class="bi bi-file-text me-2"></i>My Applications
+                            </a>
+                            <a href="{% url 'edit_profile' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-pencil-square me-2"></i>Edit Profile
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="card border-0 shadow-sm rounded-4 hover-lift">
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold mb-3">
+                            <i class="bi bi-person-lines-fill text-primary me-2"></i>Contact Info
+                        </h6>
+                        <div class="d-flex flex-column gap-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="icon-circle-small bg-primary">
+                                    <i class="bi bi-envelope-fill text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted small mb-0">Email</p>
+                                    <p class="fw-semibold mb-0 small">{{ user.email }}</p>
+                                </div>
+                            </div>
+                            {% if user.profile.phone %}
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="icon-circle-small bg-success">
+                                    <i class="bi bi-telephone-fill text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted small mb-0">Phone</p>
+                                    <p class="fw-semibold mb-0 small">{{ user.profile.phone }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if user.profile.location %}
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="icon-circle-small bg-info">
+                                    <i class="bi bi-geo-alt-fill text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted small mb-0">Location</p>
+                                    <p class="fw-semibold mb-0 small">{{ user.profile.location }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    /* Premium Profile Page Styling */
+    
+    /* Skill Badges */
+    .skill-badge {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.1), rgba(0, 230, 118, 0.1));
+        color: #0B57D0;
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border: 2px solid rgba(11, 87, 208, 0.2);
+        border-radius: 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .skill-badge:hover {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        color: white;
+        border-color: transparent;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(11, 87, 208, 0.3);
+    }
+    
+    .background-card {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.03), rgba(0, 230, 118, 0.03));
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .background-card:hover {
+        border-color: rgba(0, 230, 118, 0.3);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(11, 87, 208, 0.1);
+    }
+    
+    .icon-circle-small {
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    
+    /* Company Name Styling - Maximum Visibility */
+    .company-name-container {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .company-name-heading {
+        font-size: 2rem !important;
+        color: #ffffff !important;
+        font-weight: 800 !important;
+        line-height: 1.2 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        text-transform: none !important;
+        letter-spacing: normal !important;
+        word-wrap: break-word !important;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    @media (max-width: 768px) {
+        .company-name-heading {
+            font-size: 1.5rem !important;
+        }
+    }
+    
+    /* Profile Header Enhancements */
+    .profile-header-card {
+        overflow: visible !important;
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .profile-header-card:hover {
+        box-shadow: 0 25px 60px rgba(11, 87, 208, 0.15) !important;
+    }
+    
+    .profile-cover-modern {
+        height: 220px;
+        background: linear-gradient(135deg, #0B57D0 0%, #1a1a2e 50%, #000000 100%);
+        position: relative;
+        z-index: 1;
+    }
+    
+    .overlay-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(circle at 20% 50%, rgba(0, 230, 118, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(11, 87, 208, 0.08) 0%, transparent 50%),
+            url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.6;
+        z-index: 1;
+        animation: patternShift 30s ease-in-out infinite;
+    }
+    
+    @keyframes patternShift {
+        0%, 100% { opacity: 0.6; transform: scale(1); }
+        50% { opacity: 0.8; transform: scale(1.05); }
+    }
+    
+    .profile-avatar-modern {
+        width: 160px;
+        height: 160px;
+        border-radius: 28px;
+        border: 6px solid white;
+        box-shadow: 0 20px 60px rgba(11, 87, 208, 0.3);
+        transition: all 0.4s ease;
+        z-index: 15;
+        position: relative;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+    }
+    
+    .profile-avatar-modern:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 30px 70px rgba(0, 230, 118, 0.4);
+    }
+    
+    .profile-avatar-modern i {
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    }
+    
+    .avatar-badge {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        font-size: 1.3rem;
+        animation: badgePulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes badgePulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+    
+    /* Stats Cards */
+    .stat-card-modern {
+        background: white;
+        border-radius: 18px;
+        padding: 1.75rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        color: white;
+        height: 100%;
+        border: 2px solid transparent;
+    }
+    
+    .stat-card-modern:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+    
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #0B57D0 0%, #4D8DFF 100%);
+        border-color: rgba(11, 87, 208, 0.3);
+    }
+    
+    .bg-gradient-success {
+        background: linear-gradient(135deg, #00E676 0%, #00C853 100%);
+        border-color: rgba(0, 230, 118, 0.3);
+    }
+    
+    .bg-gradient-info {
+        background: linear-gradient(135deg, #4D8DFF 0%, #0B57D0 100%);
+        border-color: rgba(77, 141, 255, 0.3);
+    }
+    
+    .bg-gradient-warning {
+        background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+        border-color: rgba(255, 193, 7, 0.3);
+    }
+    
+    .stat-icon {
+        font-size: 2.5rem;
+        opacity: 0.95;
+        margin-bottom: 1rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        animation: iconFloat 3s ease-in-out infinite;
+    }
+    
+    @keyframes iconFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        line-height: 1;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.95;
+        margin-top: 0.5rem;
+        font-weight: 600;
+    }
+    
+    .stat-decoration {
+        position: absolute;
+        right: -25px;
+        bottom: -25px;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.12);
+        animation: decorationPulse 4s ease-in-out infinite;
+    }
+    
+    @keyframes decorationPulse {
+        0%, 100% { transform: scale(1); opacity: 0.12; }
+        50% { transform: scale(1.1); opacity: 0.18; }
+    }
+    
+    /* Icon Boxes */
+    .icon-box {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+    }
+    
+    .icon-box:hover {
+        transform: rotate(5deg) scale(1.1);
+    }
+    
+    /* Color Utilities */
+    .bg-primary-subtle {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.12), rgba(11, 87, 208, 0.05)) !important;
+        border: 1px solid rgba(11, 87, 208, 0.2);
+    }
+    
+    .bg-success-subtle {
+        background: linear-gradient(135deg, rgba(0, 230, 118, 0.12), rgba(0, 230, 118, 0.05)) !important;
+        border: 1px solid rgba(0, 230, 118, 0.2);
+    }
+    
+    .bg-info-subtle {
+        background: linear-gradient(135deg, rgba(77, 141, 255, 0.12), rgba(77, 141, 255, 0.05)) !important;
+        border: 1px solid rgba(77, 141, 255, 0.2);
+    }
+    
+    .bg-warning-subtle {
+        background: linear-gradient(135deg, rgba(255, 193, 7, 0.12), rgba(255, 193, 7, 0.05)) !important;
+        border: 1px solid rgba(255, 193, 7, 0.2);
+    }
+    
+    /* Card Enhancements */
+    .card {
+        border: 2px solid rgba(11, 87, 208, 0.08);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .card:hover {
+        border-color: rgba(0, 230, 118, 0.3);
+    }
+    
+    /* Badge Enhancements */
+    .badge.bg-light {
+        font-weight: 600;
+        padding: 0.6rem 1rem;
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.05), rgba(0, 230, 118, 0.03)) !important;
+    }
+    
+    .badge.bg-light:hover {
+        background: linear-gradient(135deg, #0B57D0, #00E676) !important;
+        color: white !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(11, 87, 208, 0.3);
+    }
+    
+    .badge.bg-primary-subtle {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.15), rgba(11, 87, 208, 0.08)) !important;
+        border: 2px solid rgba(11, 87, 208, 0.3);
+        color: #0B57D0 !important;
+        font-weight: 700;
+    }
+    
+    /* Hover Effects */
+    .hover-lift {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hover-lift:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 50px rgba(11, 87, 208, 0.15) !important;
+        border-color: rgba(0, 230, 118, 0.4);
+    }
+    
+    /* Button Enhancements */
+    .btn {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 700;
+        border-radius: 12px;
+        padding: 0.7rem 1.5rem;
+        position: relative;
+        overflow: hidden;
+        border: none;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        box-shadow: 0 4px 15px rgba(11, 87, 208, 0.3);
+    }
+    
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .btn-primary:hover {
+        box-shadow: 0 6px 20px rgba(11, 87, 208, 0.4), 0 0 30px rgba(0, 230, 118, 0.2);
+        transform: translateY(-2px) scale(1.03);
+    }
+    
+    .btn-primary:hover::before {
+        left: 100%;
+    }
+    
+    .btn-outline-primary {
+        color: #0B57D0;
+        border: 2px solid #0B57D0;
+        background: transparent;
+    }
+    
+    .btn-outline-primary::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: -1;
+    }
+    
+    .btn-outline-primary:hover {
+        color: #ffffff;
+        border-color: #0B57D0;
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 6px 20px rgba(11, 87, 208, 0.3);
+    }
+    
+    .btn-outline-primary:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .btn-outline-secondary {
+        color: #64748b;
+        border: 2px solid #64748b;
+        background: transparent;
+    }
+    
+    .btn-outline-secondary:hover {
+        background: #64748b;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(100, 116, 139, 0.3);
+    }
+    
+    /* Empty State */
+    .empty-state-icon {
+        font-size: 5rem;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        opacity: 0.7;
+        animation: iconFloat 3s ease-in-out infinite;
+    }
+    
+    /* Activity List */
+    .activity-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .activity-item {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.03), rgba(0, 230, 118, 0.02));
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .activity-item:hover {
+        background: white;
+        border-color: rgba(0, 230, 118, 0.3);
+        box-shadow: 0 4px 15px rgba(11, 87, 208, 0.1);
+        transform: translateX(5px);
+    }
+    
+    .activity-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        box-shadow: 0 4px 12px rgba(11, 87, 208, 0.3);
+    }
+    
+    /* Progress Bar */
+    .progress {
+        background: rgba(11, 87, 208, 0.1);
+        border-radius: 12px;
+        overflow: hidden;
+        height: 12px;
+    }
+    
+    .progress-bar {
+        transition: width 1s ease;
+        border-radius: 12px;
+        background: linear-gradient(90deg, #0B57D0 0%, #00E676 100%);
+    }
+    
+    /* Alert Enhancements */
+    .alert-success {
+        background: linear-gradient(135deg, rgba(0, 230, 118, 0.12), rgba(0, 230, 118, 0.05));
+        border: 2px solid rgba(0, 230, 118, 0.3);
+        border-radius: 12px;
+        color: #00a36c;
+    }
+    
+    .alert-warning {
+        background: linear-gradient(135deg, rgba(255, 193, 7, 0.12), rgba(255, 193, 7, 0.05));
+        border: 2px solid rgba(255, 193, 7, 0.3);
+        border-radius: 12px;
+        color: #d97706;
+    }
+    
+    /* Section Headings */
+    h5.fw-bold {
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+    
+    h5.fw-bold::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #0B57D0, #00E676);
+        border-radius: 2px;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .profile-avatar-modern {
+            width: 110px;
+            height: 110px;
+        }
+        
+        .profile-cover-modern {
+            height: 160px;
+        }
+        
+        .stat-number {
+            font-size: 1.8rem;
+        }
+        
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            font-size: 1.3rem;
+        }
+    }
+    
+    /* Scrollbar Styling */
+    .activity-list::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    .activity-list::-webkit-scrollbar-track {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.05), rgba(0, 230, 118, 0.03));
+        border-radius: 10px;
+    }
+    
+    .activity-list::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        border-radius: 10px;
+    }
+    
+    .activity-list::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #0a4ba8, #00b85a);
+    }
+    
+    /* ============================================ */
+    /* JOB SEEKER PROFILE SPECIFIC STYLES */
+    /* ============================================ */
+    
+    /* Job Seeker Profile Header */
+    .jobseeker-profile-header {
+        border: 2px solid rgba(77, 141, 255, 0.15);
+    }
+    
+    .jobseeker-profile-header:hover {
+        box-shadow: 0 25px 60px rgba(77, 141, 255, 0.2) !important;
+    }
+    
+    .jobseeker-profile-cover {
+        height: 220px;
+        background: linear-gradient(135deg, #4D8DFF 0%, #0B57D0 50%, #1a1a2e 100%);
+        position: relative;
+        z-index: 1;
+    }
+    
+    .cover-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(circle at 20% 50%, rgba(0, 230, 118, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(11, 87, 208, 0.1) 0%, transparent 50%),
+            url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.7;
+        z-index: 1;
+        animation: coverShift 25s ease-in-out infinite;
+    }
+    
+    @keyframes coverShift {
+        0%, 100% { opacity: 0.7; transform: scale(1); }
+        50% { opacity: 0.9; transform: scale(1.03); }
+    }
+    
+    /* Job Seeker Avatar */
+    .jobseeker-avatar {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        border: 6px solid white;
+        box-shadow: 0 20px 60px rgba(77, 141, 255, 0.4);
+        transition: all 0.4s ease;
+        z-index: 15;
+        background: linear-gradient(135deg, #4D8DFF, #0B57D0);
+        position: relative;
+    }
+    
+    .jobseeker-avatar:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 30px 70px rgba(0, 230, 118, 0.5);
+    }
+    
+    .avatar-letter {
+        font-size: 4rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ffffff, #e0e0e0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+    
+    .avatar-badge-jobseeker {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        font-size: 1.3rem;
+        animation: badgePulseJobseeker 2.5s ease-in-out infinite;
+    }
+    
+    @keyframes badgePulseJobseeker {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.15); }
+    }
+    
+    /* Job Seeker Name Heading */
+    .jobseeker-name-heading {
+        font-size: 2.2rem !important;
+        color: #ffffff !important;
+        font-weight: 800 !important;
+        line-height: 1.2 !important;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Background Items */
+    .background-item {
+        background: linear-gradient(135deg, rgba(77, 141, 255, 0.05), rgba(11, 87, 208, 0.03));
+        border: 2px solid rgba(77, 141, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .background-item:hover {
+        background: linear-gradient(135deg, rgba(77, 141, 255, 0.1), rgba(11, 87, 208, 0.05));
+        border-color: rgba(0, 230, 118, 0.3);
+        transform: translateX(8px);
+        box-shadow: 0 4px 15px rgba(77, 141, 255, 0.15);
+    }
+    
+    /* Icon Circles */
+    .icon-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .icon-circle-large {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    
+    /* Resume Preview */
+    .resume-preview {
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.08), rgba(220, 53, 69, 0.03));
+        border: 2px solid rgba(220, 53, 69, 0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .resume-preview:hover {
+        border-color: rgba(220, 53, 69, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.15);
+    }
+    
+    /* Enhanced Button Sizes */
+    .btn-sm {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .btn-lg {
+        padding: 0.85rem 2rem;
+        font-size: 1rem;
+    }
+    
+    /* Job Seeker Responsive */
+    @media (max-width: 768px) {
+        .jobseeker-avatar {
+            width: 120px;
+            height: 120px;
+        }
+        
+        .avatar-letter {
+            font-size: 3rem;
+        }
+        
+        .jobseeker-profile-cover {
+            height: 160px;
+        }
+        
+        .jobseeker-name-heading {
+            font-size: 1.6rem !important;
+        }
+    }
+    
+    /* Enhanced Recruiter Stat Cards */
+    .recruiter-stat-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid rgba(11, 87, 208, 0.1) !important;
+    }
+    
+    .recruiter-stat-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(11, 87, 208, 0.15) !important;
+        border-color: rgba(0, 230, 118, 0.3) !important;
+    }
+    
+    .stat-icon-bg {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        opacity: 0.05;
+        transition: all 0.4s ease;
+    }
+    
+    .recruiter-stat-card:hover .stat-icon-bg {
+        opacity: 0.1;
+        transform: scale(1.2);
+    }
+    
+    .stat-icon-circle {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .recruiter-stat-card:hover .stat-icon-circle {
+        transform: scale(1.1) rotate(5deg);
+    }
+    
+    .stat-number-large {
+        font-size: 2.5rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+    
+    .stat-label-text {
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+    }
+</style>
+{% endblock %}

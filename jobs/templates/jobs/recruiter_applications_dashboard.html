@@ -1,0 +1,805 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Rank Candidates - {{ job.title }}{% endblock %}
+
+{% block content %}
+<style>
+    /* Premium Recruiter Applications Dashboard */
+    .dashboard-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    
+    .header-section {
+        background: linear-gradient(135deg, #0B57D0 0%, #00E676 100%);
+        color: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 40px rgba(11, 87, 208, 0.25);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .header-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.4;
+        pointer-events: none;
+    }
+    
+    .header-section h1 {
+        margin: 0 0 1rem 0;
+        font-size: 2rem;
+        font-weight: 800;
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .header-section h1::before {
+        content: '🎯';
+        font-size: 2rem;
+        animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+    
+    .header-section p {
+        margin: 0.5rem 0;
+        opacity: 0.95;
+        position: relative;
+        z-index: 1;
+        font-size: 1.05rem;
+    }
+    
+    .header-section p strong {
+        font-weight: 700;
+    }
+    
+    .input-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(11, 87, 208, 0.08);
+        margin-bottom: 2rem;
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .input-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.02), rgba(0, 230, 118, 0.02));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+    
+    .input-section:hover::before {
+        opacity: 1;
+    }
+    
+    .input-section h2 {
+        color: #1e293b;
+        font-weight: 800;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .input-section h2::before {
+        content: '🤖';
+        font-size: 1.5rem;
+    }
+    
+    .input-section p {
+        color: #64748b;
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .input-section textarea {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid rgba(11, 87, 208, 0.15);
+        border-radius: 12px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.95rem;
+        resize: vertical;
+        min-height: 140px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        z-index: 1;
+        line-height: 1.6;
+    }
+    
+    .input-section textarea:focus {
+        outline: none;
+        border-color: #0B57D0;
+        box-shadow: 0 0 0 0.3rem rgba(11, 87, 208, 0.15), 0 4px 15px rgba(11, 87, 208, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .input-section textarea::placeholder {
+        color: #94a3b8;
+        font-style: italic;
+    }
+    
+    .button-group {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 1rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .btn-rank {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        color: white;
+        padding: 0.9rem 2.5rem;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.05rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 6px 20px rgba(11, 87, 208, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-rank::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .btn-rank:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 8px 25px rgba(11, 87, 208, 0.4), 0 0 40px rgba(0, 230, 118, 0.2);
+    }
+    
+    .btn-rank:hover::before {
+        left: 100%;
+    }
+    
+    .btn-rank:active {
+        transform: translateY(-1px) scale(0.98);
+    }
+    
+    .loading {
+        display: none;
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(11, 87, 208, 0.08);
+        border: 2px solid rgba(11, 87, 208, 0.1);
+    }
+    
+    .loading.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .spinner {
+        border: 5px solid rgba(11, 87, 208, 0.1);
+        border-top: 5px solid #0B57D0;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1.5rem;
+    }
+    
+    .loading p {
+        color: #64748b;
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .results-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(11, 87, 208, 0.08);
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        display: none;
+        animation: fadeIn 0.4s ease;
+    }
+    
+    .results-section.active {
+        display: block;
+    }
+    
+    .results-section h3 {
+        color: #1e293b;
+        font-weight: 800;
+        margin-top: 0;
+        padding-bottom: 1rem;
+        border-bottom: 3px solid rgba(11, 87, 208, 0.1);
+        font-size: 1.5rem;
+        position: relative;
+        padding-left: 3rem;
+    }
+    
+    .results-section h3::before {
+        content: '🏆';
+        position: absolute;
+        left: 0;
+        font-size: 2rem;
+        animation: bounce 2s ease-in-out infinite;
+    }
+    
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-5px);
+        }
+    }
+    
+    .candidates-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1.5rem;
+    }
+    
+    .candidates-table thead {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.05), rgba(0, 230, 118, 0.03));
+        border-bottom: 2px solid rgba(11, 87, 208, 0.15);
+    }
+    
+    .candidates-table th {
+        padding: 1rem;
+        text-align: left;
+        font-weight: 700;
+        color: #1e293b;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+        border: none;
+    }
+    
+    .candidates-table td {
+        padding: 1.25rem 1rem;
+        border-bottom: 1px solid rgba(11, 87, 208, 0.05);
+        vertical-align: middle;
+    }
+    
+    .candidates-table tbody tr {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+    }
+    
+    .candidates-table tbody tr::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .candidates-table tbody tr:hover {
+        background: linear-gradient(90deg, rgba(11, 87, 208, 0.03), rgba(0, 230, 118, 0.02));
+        transform: translateX(5px);
+        box-shadow: 0 4px 15px rgba(11, 87, 208, 0.08);
+    }
+    
+    .candidates-table tbody tr:hover::before {
+        opacity: 1;
+    }
+    
+    .rank-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        font-weight: 800;
+        min-width: 50px;
+        box-shadow: 0 4px 12px rgba(11, 87, 208, 0.25);
+        animation: pulse 2s ease-in-out infinite;
+    }
+    
+    .score {
+        font-size: 1.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.25rem;
+    }
+    
+    .score-bar {
+        background: rgba(11, 87, 208, 0.1);
+        height: 8px;
+        border-radius: 10px;
+        margin-top: 0.5rem;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .score-fill {
+        background: linear-gradient(90deg, #0B57D0, #00E676);
+        height: 100%;
+        transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 230, 118, 0.5);
+    }
+    
+    .candidate-actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .btn-small {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    .btn-view {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        color: white;
+        box-shadow: 0 4px 12px rgba(11, 87, 208, 0.25);
+    }
+    
+    .btn-view:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 6px 15px rgba(11, 87, 208, 0.35);
+        color: white;
+    }
+    
+    .error-message {
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.05));
+        border: 2px solid rgba(220, 53, 69, 0.3);
+        color: #dc3545;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        display: none;
+        font-weight: 600;
+        animation: shake 0.5s ease;
+    }
+    
+    @keyframes shake {
+        0%, 100% {
+            transform: translateX(0);
+        }
+        25% {
+            transform: translateX(-5px);
+        }
+        75% {
+            transform: translateX(5px);
+        }
+    }
+    
+    .error-message.active {
+        display: block;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #cbd5e1;
+    }
+    
+    .empty-state::before {
+        content: '📭';
+        display: block;
+        font-size: 5rem;
+        margin-bottom: 1rem;
+        animation: floatEmpty 3s ease-in-out infinite;
+    }
+    
+    @keyframes floatEmpty {
+        0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+            transform: translateY(-15px) rotate(5deg);
+        }
+    }
+    
+    .empty-state p {
+        margin: 0.75rem 0;
+        font-size: 1.1rem;
+        color: #64748b;
+        font-weight: 600;
+    }
+    
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.05), rgba(0, 230, 118, 0.03));
+        padding: 1.5rem;
+        border-radius: 16px;
+        text-align: center;
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.08), rgba(0, 230, 118, 0.05));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(11, 87, 208, 0.15);
+        border-color: rgba(0, 230, 118, 0.3);
+    }
+    
+    .stat-card:hover::before {
+        opacity: 1;
+    }
+    
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        z-index: 1;
+        animation: countUp 0.8s ease-out;
+    }
+    
+    @keyframes countUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 0.5rem;
+        font-weight: 700;
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .dashboard-container {
+            padding: 1rem;
+        }
+        
+        .header-section {
+            padding: 1.5rem;
+        }
+        
+        .header-section h1 {
+            font-size: 1.5rem;
+        }
+        
+        .input-section,
+        .results-section {
+            padding: 1.5rem;
+        }
+        
+        .btn-rank {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .candidates-table {
+            font-size: 0.85rem;
+        }
+        
+        .candidates-table th,
+        .candidates-table td {
+            padding: 0.75rem 0.5rem;
+        }
+        
+        .score {
+            font-size: 1.2rem;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+        }
+        
+        .stats {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="dashboard-container">
+    <!-- Header -->
+    <div class="header-section">
+        <h1>Rank Candidates</h1>
+        <p><strong>Job:</strong> {{ job.title }} at {{ job.company }}</p>
+        <p><strong>Total Applications:</strong> {{ applications_count }}</p>
+    </div>
+
+    <!-- Input Section -->
+    <div class="input-section">
+        <h2>AI-Powered Candidate Ranking</h2>
+        <p>Enter or paste the job description to automatically rank candidates by match score:</p>
+        
+        <textarea id="jobDesc" placeholder="Enter job description...
+Example: Python developer with Django, SQL, AWS experience required. Must have 3+ years of backend development.">{{ job.description }}</textarea>
+        
+        <div class="button-group">
+            <button class="btn-rank" onclick="rankCandidates()">🚀 Rank Candidates</button>
+        </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div class="loading" id="loadingIndicator">
+        <div class="spinner"></div>
+        <p>Analyzing candidates...</p>
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-message" id="errorMessage"></div>
+
+    <!-- Results Section -->
+    <div class="results-section" id="resultsSection">
+        <h3>Top Candidates Ranked by Match Score</h3>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalMatches">0</div>
+                <div class="stat-label">Candidates Matched</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgScore">0%</div>
+                <div class="stat-label">Average Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="topScore">0%</div>
+                <div class="stat-label">Top Score</div>
+            </div>
+        </div>
+
+        <table class="candidates-table" id="candidatesTable">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Match Score</th>
+                    <th>Skills</th>
+                    <th>Experience</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="candidatesTableBody">
+            </tbody>
+        </table>
+
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <p>📭 No candidates found</p>
+            <p>Try adjusting the job description</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    async function rankCandidates() {
+        const jobDesc = document.getElementById('jobDesc').value.trim();
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const errorMessage = document.getElementById('errorMessage');
+        const resultsSection = document.getElementById('resultsSection');
+        const emptyState = document.getElementById('emptyState');
+
+        // Reset UI
+        errorMessage.classList.remove('active');
+        errorMessage.textContent = '';
+
+        if (!jobDesc) {
+            showError('Please enter a job description');
+            return;
+        }
+
+        try {
+            loadingIndicator.classList.add('active');
+            resultsSection.classList.remove('active');
+
+            const response = await axios.post(`/jobs/api/rank/{{ job.id }}/`, {
+                job_description: jobDesc
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            });
+
+            if (response.data.success) {
+                displayResults(response.data.candidates);
+                resultsSection.classList.add('active');
+            } else {
+                showError(response.data.error || 'Failed to rank candidates');
+            }
+        } catch (error) {
+            const errorMsg = error.response?.data?.error || error.message || 'An error occurred while ranking candidates';
+            showError(errorMsg);
+        } finally {
+            loadingIndicator.classList.remove('active');
+        }
+    }
+
+    function displayResults(candidates) {
+        const tbody = document.getElementById('candidatesTableBody');
+        const emptyState = document.getElementById('emptyState');
+        
+        if (!candidates || candidates.length === 0) {
+            emptyState.style.display = 'block';
+            tbody.innerHTML = '';
+            updateStats([], []);
+            return;
+        }
+
+        emptyState.style.display = 'none';
+        
+        let html = '';
+        candidates.forEach((candidate, index) => {
+            const skills = candidate.skills_list && candidate.skills_list.length > 0 
+                ? candidate.skills_list.slice(0, 3).join(', ') + (candidate.skills_list.length > 3 ? '...' : '')
+                : 'N/A';
+            
+            html += `
+                <tr>
+                    <td><span class="rank-badge">#${index + 1}</span></td>
+                    <td><strong>${escapeHtml(candidate.name)}</strong><br><small>${escapeHtml(candidate.email)}</small></td>
+                    <td>
+                        <div class="score">${candidate.rank_score.toFixed(1)}%</div>
+                        <div class="score-bar">
+                            <div class="score-fill" style="width: ${candidate.rank_score}%"></div>
+                        </div>
+                    </td>
+                    <td><small>${escapeHtml(skills)}</small></td>
+                    <td><small>${candidate.experience_years} years</small></td>
+                    <td class="candidate-actions">
+                        <a href="/jobs/recruiter/candidate/${candidate.id}/" class="btn-small btn-view">View Profile</a>
+                    </td>
+                </tr>
+            `;
+        });
+
+        tbody.innerHTML = html;
+        updateStats(candidates, candidates.map(c => c.rank_score));
+    }
+
+    function updateStats(candidates, scores) {
+        document.getElementById('totalMatches').textContent = candidates.length;
+        
+        if (scores.length > 0) {
+            const avgScore = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
+            const maxScore = Math.max(...scores).toFixed(1);
+            document.getElementById('avgScore').textContent = avgScore + '%';
+            document.getElementById('topScore').textContent = maxScore + '%';
+        } else {
+            document.getElementById('avgScore').textContent = '0%';
+            document.getElementById('topScore').textContent = '0%';
+        }
+    }
+
+    function showError(message) {
+        const errorElement = document.getElementById('errorMessage');
+        errorElement.textContent = '⚠️ ' + message;
+        errorElement.classList.add('active');
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
+{% endblock %}

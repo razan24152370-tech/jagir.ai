@@ -1,0 +1,492 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}User Dashboard - Pro Recruiter AI{% endblock %}
+
+{% block page_title %}Welcome, {{ user.first_name|default:user.username }}!{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <!-- Main Content -->
+    <div class="col-lg-8">
+        <!-- Recommended Jobs Section -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-header bg-white border-0 py-3 px-4">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-stars text-warning me-2" style="font-size: 1.3rem;"></i>
+                    <div>
+                        <h5 class="mb-0 fw-bold">Recommended Jobs for You</h5>
+                        <small class="text-muted">Based on your profile</small>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                {% if recommended_jobs %}
+                <div class="d-flex flex-column gap-3">
+                    {% for item in recommended_jobs %}
+                    <div class="card border-2 border-warning-subtle shadow-sm rounded-4 hover-shadow" style="border-left: 4px solid #ffc107;">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h6 class="mb-1 fw-bold">{{ item.job.title }}</h6>
+                                    <p class="text-muted mb-0 small">{{ item.job.company }}</p>
+                                </div>
+                                <span class="badge bg-warning-subtle text-warning rounded-pill px-3 py-2">
+                                    <i class="bi bi-stars me-1"></i>{{ item.score }}% Match
+                                </span>
+                            </div>
+                            
+                            <div class="d-flex flex-wrap gap-3 mb-3 text-muted small">
+                                <span><i class="bi bi-geo-alt me-1"></i>{{ item.job.location }}</span>
+                                <span><i class="bi bi-briefcase me-1"></i>{{ item.job.job_type }}</span>
+                                {% if item.job.salary %}
+                                <span><i class="bi bi-currency-dollar me-1"></i>{{ item.job.salary }}</span>
+                                {% endif %}
+                                <span><i class="bi bi-calendar me-1"></i>Posted {{ item.job.created_at|timesince }} ago</span>
+                            </div>
+                            
+                            <p class="text-secondary small mb-2">{{ item.job.description|truncatewords:30 }}</p>
+                            
+                            {% if item.reason %}
+                            <div class="alert alert-success border-0 py-2 px-3 small mb-3">
+                                <i class="bi bi-check-circle me-1"></i>{{ item.reason|linebreaksbr }}
+                            </div>
+                            {% endif %}
+                            {% if item.improvements %}
+                            <div class="alert alert-warning border-0 py-2 px-3 small mb-3">
+                                <i class="bi bi-lightbulb me-1"></i>Improve by learning: {{ item.improvements|join:", " }}
+                            </div>
+                            {% endif %}
+                            
+                            {% if item.job.skills_required %}
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                {% for skill in item.job.skills_required.split|slice:":3" %}
+                                <span class="badge bg-light text-dark border small">{{ skill|cut:"," }}</span>
+                                {% endfor %}
+                                {% if item.job.skills_required.split|length > 3 %}
+                                <span class="badge bg-light text-dark border small">+{{ item.job.skills_required.split|length|add:"-3" }} more</span>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'jobs:job_detail' item.job.id %}" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-eye me-1"></i>View Details
+                                </a>
+                                <a href="{% url 'jobs:apply_job' item.job.id %}" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-send me-1"></i>Apply Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-person-gear display-4 text-muted mb-3 d-block"></i>
+                    <h6 class="fw-bold">Complete Your Profile</h6>
+                    <p class="text-muted mb-3">Add your skills and experience to get personalized job recommendations!</p>
+                    <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary">
+                        <i class="bi bi-pencil me-2"></i>Complete Profile
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Recent Applications Section -->
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-header bg-white border-0 py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-file-earmark-text text-primary me-2"></i>Your Recent Applications
+                    </h5>
+                    <a href="{% url 'jobs:my_applications' %}" class="btn btn-link text-decoration-none p-0">
+                        View All <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if recent_applications %}
+                <div class="list-group list-group-flush">
+                    {% for app in recent_applications %}
+                    <div class="list-group-item px-0 py-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <h6 class="mb-1 fw-semibold">{{ app.job.title }}</h6>
+                                <div class="text-muted small">
+                                    <span>{{ app.job.company }}</span>
+                                    <span class="mx-2">•</span>
+                                    <span>Applied {{ app.applied_at|timesince }} ago</span>
+                                </div>
+                            </div>
+                            <span class="badge {% if app.status == 'pending' %}bg-warning-subtle text-warning{% elif app.status == 'accepted' %}bg-success-subtle text-success{% elif app.status == 'rejected' %}bg-danger-subtle text-danger{% else %}bg-info-subtle text-info{% endif %} rounded-pill px-3 py-2">
+                                {{ app.get_status_display }}
+                            </span>
+                        </div>
+                        {% if app.status == 'rejected' and app.rejection_reason %}
+                        <div class="alert alert-danger border-0 rounded-3 mt-2 mb-0 py-2 px-3">
+                            <small><i class="bi bi-info-circle me-1"></i><strong>Recruiter Feedback:</strong> {{ app.rejection_reason|truncatewords:20 }}</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="bi bi-file-earmark-x display-4 text-muted mb-3 d-block"></i>
+                    <h6 class="fw-bold">No Applications Yet</h6>
+                    <p class="text-muted mb-3">Start exploring job opportunities and submit your applications!</p>
+                    <a href="{% url 'jobs:browse_jobs' %}" class="btn btn-primary">
+                        <i class="bi bi-search me-2"></i>Browse Jobs
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <!-- Profile Card -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body text-center py-4">
+                <div class="avatar-lg mx-auto mb-3">
+                    <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white fs-3 fw-bold" style="width: 80px; height: 80px;">
+                        {{ user.first_name|first|default:user.username|first }}
+                    </div>
+                </div>
+                <h5 class="fw-bold mb-1">{{ user.get_full_name|default:user.username }}</h5>
+                {% if user.profile.headline %}
+                <p class="text-muted small mb-3">{{ user.profile.headline }}</p>
+                {% endif %}
+                
+                <div class="row g-3 mb-4">
+                    <div class="col-6">
+                        <div class="bg-light rounded-3 p-3">
+                            <div class="h4 fw-bold text-primary mb-0">{{ total_applications }}</div>
+                            <div class="small text-muted">Applications</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="bg-light rounded-3 p-3">
+                            <div class="h4 fw-bold text-primary mb-0">{{ profile_completion }}%</div>
+                            <div class="small text-muted">Profile</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="{% url 'accounts:edit_profile' %}" class="btn btn-outline-primary w-100">
+                    <i class="bi bi-pencil me-2"></i>Edit Profile
+                </a>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-header bg-white border-0 py-3">
+                <h6 class="mb-0 fw-bold">Quick Links</h6>
+            </div>
+            <div class="card-body pt-0">
+                <div class="list-group list-group-flush">
+                    <a href="{% url 'jobs:browse_jobs' %}" class="list-group-item list-group-item-action px-0 py-3 d-flex align-items-center border-0">
+                        <i class="bi bi-search text-primary me-3 fs-5"></i>
+                        <span>Browse All Jobs</span>
+                        <i class="bi bi-chevron-right ms-auto text-muted"></i>
+                    </a>
+                    <a href="{% url 'jobs:my_applications' %}" class="list-group-item list-group-item-action px-0 py-3 d-flex align-items-center border-0">
+                        <i class="bi bi-file-text text-primary me-3 fs-5"></i>
+                        <span>My Applications</span>
+                        <i class="bi bi-chevron-right ms-auto text-muted"></i>
+                    </a>
+                    <a href="{% url 'accounts:profile' %}" class="list-group-item list-group-item-action px-0 py-3 d-flex align-items-center border-0">
+                        <i class="bi bi-person text-primary me-3 fs-5"></i>
+                        <span>View Profile</span>
+                        <i class="bi bi-chevron-right ms-auto text-muted"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Premium Dashboard Styling */
+    .card {
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .card:hover {
+        border-color: rgba(0, 230, 118, 0.3);
+        box-shadow: 0 15px 40px rgba(11, 87, 208, 0.12) !important;
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.05), rgba(0, 230, 118, 0.03)) !important;
+        border-bottom: 2px solid rgba(11, 87, 208, 0.1) !important;
+    }
+    
+    .hover-shadow {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hover-shadow::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.03), rgba(0, 230, 118, 0.02));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        border-radius: 1rem;
+    }
+    
+    .hover-shadow:hover {
+        box-shadow: 0 15px 45px rgba(11, 87, 208, 0.15) !important;
+        transform: translateY(-5px) scale(1.01);
+        border-color: rgba(0, 230, 118, 0.4) !important;
+    }
+    
+    .hover-shadow:hover::before {
+        opacity: 1;
+    }
+    
+    .badge {
+        font-weight: 700;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        border: 1px solid;
+        transition: all 0.3s ease;
+    }
+    
+    .bg-warning-subtle {
+        background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 193, 7, 0.08)) !important;
+        border-color: rgba(255, 193, 7, 0.3) !important;
+        color: #d97706 !important;
+    }
+    
+    .bg-success-subtle {
+        background: linear-gradient(135deg, rgba(0, 230, 118, 0.15), rgba(0, 230, 118, 0.08)) !important;
+        border-color: rgba(0, 230, 118, 0.3) !important;
+        color: #00a36c !important;
+    }
+    
+    .bg-danger-subtle {
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.15), rgba(220, 53, 69, 0.08)) !important;
+        border-color: rgba(220, 53, 69, 0.3) !important;
+        color: #dc3545 !important;
+    }
+    
+    .bg-info-subtle {
+        background: linear-gradient(135deg, rgba(77, 141, 255, 0.15), rgba(77, 141, 255, 0.08)) !important;
+        border-color: rgba(77, 141, 255, 0.3) !important;
+        color: #4D8DFF !important;
+    }
+    
+    .bg-primary-subtle {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.15), rgba(11, 87, 208, 0.08)) !important;
+        border-color: rgba(11, 87, 208, 0.3) !important;
+        color: #0B57D0 !important;
+    }
+    
+    .badge:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Enhanced Buttons */
+    .btn {
+        font-weight: 700;
+        padding: 0.6rem 1.5rem;
+        border-radius: 10px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        border: none;
+        box-shadow: 0 4px 15px rgba(11, 87, 208, 0.3);
+    }
+    
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .btn-primary:hover {
+        box-shadow: 0 6px 20px rgba(11, 87, 208, 0.4), 0 0 30px rgba(0, 230, 118, 0.2);
+        transform: translateY(-2px) scale(1.03);
+    }
+    
+    .btn-primary:hover::before {
+        left: 100%;
+    }
+    
+    .btn-outline-primary {
+        color: #0B57D0;
+        border: 2px solid #0B57D0;
+        background: transparent;
+    }
+    
+    .btn-outline-primary::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: -1;
+    }
+    
+    .btn-outline-primary:hover {
+        color: #ffffff;
+        border-color: #0B57D0;
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 6px 20px rgba(11, 87, 208, 0.3);
+    }
+    
+    .btn-outline-primary:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .btn-sm {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Profile Avatar */
+    .avatar-lg .rounded-circle {
+        background: linear-gradient(135deg, #0B57D0, #00E676) !important;
+        box-shadow: 0 10px 30px rgba(11, 87, 208, 0.4);
+        animation: avatarGlow 3s ease-in-out infinite;
+    }
+    
+    @keyframes avatarGlow {
+        0%, 100% {
+            box-shadow: 0 10px 30px rgba(11, 87, 208, 0.4);
+        }
+        50% {
+            box-shadow: 0 15px 40px rgba(0, 230, 118, 0.5);
+        }
+    }
+    
+    /* Quick Links */
+    .list-group-item {
+        border: none !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 10px !important;
+        margin-bottom: 0.5rem;
+    }
+    
+    .list-group-item:hover {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.08), rgba(0, 230, 118, 0.05)) !important;
+        transform: translateX(8px);
+        box-shadow: 0 4px 12px rgba(11, 87, 208, 0.1);
+    }
+    
+    .list-group-item i {
+        transition: all 0.3s ease;
+    }
+    
+    .list-group-item:hover i {
+        color: #00E676 !important;
+        transform: scale(1.2) rotate(5deg);
+    }
+    
+    /* Stats Cards */
+    .bg-light {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.08), rgba(0, 230, 118, 0.05)) !important;
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .bg-light:hover {
+        border-color: rgba(0, 230, 118, 0.3);
+        box-shadow: 0 6px 20px rgba(11, 87, 208, 0.15);
+        transform: translateY(-3px);
+    }
+    
+    .bg-light .h4 {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    /* Alert Styles */
+    .alert {
+        border-radius: 10px;
+        border: 2px solid;
+        padding: 0.8rem 1rem;
+        font-weight: 500;
+    }
+    
+    .alert-success {
+        background: linear-gradient(135deg, rgba(0, 230, 118, 0.12), rgba(0, 230, 118, 0.05));
+        border-color: rgba(0, 230, 118, 0.3);
+        color: #00a36c;
+    }
+    
+    .alert-danger {
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.12), rgba(220, 53, 69, 0.05));
+        border-color: rgba(220, 53, 69, 0.3);
+        color: #dc3545;
+    }
+    
+    /* Icon Animations */
+    .bi-stars {
+        animation: starRotate 4s ease-in-out infinite;
+    }
+    
+    @keyframes starRotate {
+        0%, 100% {
+            transform: rotate(0deg) scale(1);
+        }
+        50% {
+            transform: rotate(15deg) scale(1.1);
+        }
+    }
+    
+    /* Empty State Icons */
+    .display-4 {
+        animation: iconBounce 2s ease-in-out infinite;
+    }
+    
+    @keyframes iconBounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+    
+    /* Skill Badges */
+    .badge.bg-light {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.1), rgba(0, 230, 118, 0.05)) !important;
+        border: 2px solid rgba(11, 87, 208, 0.2) !important;
+        color: #0B57D0 !important;
+        transition: all 0.3s ease;
+    }
+    
+    .badge.bg-light:hover {
+        background: linear-gradient(135deg, #0B57D0, #00E676) !important;
+        color: white !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(11, 87, 208, 0.3);
+    }
+</style>
+{% endblock %}

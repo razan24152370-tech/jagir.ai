@@ -1,0 +1,509 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}Browse Jobs - Pro Recruiter AI{% endblock %}
+
+{% block page_title %}Browse Jobs{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <!-- Search Bar -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+                <form method="get" class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input type="text" name="q" class="form-control border-start-0 ps-0" 
+                                   placeholder="Search jobs by title, company, or skills..." 
+                                   value="{{ request.GET.q }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <select name="type" class="form-select">
+                            <option value="">All Job Types</option>
+                            <option value="full_time" {% if request.GET.type == 'full_time' %}selected{% endif %}>Full Time</option>
+                            <option value="part_time" {% if request.GET.type == 'part_time' %}selected{% endif %}>Part Time</option>
+                            <option value="contract" {% if request.GET.type == 'contract' %}selected{% endif %}>Contract</option>
+                            <option value="internship" {% if request.GET.type == 'internship' %}selected{% endif %}>Internship</option>
+                            <option value="remote" {% if request.GET.type == 'remote' %}selected{% endif %}>Remote</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-filter me-1"></i>Filter
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Jobs List -->
+        {% if recommended_jobs %}
+        <div class="mb-5">
+            <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-stars text-warning me-2" style="font-size: 1.3rem;"></i>
+                <h5 class="mb-0 fw-bold">Recommended For You</h5>
+                <small class="text-muted ms-2">Based on your profile</small>
+            </div>
+            <div class="d-flex flex-column gap-3 mb-4">
+                {% for item in recommended_jobs %}
+                <div class="card border-2 border-warning-subtle shadow-sm rounded-4 hover-shadow" style="border-left: 4px solid #ffc107;">
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h5 class="mb-1">
+                                            <a href="{% url 'jobs:job_detail' item.job.id %}" class="text-decoration-none text-dark fw-bold hover-primary">
+                                                {{ item.job.title }}
+                                            </a>
+                                        </h5>
+                                        <p class="text-muted mb-0">{{ item.job.company }}</p>
+                                    </div>
+                                    <span class="badge bg-warning-subtle text-warning rounded-pill px-3 py-2 fs-6">
+                                        <i class="bi bi-stars me-1"></i>{{ item.score }}% Match
+                                    </span>
+                                </div>
+                                
+                                <div class="d-flex flex-wrap gap-3 mb-3 text-muted small">
+                                    <span><i class="bi bi-geo-alt me-1"></i>{{ item.job.location }}</span>
+                                    <span><i class="bi bi-briefcase me-1"></i>{{ item.job.job_type }}</span>
+                                    {% if item.job.salary %}
+                                    <span><i class="bi bi-currency-dollar me-1"></i>{{ item.job.salary }}</span>
+                                    {% endif %}
+                                    <span><i class="bi bi-calendar me-1"></i>Posted {{ item.job.created_at|timesince }} ago</span>
+                                </div>
+                                
+                                <p class="text-secondary mb-3">{{ item.job.description|truncatewords:35 }}</p>
+                                
+                                {% if item.reason %}
+                                <div class="alert alert-success border-0 py-2 px-3 mb-0 small">
+                                    <i class="bi bi-check-circle me-1"></i>{{ item.reason|linebreaksbr }}
+                                </div>
+                                {% endif %}
+                                {% if item.improvements %}
+                                <div class="alert alert-warning border-0 py-2 px-3 mt-2 small">
+                                    <i class="bi bi-lightbulb me-1"></i>Improve by learning: {{ item.improvements|join:", " }}
+                                </div>
+                                {% endif %}
+                                
+                                {% if item.job.skills_required %}
+                                <div class="d-flex flex-wrap gap-2 mt-3">
+                                    {% for skill in item.job.skills_required.split %}
+                                    <span class="badge bg-light text-dark border">{{ skill|cut:"," }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-lg-4 d-flex flex-column justify-content-center align-items-lg-end mt-3 mt-lg-0">
+                                <div class="d-flex gap-2">
+                                    <a href="{% url 'jobs:job_detail' item.job.id %}" class="btn btn-outline-primary">
+                                        <i class="bi bi-eye me-1"></i>Details
+                                    </a>
+                                    <a href="{% url 'jobs:apply_job' item.job.id %}" class="btn btn-primary">
+                                        <i class="bi bi-send me-1"></i>Apply
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if other_jobs %}
+        <div>
+            <h5 class="mb-3 fw-bold">Other Available Jobs</h5>
+            <div class="d-flex flex-column gap-3">
+                {% for item in other_jobs %}
+                <div class="card border-0 shadow-sm rounded-4 hover-shadow">
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h5 class="mb-1">
+                                            <a href="{% url 'jobs:job_detail' item.job.id %}" class="text-decoration-none text-dark fw-bold hover-primary">
+                                                {{ item.job.title }}
+                                            </a>
+                                        </h5>
+                                        <p class="text-muted mb-0">{{ item.job.company }}</p>
+                                    </div>
+                                    {% if item.score > 0 %}
+                                    <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 fs-6">
+                                        <i class="bi bi-stars me-1"></i>{{ item.score }}% Match
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="d-flex flex-wrap gap-3 mb-3 text-muted small">
+                                    <span><i class="bi bi-geo-alt me-1"></i>{{ item.job.location }}</span>
+                                    <span><i class="bi bi-briefcase me-1"></i>{{ item.job.job_type }}</span>
+                                    {% if item.job.salary %}
+                                    <span><i class="bi bi-currency-dollar me-1"></i>{{ item.job.salary }}</span>
+                                    {% endif %}
+                                    <span><i class="bi bi-calendar me-1"></i>Posted {{ item.job.created_at|timesince }} ago</span>
+                                </div>
+                                
+                                <p class="text-secondary mb-3">{{ item.job.description|truncatewords:35 }}</p>
+                                
+                                {% if item.job.skills_required %}
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for skill in item.job.skills_required.split %}
+                                    <span class="badge bg-light text-dark border">{{ skill|cut:"," }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {% if item.improvements %}
+                                <div class="alert alert-warning border-0 py-2 px-3 mt-2 small">
+                                    <i class="bi bi-lightbulb me-1"></i>Improve by learning: {{ item.improvements|join:", " }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-lg-4 d-flex flex-column justify-content-center align-items-lg-end mt-3 mt-lg-0">
+                                <div class="d-flex gap-2">
+                                    <a href="{% url 'jobs:job_detail' item.job.id %}" class="btn btn-outline-primary">
+                                        <i class="bi bi-eye me-1"></i>Details
+                                    </a>
+                                    <a href="{% url 'jobs:apply_job' item.job.id %}" class="btn btn-primary">
+                                        <i class="bi bi-send me-1"></i>Apply
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        
+        {% if not recommended_jobs and not other_jobs %}
+        <!-- Empty State -->
+        <div class="empty-state">
+            <i class="bi bi-search"></i>
+            <h3>No Jobs Found</h3>
+            <p>Try adjusting your search criteria or check back later for new openings.</p>
+            <a href="{% url 'jobs:browse_jobs' %}" class="btn btn-primary">
+                <i class="bi bi-arrow-clockwise me-2"></i>Clear Filters
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    /* Premium Browse Jobs Styling */
+    .card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.02), rgba(0, 230, 118, 0.02));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+    
+    .card:hover::before {
+        opacity: 1;
+    }
+    
+    .bg-primary-subtle {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.15), rgba(11, 87, 208, 0.08)) !important;
+        border: 1px solid rgba(11, 87, 208, 0.3) !important;
+        color: #0B57D0 !important;
+        transition: all 0.3s ease;
+    }
+    
+    .bg-warning-subtle {
+        background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.1)) !important;
+        border: 1px solid rgba(255, 193, 7, 0.4) !important;
+        transition: all 0.3s ease;
+    }
+    
+    .hover-shadow {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid rgba(11, 87, 208, 0.1);
+    }
+    
+    .hover-shadow:hover {
+        box-shadow: 0 20px 50px rgba(11, 87, 208, 0.15) !important;
+        transform: translateY(-5px) scale(1.01);
+        border-color: rgba(0, 230, 118, 0.4);
+    }
+    
+    .border-warning-subtle {
+        border-color: rgba(255, 193, 7, 0.3) !important;
+    }
+    
+    .hover-shadow.border-warning-subtle:hover {
+        border-left-color: #ffc107 !important;
+        box-shadow: 0 20px 50px rgba(255, 193, 7, 0.2) !important;
+    }
+    
+    .hover-primary {
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .hover-primary::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #0B57D0, #00E676);
+        transition: width 0.3s ease;
+    }
+    
+    .hover-primary:hover {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .hover-primary:hover::after {
+        width: 100%;
+    }
+    
+    /* Enhanced Search Bar */
+    .form-control,
+    .form-select {
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 10px;
+        padding: 0.7rem 1rem;
+    }
+    
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #0B57D0;
+        box-shadow: 0 0 0 0.3rem rgba(11, 87, 208, 0.15), 0 4px 15px rgba(11, 87, 208, 0.1);
+        transform: translateY(-1px);
+    }
+    
+    .input-group-text {
+        border: 2px solid rgba(11, 87, 208, 0.1);
+        border-right: none;
+        background: white;
+        border-radius: 10px 0 0 10px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control.border-start-0 {
+        border-left: none;
+        border-radius: 0 10px 10px 0;
+    }
+    
+    .input-group:focus-within .input-group-text {
+        border-color: #0B57D0;
+    }
+    
+    /* Enhanced Buttons */
+    .btn {
+        font-weight: 700;
+        padding: 0.6rem 1.5rem;
+        border-radius: 10px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        border: none;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        box-shadow: 0 4px 15px rgba(11, 87, 208, 0.3);
+    }
+    
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .btn-primary:hover {
+        box-shadow: 0 6px 20px rgba(11, 87, 208, 0.4), 0 0 30px rgba(0, 230, 118, 0.2);
+        transform: translateY(-2px) scale(1.03);
+    }
+    
+    .btn-primary:hover::before {
+        left: 100%;
+    }
+    
+    .btn-outline-primary {
+        color: #0B57D0;
+        border: 2px solid #0B57D0;
+        background: transparent;
+    }
+    
+    .btn-outline-primary::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: -1;
+    }
+    
+    .btn-outline-primary:hover {
+        color: #ffffff;
+        border-color: #0B57D0;
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 6px 20px rgba(11, 87, 208, 0.3);
+    }
+    
+    .btn-outline-primary:hover::before {
+        transform: scaleX(1);
+    }
+    
+    /* Enhanced Badges */
+    .badge {
+        font-weight: 700;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+        border: 1px solid;
+    }
+    
+    .badge:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .badge.bg-light {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.1), rgba(0, 230, 118, 0.05)) !important;
+        border-color: rgba(11, 87, 208, 0.2) !important;
+        color: #0B57D0 !important;
+    }
+    
+    .badge.bg-light:hover {
+        background: linear-gradient(135deg, #0B57D0, #00E676) !important;
+        color: white !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(11, 87, 208, 0.3);
+    }
+    
+    /* Section Headers */
+    h5.fw-bold {
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+    
+    h5.fw-bold::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #0B57D0, #00E676);
+        border-radius: 2px;
+    }
+    
+    /* Alert Enhancement */
+    .alert-success {
+        background: linear-gradient(135deg, rgba(0, 230, 118, 0.12), rgba(0, 230, 118, 0.05));
+        border: 1px solid rgba(0, 230, 118, 0.3);
+        border-radius: 8px;
+        color: #00a36c;
+    }
+    
+    /* Icon Animations */
+    .bi-stars {
+        animation: starPulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes starPulse {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+    }
+    
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+    }
+    
+    .empty-state i {
+        font-size: 5rem;
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1.5rem;
+        animation: iconBounce 2s ease-in-out infinite;
+    }
+    
+    @keyframes iconBounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-15px);
+        }
+    }
+    
+    .empty-state h3 {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+    }
+    
+    /* Job Meta Info */
+    .text-muted.small {
+        font-weight: 500;
+    }
+    
+    .text-muted.small span {
+        transition: color 0.3s ease;
+    }
+    
+    .text-muted.small span:hover {
+        color: #0B57D0 !important;
+    }
+    
+    /* Card Body Padding */
+    .card-body {
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Search Card Enhancement */
+    .card.border-0:first-child {
+        background: linear-gradient(135deg, rgba(11, 87, 208, 0.03), rgba(0, 230, 118, 0.02));
+        border: 2px solid rgba(11, 87, 208, 0.1) !important;
+    }
+</style>
+{% endblock %}
