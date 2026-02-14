@@ -23,6 +23,11 @@ ALLOWED_HOSTS.append('.onrender.com')
 RENDER_EXTERNAL_HOSTNAME = config('RENDER_EXTERNAL_HOSTNAME', default='')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    # Trust the Render domain for CSRF
+    CSRF_TRUSTED_ORIGINS = [f"https://{RENDER_EXTERNAL_HOSTNAME}"]
+else:
+    # Fallback for the known primary URL
+    CSRF_TRUSTED_ORIGINS = ["https://jagir-ai.onrender.com"]
 
 
 # Application definition
