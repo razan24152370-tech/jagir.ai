@@ -20,6 +20,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from .health import health_check
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +29,7 @@ urlpatterns = [
     path('about/', views.about_us, name='about_us'),
     path('contact/', views.contact_us, name='contact_us'),
     path('admin-stats/', views.admin_dashboard_stats, name='admin_dashboard_stats'),
+    path('health/', health_check, name='health_check'),  # Diagnostic endpoint
     path('', views.project_home, name='project_home'),
 ]
 
