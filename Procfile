@@ -1,1 +1,1 @@
-web: gunicorn ProRecruiterAI.wsgi:application --workers 1 --threads 2 --timeout 120 --max-requests 1000 --max-requests-jitter 50
+web: gunicorn ProRecruiterAI.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --timeout 120
