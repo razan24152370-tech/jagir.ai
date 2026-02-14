@@ -1,6 +1,17 @@
+Django>=5.0,<6.0
+gunicorn>=21.2.0
+psycopg2-binary>=2.9.9
+whitenoise>=6.6.0
+dj-database-url>=2.1.0
+python-decouple>=3.8
+
+# AI/ML Dependencies
 sentence-transformers==3.0.1
 pypdf>=4.2.0
 pandas>=2.2.2
 numpy>=1.26.4
 scikit-learn>=1.5.1
 tqdm>=4.66.5
+
+# Additional Production Dependencies
+Pillow>=10.0.0
