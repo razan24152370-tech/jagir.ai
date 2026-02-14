@@ -47,18 +47,6 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
-        .btn-signup-zenith {
-            background: var(--zenith-cyan) !important;
-            color: #050a18 !important; /* Deep dark contrast */
-            font-weight: 600 !important;
-            border: none !important;
-            box-shadow: 0 0 20px rgba(0, 230, 118, 0.3);
-        }
-        .btn-signup-zenith:hover {
-            background: #00ff88 !important; /* Brighter cyan on hover */
-            box-shadow: 0 0 30px rgba(0, 230, 118, 0.5);
-            transform: translateY(-2px);
-        }
         .glass-link {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -396,7 +384,8 @@
     }
     .navbar-brand img {
         transition: transform 0.3s ease;
-        mix-blend-mode: screen; /* Optimization for dark glass backgrounds */
+        filter: grayscale(1) contrast(200%) invert(1);
+        mix-blend-mode: screen; 
     }
     .navbar-brand:hover img {
         transform: scale(1.05);
@@ -493,7 +482,7 @@
     .btn-signup-zenith {
         background: linear-gradient(135deg, var(--zenith-cyan), var(--ai-green));
         border: none;
-        color: #000 !important;
+        color: #fff !important;
         font-weight: 700;
         position: relative;
         overflow: hidden;

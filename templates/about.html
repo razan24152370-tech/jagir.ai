@@ -1,689 +1,417 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}About Us - Pro Recruiter AI{% endblock %}
 
-{% block extra_css %}
+{% block content %}
+<div class="about-page-wrapper">
+    <!-- Hero Section -->
+    <section class="zenith-hero position-relative py-5 overflow-hidden">
+        <div class="container position-relative z-2 text-center pt-5">
+            <div class="zenith-badge mb-4 d-inline-block">
+                <i class="bi bi-stars me-2"></i>Our Vision
+            </div>
+            <h1 class="display-3 fw-bold mb-4 text-white title-glow">
+                Revolutionizing <span class="text-gradient">Human Potential.</span>
+            </h1>
+            <p class="text-muted fs-5 mb-5 mx-auto" style="max-width: 700px; line-height: 1.8;">
+                We connect visionary companies with exceptional talent through the power of ethical, precision AI.
+            </p>
+        </div>
+
+        <!-- Animated Background Orbs -->
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="py-5 position-relative">
+        <div class="container">
+            <div class="glass-card p-5 rounded-5 border-0 position-relative overflow-hidden">
+                <div class="row align-items-center g-5 position-relative z-2">
+                    <div class="col-lg-6">
+                        <h2 class="display-6 fw-bold text-white mb-4">Our Mission</h2>
+                        <p class="text-light-gray mb-4 fs-5" style="line-height: 1.8;">
+                            Pro Recruiter AI was founded on a simple premise: <span class="text-white fw-semibold">human potential is limitless, but finding it is hard.</span> Traditional hiring is slow, biased, and often inaccurate.
+                        </p>
+                        <p class="text-light-gray mb-5 fs-5" style="line-height: 1.8;">
+                            We use advanced artificial intelligence to bridge the gap. By analyzing millions of data points, we create matches that go beyond keywords—understanding the nuance of skills, culture, and ambition.
+                        </p>
+                        <a href="{% url 'accounts:jobseeker_signup' %}" class="btn btn-primary btn-lg rounded-pill px-5 py-3 glow-on-hover">
+                            Join the Revolution <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="position-relative">
+                            <div class="absolute-glow"></div>
+                            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" 
+                                 alt="Team Collaboration" 
+                                 class="img-fluid rounded-4 shadow-lg position-relative z-2" 
+                                 style="filter: contrast(1.1) saturate(1.1);">
+                            <!-- Floating Badge -->
+                            <div class="floating-badge glass-card p-3 rounded-4 d-flex align-items-center gap-3">
+                                <div class="icon-box bg-success bg-opacity-25 text-success rounded-circle p-2">
+                                    <i class="bi bi-check-lg fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-white mb-0 fw-bold">95% Match Rate</h6>
+                                    <small class="text-muted">AI Precision</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Background Decoration -->
+                <div class="grid-overlay"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4 justify-content-center">
+                <div class="col-6 col-md-3">
+                    <div class="glass-stat-card text-center p-4 rounded-4 h-100">
+                        <div class="display-4 fw-bold text-gradient mb-2">10K+</div>
+                        <div class="text-muted small text-uppercase letter-spacing-2">Jobs Posted</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="glass-stat-card text-center p-4 rounded-4 h-100">
+                        <div class="display-4 fw-bold text-gradient mb-2">50K+</div>
+                        <div class="text-muted small text-uppercase letter-spacing-2">Talent Pool</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="glass-stat-card text-center p-4 rounded-4 h-100">
+                        <div class="display-4 fw-bold text-gradient mb-2">5K+</div>
+                        <div class="text-muted small text-uppercase letter-spacing-2">Companies</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="glass-stat-card text-center p-4 rounded-4 h-100">
+                        <div class="display-4 fw-bold text-gradient mb-2">95%</div>
+                        <div class="text-muted small text-uppercase letter-spacing-2">Accuracy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold text-white mb-3">Core <span class="text-gradient">Values</span></h2>
+                <p class="text-muted">The principles that drive our innovation.</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="glass-feature-card p-5 rounded-4 h-100">
+                        <div class="icon-wrapper mb-4">
+                            <i class="bi bi-shield-check display-5 text-cyan"></i>
+                        </div>
+                        <h3 class="h4 text-white fw-bold mb-3">Integrity First</h3>
+                        <p class="text-light-gray mb-0">We believe in transparent, unbiased AI. We build tools that promote fairness in hiring for everyone, eliminating systemic bias.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-feature-card p-5 rounded-4 h-100">
+                        <div class="icon-wrapper mb-4">
+                            <i class="bi bi-lightbulb display-5 text-violet"></i>
+                        </div>
+                        <h3 class="h4 text-white fw-bold mb-3">Constant Innovation</h3>
+                        <p class="text-light-gray mb-0">The world of work is changing. We stay ahead of the curve to provide the most advanced, future-proof tools possible.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-feature-card p-5 rounded-4 h-100">
+                        <div class="icon-wrapper mb-4">
+                            <i class="bi bi-people display-5 text-success"></i>
+                        </div>
+                        <h3 class="h4 text-white fw-bold mb-3">People Centric</h3>
+                        <p class="text-light-gray mb-0">Technology is our tool, but people are our purpose. We design for the human experience, putting candidates first.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-5 mb-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold text-white mb-3">Meet the <span class="text-gradient">Architects</span></h2>
+                <p class="text-muted">The visionaries behind Pro Recruiter AI.</p>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <!-- Manual Team Members -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="team-card position-relative rounded-4 overflow-hidden">
+                        <div class="team-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&q=80" alt="Alex Rivera" class="img-fluid w-100">
+                            <div class="team-overlay d-flex flex-column justify-content-end p-4">
+                                <h4 class="text-white fw-bold mb-1">Alex Rivera</h4>
+                                <span class="text-cyan small text-uppercase letter-spacing-1 fw-bold">Co-Founder & CEO</span>
+                                <div class="d-flex gap-3 mt-3 opacity-0 social-links">
+                                    <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
+                                    <a href="#" class="text-white"><i class="bi bi-twitter-x"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="team-card position-relative rounded-4 overflow-hidden">
+                        <div class="team-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&q=80" alt="Sarah Jenkins" class="img-fluid w-100">
+                            <div class="team-overlay d-flex flex-column justify-content-end p-4">
+                                <h4 class="text-white fw-bold mb-1">Sarah Jenkins</h4>
+                                <span class="text-violet small text-uppercase letter-spacing-1 fw-bold">CTO</span>
+                                <div class="d-flex gap-3 mt-3 opacity-0 social-links">
+                                    <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
+                                    <a href="#" class="text-white"><i class="bi bi-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="team-card position-relative rounded-4 overflow-hidden">
+                        <div class="team-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=500&q=80" alt="Marcus Thorne" class="img-fluid w-100">
+                            <div class="team-overlay d-flex flex-column justify-content-end p-4">
+                                <h4 class="text-white fw-bold mb-1">Marcus Thorne</h4>
+                                <span class="text-success small text-uppercase letter-spacing-1 fw-bold">Head of Product</span>
+                                <div class="d-flex gap-3 mt-3 opacity-0 social-links">
+                                    <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
+                                    <a href="#" class="text-white"><i class="bi bi-twitter-x"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="team-card position-relative rounded-4 overflow-hidden">
+                        <div class="team-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=500&q=80" alt="Elena Rodriguez" class="img-fluid w-100">
+                            <div class="team-overlay d-flex flex-column justify-content-end p-4">
+                                <h4 class="text-white fw-bold mb-1">Elena Rodriguez</h4>
+                                <span class="text-cyan small text-uppercase letter-spacing-1 fw-bold">Lead Designer</span>
+                                <div class="d-flex gap-3 mt-3 opacity-0 social-links">
+                                    <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
+                                    <a href="#" class="text-white"><i class="bi bi-dribbble"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
 <style>
-    .about-hero {
-        background: linear-gradient(135deg, #0B57D0 0%, #000000 50%, #1a1a2e 100%);
-        padding: 6rem 0;
-        color: white;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
+    /* Premium Page Scoped Styles */
+    .about-page-wrapper {
+        background: radial-gradient(circle at 50% 0%, #0B1A36 0%, #050A18 40%);
+        min-height: 100vh;
+        overflow-x: hidden;
     }
-    
-    .about-hero::before {
-        content: '';
-        position: absolute;
-        top: -100px;
-        left: -100px;
-        width: 500px;
-        height: 500px;
-        background: radial-gradient(circle, rgba(0, 230, 118, 0.12) 0%, transparent 70%);
-        border-radius: 50%;
-        animation: float 25s ease-in-out infinite;
-    }
-    
-    .about-hero::after {
-        content: '';
-        position: absolute;
-        bottom: -150px;
-        right: -150px;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(circle, rgba(77, 141, 255, 0.1) 0%, transparent 70%);
-        border-radius: 50%;
-        animation: float 30s ease-in-out infinite reverse;
-    }
-    
-    @keyframes float {
-        0%, 100% {
-            transform: translate(0, 0) scale(1);
-        }
-        50% {
-            transform: translate(30px, 30px) scale(1.1);
-        }
-    }
-    
-    .about-hero h1 {
-        font-size: 3.5rem;
-        font-weight: 900;
-        margin-bottom: 1.5rem;
-        position: relative;
-        z-index: 1;
-        text-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        animation: fadeInUp 1s ease;
-    }
-    
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .about-hero .highlight {
-        background: linear-gradient(135deg, #00E676 0%, #4D8DFF 100%);
+
+    /* Typography */
+    .text-gradient {
+        background: linear-gradient(135deg, #00F2FF 0%, #00E676 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        animation: gradientFlow 5s ease infinite;
     }
-    
-    @keyframes gradientFlow {
-        0%, 100% {
-            filter: drop-shadow(0 0 20px rgba(0, 230, 118, 0.4));
-        }
-        50% {
-            filter: drop-shadow(0 0 30px rgba(0, 230, 118, 0.6));
-        }
-    }
-    
-    .about-hero p {
-        font-size: 1.3rem;
-        color: rgba(255,255,255,0.9);
-        max-width: 750px;
-        margin: 0 auto;
-        position: relative;
-        z-index: 1;
-        line-height: 1.8;
-        font-weight: 500;
-        animation: fadeInUp 1s ease 0.2s backwards;
-    }
-    
-    .mission-section {
-        padding: 6rem 0;
-        background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .mission-section::before {
-        content: '';
-        position: absolute;
-        top: -200px;
-        right: -200px;
-        width: 500px;
-        height: 500px;
-        background: radial-gradient(circle, rgba(11, 87, 208, 0.05) 0%, transparent 70%);
-        border-radius: 50%;
-        animation: float 30s ease-in-out infinite;
-    }
-    
-    .mission-content {
-        position: relative;
-        z-index: 1;
-    }
-    
-    .mission-content h2 {
-        font-size: 2.5rem;
-        font-weight: 900;
-        background: linear-gradient(135deg, #0B57D0, #00E676);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin-bottom: 2rem;
-        position: relative;
-        display: inline-block;
-    }
-    
-    .mission-content h2::after {
-        content: '';
-        position: absolute;
-        bottom: -8px;
-        left: 0;
-        width: 80%;
-        height: 4px;
-        background: linear-gradient(90deg, #00E676, transparent);
-        border-radius: 2px;
-    }
-    
-    .mission-content p {
-        font-size: 1.15rem;
-        color: #475569;
-        line-height: 1.9;
-        margin-bottom: 1.5rem;
-        font-weight: 500;
-    }
-    
-    .mission-content .btn {
-        background: linear-gradient(135deg, #0B57D0, #00E676);
-        border: none;
-        padding: 1rem 2.5rem;
-        font-weight: 700;
-        font-size: 1.1rem;
+    .text-light-gray { color: #cfd8e3; }
+    .text-cyan { color: #00F2FF; }
+    .text-violet { color: #7000FF; }
+    .text-success { color: #00E676 !important; }
+    .letter-spacing-2 { letter-spacing: 2px; }
+    .letter-spacing-1 { letter-spacing: 1px; }
+
+    /* Zenith Badge */
+    .zenith-badge {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 8px 20px;
         border-radius: 50px;
-        box-shadow: 0 15px 40px rgba(11, 87, 208, 0.3);
-        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        text-decoration: none !important;
+        font-size: 0.85rem;
+        color: var(--zenith-cyan, #00F2FF);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+    }
+
+    /* Glass Card Standard */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+    }
+
+    /* Feature Cards */
+    .glass-feature-card {
+        background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+        border: 1px solid rgba(255,255,255,0.05);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
-    .mission-content .btn:hover {
-        transform: translateY(-8px) scale(1.05);
-        box-shadow: 0 20px 60px rgba(11, 87, 208, 0.4), 0 0 80px rgba(0, 230, 118, 0.3);
+    .glass-feature-card:hover {
+        transform: translateY(-10px);
+        background: linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+        border-color: rgba(0, 242, 255, 0.3);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     }
-    
-    .mission-content .btn i {
-        transition: transform 0.4s ease;
+
+    /* Stat Cards */
+    .glass-stat-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
     }
-    
-    .mission-content .btn:hover i {
-        transform: translateX(5px);
-    }
-    
-    .mission-image {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        z-index: 1;
-    }
-    
-    .mission-image img {
-        max-width: 100%;
-        height: auto;
-        filter: drop-shadow(0 20px 60px rgba(11, 87, 208, 0.3));
-        transition: all 0.5s ease;
-        animation: imageFloat 6s ease-in-out infinite;
-    }
-    
-    .mission-image img:hover {
-        filter: drop-shadow(0 30px 80px rgba(11, 87, 208, 0.4));
+    .glass-stat-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(0, 230, 118, 0.4);
         transform: scale(1.05);
     }
-    
-    @keyframes imageFloat {
-        0%, 100% {
-            transform: translateY(0);
-        }
-        50% {
-            transform: translateY(-20px);
-        }
-    }
-    
-    .values-section {
-        padding: 6rem 0;
-        background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .values-section::before {
-        content: '';
+
+    /* Image Styling */
+    .absolute-glow {
         position: absolute;
-        bottom: -100px;
-        left: -100px;
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(circle, rgba(0, 230, 118, 0.08) 0%, transparent 70%);
-        border-radius: 50%;
-        animation: float 28s ease-in-out infinite;
-    }
-    
-    .section-title {
-        font-size: 3rem;
-        font-weight: 900;
-        text-align: center;
-        margin-bottom: 4rem;
-        color: #000000;
-        position: relative;
+        top: 20%;
+        left: 20%;
+        width: 60%;
+        height: 60%;
+        background: radial-gradient(circle, rgba(0,242,255,0.2), transparent 70%);
+        filter: blur(60px);
         z-index: 1;
     }
     
-    .section-title span {
-        background: linear-gradient(135deg, #0B57D0, #00E676);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .value-card {
-        background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
-        border-radius: 24px;
-        padding: 2.5rem;
-        text-align: center;
-        height: 100%;
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08), 0 5px 20px rgba(11, 87, 208, 0.05);
-        transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        border: 2px solid transparent;
-        border-top: 3px solid transparent;
-        border-image: linear-gradient(135deg, rgba(11, 87, 208, 0.3), rgba(0, 230, 118, 0.3)) 1;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .value-card::before {
-        content: '';
+    .floating-badge {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(11, 87, 208, 0.08), rgba(0, 230, 118, 0.05));
-        opacity: 0;
-        transition: opacity 0.6s ease;
-        border-radius: 24px;
+        bottom: 30px;
+        left: -30px;
+        z-index: 3;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        background: rgba(11, 26, 54, 0.8);
+        border: 1px solid rgba(255,255,255,0.1);
+        animation: floatBadge 4s ease-in-out infinite;
     }
-    
-    .value-card:hover {
-        transform: translateY(-15px) scale(1.03);
-        box-shadow: 0 30px 80px rgba(11, 87, 208, 0.2), 0 15px 40px rgba(0, 230, 118, 0.15);
-        border-image: linear-gradient(135deg, #0B57D0, #00E676) 1;
+
+    @keyframes floatBadge {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
     }
-    
-    .value-card:hover::before {
-        opacity: 1;
-    }
-    
-    .value-icon {
-        width: 90px;
-        height: 90px;
-        background: linear-gradient(135deg, #0B57D0 0%, #00E676 100%);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 1.5rem;
-        position: relative;
-        box-shadow: 0 15px 40px rgba(11, 87, 208, 0.4);
-        transition: all 0.5s ease;
-        border: 3px solid rgba(255, 255, 255, 0.5);
-    }
-    
-    .value-card:hover .value-icon {
-        transform: scale(1.15) rotate(360deg);
-        box-shadow: 0 20px 60px rgba(11, 87, 208, 0.6), 0 0 80px rgba(0, 230, 118, 0.4);
-    }
-    
-    .value-icon i {
-        font-size: 2.2rem;
-        color: white;
-        position: relative;
-        z-index: 1;
-        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-    }
-    
-    .value-card h3 {
-        font-size: 1.4rem;
-        font-weight: 800;
-        color: #000000;
-        margin-bottom: 1rem;
-        position: relative;
-        z-index: 1;
-        transition: all 0.4s ease;
-    }
-    
-    .value-card:hover h3 {
-        background: linear-gradient(135deg, #0B57D0, #00E676);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .value-card p {
-        color: #64748b;
-        font-size: 1rem;
-        line-height: 1.7;
-        position: relative;
-        z-index: 1;
-        transition: color 0.4s ease;
-    }
-    
-    .value-card:hover p {
-        color: #475569;
-    }
-    
-    .team-section {
-        padding: 6rem 0;
-        background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .team-section::before {
-        content: '';
-        position: absolute;
-        top: -150px;
-        right: -150px;
-        width: 500px;
-        height: 500px;
-        background: radial-gradient(circle, rgba(77, 141, 255, 0.08) 0%, transparent 70%);
-        border-radius: 50%;
-        animation: float 32s ease-in-out infinite;
-    }
-    
+
+    /* Team Cards */
     .team-card {
-        background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-        border-radius: 20px;
-        padding: 2.5rem 2rem;
-        text-align: center;
-        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        border: 2px solid rgba(11, 87, 208, 0.1);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+        cursor: pointer;
+    }
+    
+    .team-image-wrapper {
         position: relative;
         overflow: hidden;
     }
     
-    .team-card::before {
-        content: '';
+    .team-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(0deg, #050A18 0%, transparent 80%);
+        opacity: 0.9;
+        transition: all 0.4s ease;
+    }
+    
+    .team-image-wrapper img {
+        transition: transform 0.6s ease;
+        filter: grayscale(100%);
+    }
+    
+    .team-card:hover img {
+        transform: scale(1.1);
+        filter: grayscale(0%);
+    }
+    
+    .social-links {
+        transform: translateY(20px);
+        transition: all 0.4s ease 0.1s;
+    }
+    
+    .team-card:hover .social-links {
+        opacity: 1 !important;
+        transform: translateY(0);
+    }
+
+    /* Background Orbs */
+    .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.4;
+        pointer-events: none;
+        z-index: 0;
+    }
+    
+    .orb-1 {
+        top: -10%;
+        left: -10%;
+        width: 60vw;
+        height: 60vw;
+        background: radial-gradient(circle, #0B57D0, transparent 70%);
+        animation: floatOrb 15s infinite ease-in-out;
+    }
+    
+    .orb-2 {
+        top: 20%;
+        right: -20%;
+        width: 50vw;
+        height: 50vw;
+        background: radial-gradient(circle, #7000FF, transparent 70%);
+        animation: floatOrb 18s infinite ease-in-out reverse;
+    }
+
+    @keyframes floatOrb {
+        0%, 100% { transform: translate(0, 0); }
+        50% { transform: translate(30px, 50px); }
+    }
+
+    .grid-overlay {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, rgba(11, 87, 208, 0.05), rgba(0, 230, 118, 0.03));
-        opacity: 0;
-        transition: opacity 0.5s ease;
+        background-image: 
+            linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        opacity: 0.5;
+        z-index: 0;
     }
     
-    .team-card:hover {
-        transform: translateY(-12px) scale(1.05);
-        box-shadow: 0 25px 70px rgba(11, 87, 208, 0.25);
-        border-color: rgba(0, 230, 118, 0.5);
+    /* Glow Button */
+    .glow-on-hover {
+        background: linear-gradient(135deg, #0B57D0, #0096FF);
+        border: none;
+        box-shadow: 0 0 20px rgba(11, 87, 208, 0.4);
+        transition: all 0.3s ease;
     }
     
-    .team-card:hover::before {
-        opacity: 1;
-    }
-    
-    .team-avatar {
-        width: 110px;
-        height: 110px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #0B57D0 0%, #00E676 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 1.5rem;
-        color: white;
-        font-size: 3rem;
-        box-shadow: 0 15px 40px rgba(11, 87, 208, 0.4);
-        transition: all 0.5s ease;
-        border: 4px solid rgba(255, 255, 255, 0.5);
-        position: relative;
-        z-index: 1;
-    }
-    
-    .team-card:hover .team-avatar {
-        transform: scale(1.1) rotate(360deg);
-        box-shadow: 0 20px 60px rgba(11, 87, 208, 0.6), 0 0 80px rgba(0, 230, 118, 0.4);
-    }
-    
-    .team-card h4 {
-        font-size: 1.2rem;
-        font-weight: 800;
-        color: #000000;
-        margin-bottom: 0.5rem;
-        position: relative;
-        z-index: 1;
-        transition: all 0.4s ease;
-    }
-    
-    .team-card:hover h4 {
+    .glow-on-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 40px rgba(11, 87, 208, 0.6);
         background: linear-gradient(135deg, #0B57D0, #00E676);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .team-card span {
-        color: #64748b;
-        font-size: 0.95rem;
-        font-weight: 600;
-        position: relative;
-        z-index: 1;
-        transition: color 0.4s ease;
-    }
-    
-    .team-card:hover span {
-        color: #0B57D0;
-    }
-    
-    .stats-section {
-        background: linear-gradient(135deg, #0B57D0 0%, #00E676 50%, #4D8DFF 100%);
-        background-size: 200% 200%;
-        padding: 5rem 0;
-        position: relative;
-        overflow: hidden;
-        animation: gradientShift 15s ease infinite;
-    }
-    
-    @keyframes gradientShift {
-        0%, 100% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-    }
-    
-    .stats-section::before {
-        content: '';
-        position: absolute;
-        top: -100px;
-        left: -100px;
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
-        border-radius: 50%;
-        animation: float 20s ease-in-out infinite;
-    }
-    
-    .stats-section::after {
-        content: '';
-        position: absolute;
-        bottom: -120px;
-        right: -120px;
-        width: 450px;
-        height: 450px;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
-        border-radius: 50%;
-        animation: float 25s ease-in-out infinite reverse;
-    }
-    
-    .stat-item {
-        text-align: center;
-        color: white;
-        position: relative;
-        z-index: 1;
-        transition: all 0.5s ease;
-    }
-    
-    .stat-item:hover {
-        transform: translateY(-10px) scale(1.1);
-    }
-    
-    .stat-number {
-        font-size: 3.5rem;
-        font-weight: 900;
-        margin-bottom: 0.5rem;
-        text-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        animation: numberGlow 3s ease-in-out infinite;
-    }
-    
-    @keyframes numberGlow {
-        0%, 100% {
-            text-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(255, 255, 255, 0.2);
-        }
-        50% {
-            text-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 80px rgba(255, 255, 255, 0.4);
-        }
-    }
-    
-    .stat-label {
-        font-size: 1.1rem;
-        opacity: 0.95;
-        font-weight: 600;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    }
-    
-    @media (max-width: 768px) {
-        .about-hero h1 {
-            font-size: 2.5rem;
-        }
-        
-        .about-hero p {
-            font-size: 1.1rem;
-        }
-        
-        .section-title {
-            font-size: 2.2rem;
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-        }
-        
-        .mission-content h2 {
-            font-size: 2rem;
-        }
     }
 </style>
-{% endblock %}
-
-{% block content %}
-<!-- About Hero -->
-<section class="about-hero">
-    <div class="container">
-        <h1>Revolutionizing <span class="highlight">Hiring</span></h1>
-        <p>We believe that connecting the right talent with the right opportunity shouldn't be a struggle. It should be precise, fair, and instant.</p>
-    </div>
-</section>
-
-<!-- Mission Section -->
-<section class="mission-section">
-    <div class="container">
-        <div class="row align-items-center g-5">
-            <div class="col-lg-6 mission-content">
-                <h2>Our Mission</h2>
-                <p>Pro Recruiter AI was founded on a simple premise: human potential is limitless, but finding it is hard. Traditional hiring is slow, biased, and often inaccurate.</p>
-                <p>We use advanced artificial intelligence to bridge the gap. By analyzing millions of data points, we create matches that go beyond keywords—understanding the nuance of skills, culture, and ambition.</p>
-                <a href="{% url 'project_home' %}" class="btn btn-primary btn-lg mt-3">
-                    <i class="bi bi-rocket-takeoff me-2"></i>Get Started
-                </a>
-            </div>
-            <div class="col-lg-6 mission-image">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=600&fit=crop&q=80" alt="Team Meeting" class="img-fluid" style="max-width: 450px;">
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Stats Section -->
-<section class="stats-section">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-6 col-md-3">
-                <div class="stat-item">
-                    <div class="stat-number">10K+</div>
-                    <div class="stat-label">Jobs Posted</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-item">
-                    <div class="stat-number">50K+</div>
-                    <div class="stat-label">Job Seekers</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-item">
-                    <div class="stat-number">5K+</div>
-                    <div class="stat-label">Companies</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-item">
-                    <div class="stat-number">95%</div>
-                    <div class="stat-label">Match Accuracy</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Values Section -->
-<section class="values-section">
-    <div class="container">
-        <h2 class="section-title">Our <span>Values</span></h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="value-card">
-                    <div class="value-icon">
-                        <i class="bi bi-shield-check"></i>
-                    </div>
-                    <h3>Integrity First</h3>
-                    <p>We believe in transparent, unbiased AI. We build tools that promote fairness in hiring for everyone.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="value-card">
-                    <div class="value-icon">
-                        <i class="bi bi-lightbulb"></i>
-                    </div>
-                    <h3>Constant Innovation</h3>
-                    <p>The world of work is changing. We stay ahead of the curve to provide the most advanced tools possible.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="value-card">
-                    <div class="value-icon">
-                        <i class="bi bi-people"></i>
-                    </div>
-                    <h3>People Centric</h3>
-                    <p>Technology is our tool, but people are our purpose. We design for the human experience first.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Team Section -->
-<section class="team-section">
-    <div class="container">
-        <h2 class="section-title">Meet the <span>Team</span></h2>
-        <div class="row g-4">
-            <div class="col-6 col-lg-3">
-                <div class="team-card">
-                    <div class="team-avatar">
-                        <i class="bi bi-person"></i>
-                    </div>
-                    <h4>Alex Rivera</h4>
-                    <span>Co-Founder & CEO</span>
-                </div>
-            </div>
-            <div class="col-6 col-lg-3">
-                <div class="team-card">
-                    <div class="team-avatar">
-                        <i class="bi bi-person"></i>
-                    </div>
-                    <h4>Sarah Jenkins</h4>
-                    <span>Chief Technology Officer</span>
-                </div>
-            </div>
-            <div class="col-6 col-lg-3">
-                <div class="team-card">
-                    <div class="team-avatar">
-                        <i class="bi bi-person"></i>
-                    </div>
-                    <h4>Marcus Thorne</h4>
-                    <span>Head of Product</span>
-                </div>
-            </div>
-            <div class="col-6 col-lg-3">
-                <div class="team-card">
-                    <div class="team-avatar">
-                        <i class="bi bi-person"></i>
-                    </div>
-                    <h4>Elena Rodriguez</h4>
-                    <span>Lead Designer</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 {% endblock %}

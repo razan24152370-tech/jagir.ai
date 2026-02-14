@@ -1,319 +1,261 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Recruiter Sign Up - Pro Recruiter AI{% endblock %}
 
-{% block extra_css %}
-<style>
-    .auth-page {
-        min-height: calc(100vh - 76px);
-        background: linear-gradient(135deg, #0B57D0 0%, #000000 50%, #1a1a2e 100%);
-        display: flex;
-        align-items: center;
-        padding: 3rem 0;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .auth-page::before {
-        content: '';
-        position: absolute;
-        top: -150px;
-        left: -150px;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(circle, rgba(0, 230, 118, 0.12) 0%, transparent 70%);
-        border-radius: 50%;
-        animation: float 25s ease-in-out infinite;
-    }
-    
-    .auth-page::after {
-        content: '';
-        position: absolute;
-        bottom: -200px;
-        right: -200px;
-        width: 700px;
-        height: 700px;
-        background: radial-gradient(circle, rgba(77, 141, 255, 0.1) 0%, transparent 70%);
-        border-radius: 50%;
-        animation: float 30s ease-in-out infinite reverse;
-    }
-    
-    @keyframes float {
-        0%, 100% {
-            transform: translate(0, 0) scale(1);
-        }
-        50% {
-            transform: translate(30px, 30px) scale(1.1);
-        }
-    }
-    
-    .auth-card {
-        background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95));
-        border-radius: 28px;
-        padding: 3.5rem;
-        box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 15px 40px rgba(11, 87, 208, 0.3);
-        max-width: 480px;
-        margin: 0 auto;
-        border: 2px solid rgba(11, 87, 208, 0.2);
-        position: relative;
-        z-index: 1;
-        backdrop-filter: blur(20px);
-        animation: cardFadeIn 0.8s ease;
-    }
-    
-    @keyframes cardFadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(40px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .auth-header {
-        text-align: center;
-        margin-bottom: 2.5rem;
-    }
-    
-    .auth-icon {
-        width: 90px;
-        height: 90px;
-        background: linear-gradient(135deg, #0B57D0 0%, #00E676 100%);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 1.5rem;
-        box-shadow: 0 15px 40px rgba(11, 87, 208, 0.4), 0 0 60px rgba(0, 230, 118, 0.3);
-        animation: iconPulse 3s ease-in-out infinite;
-        border: 3px solid rgba(255, 255, 255, 0.5);
-    }
-    
-    @keyframes iconPulse {
-        0%, 100% {
-            transform: scale(1);
-            box-shadow: 0 15px 40px rgba(11, 87, 208, 0.4), 0 0 60px rgba(0, 230, 118, 0.3);
-        }
-        50% {
-            transform: scale(1.05);
-            box-shadow: 0 20px 50px rgba(11, 87, 208, 0.6), 0 0 80px rgba(0, 230, 118, 0.5);
-        }
-    }
-    
-    .auth-icon i {
-        font-size: 2.2rem;
-        color: white;
-        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-    }
-    
-    .auth-header h2 {
-        font-weight: 900;
-        background: linear-gradient(135deg, #0B57D0, #00E676);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin-bottom: 0.75rem;
-        font-size: 2rem;
-    }
-    
-    .auth-header p {
-        color: #64748b;
-        font-size: 1.05rem;
-        font-weight: 500;
-    }
-    
-    .form-label {
-        font-weight: 700;
-        color: #1e293b;
-        margin-bottom: 0.6rem;
-        font-size: 0.95rem;
-    }
-    
-    .form-control {
-        padding: 0.9rem 1.25rem;
-        border-radius: 12px;
-        border: 2px solid rgba(11, 87, 208, 0.15);
-        transition: all 0.4s ease;
-        font-size: 1rem;
-    }
-    
-    .form-control:focus {
-        border-color: #0B57D0;
-        box-shadow: 0 0 0 0.2rem rgba(11, 87, 208, 0.15), 0 0 30px rgba(0, 230, 118, 0.2);
-        transform: translateY(-2px);
-    }
-    
-    .btn-auth {
-        padding: 1rem;
-        font-weight: 700;
-        font-size: 1.1rem;
-        border-radius: 50px;
-        background: linear-gradient(135deg, #0B57D0, #00E676);
-        border: none;
-        box-shadow: 0 15px 40px rgba(11, 87, 208, 0.3);
-        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .btn-auth::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-        transition: left 0.6s ease;
-    }
-    
-    .btn-auth:hover {
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 20px 60px rgba(11, 87, 208, 0.5), 0 0 80px rgba(0, 230, 118, 0.3);
-    }
-    
-    .btn-auth:hover::before {
-        left: 100%;
-    }
-    
-    .auth-footer {
-        text-align: center;
-        margin-top: 2rem;
-        padding-top: 2rem;
-        border-top: 2px solid rgba(11, 87, 208, 0.1);
-    }
-    
-    .auth-footer a {
-        color: #0B57D0;
-        font-weight: 700;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-    
-    .auth-footer a:hover {
-        color: #00E676;
-        text-decoration: underline;
-    }
-    
-    .switch-role {
-        font-size: 0.95rem;
-        color: #64748b;
-        margin-top: 1rem;
-        font-weight: 500;
-    }
-    
-    .switch-role a {
-        color: #0B57D0;
-        font-weight: 700;
-    }
-    
-    .errorlist {
-        color: #dc3545;
-        font-size: 0.875rem;
-        list-style: none;
-        padding: 0;
-        margin: 0.25rem 0 0;
-    }
-    
-    .alert {
-        border-radius: 12px;
-        border: 2px solid;
-        padding: 1rem 1.25rem;
-        font-weight: 500;
-    }
-    
-    .alert-danger {
-        background: rgba(220, 53, 69, 0.1);
-        border-color: rgba(220, 53, 69, 0.3);
-        color: #dc3545;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="auth-page">
-    <div class="container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <div class="auth-icon">
-                    <i class="bi bi-building-add"></i>
-                </div>
-                <h2>Create Recruiter Account</h2>
-                <p>Find top talent with AI-powered candidate ranking</p>
-            </div>
-            
-            {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            {% endfor %}
-            {% endif %}
-            
-            <form method="post">
-                {% csrf_token %}
-                
-                {% if form.non_field_errors %}
-                <div class="alert alert-danger">
-                    {% for error in form.non_field_errors %}
-                    {{ error }}
+<div class="auth-page-wrapper">
+    <!-- Animated Background Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="container position-relative z-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-8">
+                <div class="glass-card auth-card">
+                    <div class="auth-header text-center mb-4">
+                        <div class="auth-icon-wrapper mb-3">
+                            <i class="bi bi-briefcase-fill auth-icon"></i>
+                        </div>
+                        <h2 class="auth-title">Create Recruiter <span class="text-gradient">Account</span></h2>
+                        <p class="auth-subtitle">Find top talent with AI-powered candidate ranking.</p>
+                    </div>
+                    
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show glass-alert" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+                    </div>
                     {% endfor %}
-                </div>
-                {% endif %}
-                
-                <div class="mb-3">
-                    <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
-                    {{ form.username }}
-                    {% if form.username.errors %}
-                    <ul class="errorlist">{{ form.username.errors }}</ul>
                     {% endif %}
+                    
+                    <form method="post" class="auth-form">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger glass-alert">
+                            {% for error in form.non_field_errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.username.id_for_label }}" class="form-label text-white fw-semibold">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text glass-addon"><i class="bi bi-person"></i></span>
+                                {{ form.username }}
+                            </div>
+                            {% if form.username.errors %}
+                            <ul class="errorlist text-danger mt-1 small">{{ form.username.errors }}</ul>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label text-white fw-semibold">Work Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text glass-addon"><i class="bi bi-envelope"></i></span>
+                                {{ form.email }}
+                            </div>
+                            {% if form.email.errors %}
+                            <ul class="errorlist text-danger mt-1 small">{{ form.email.errors }}</ul>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.company_name.id_for_label }}" class="form-label text-white fw-semibold">Company Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text glass-addon"><i class="bi bi-building"></i></span>
+                                {{ form.company_name }}
+                            </div>
+                            {% if form.company_name.errors %}
+                            <ul class="errorlist text-danger mt-1 small">{{ form.company_name.errors }}</ul>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.password1.id_for_label }}" class="form-label text-white fw-semibold">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text glass-addon"><i class="bi bi-lock"></i></span>
+                                {{ form.password1 }}
+                            </div>
+                            {% if form.password1.errors %}
+                            <ul class="errorlist text-danger mt-1 small">{{ form.password1.errors }}</ul>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="{{ form.password2.id_for_label }}" class="form-label text-white fw-semibold">Confirm Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text glass-addon"><i class="bi bi-lock-fill"></i></span>
+                                {{ form.password2 }}
+                            </div>
+                            {% if form.password2.errors %}
+                            <ul class="errorlist text-danger mt-1 small">{{ form.password2.errors }}</ul>
+                            {% endif %}
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 btn-lg glow-button mb-3">
+                            <i class="bi bi-building-add me-2"></i>Create Account
+                        </button>
+                    </form>
+                    
+                    <div class="auth-footer text-center">
+                        <p class="text-white-50 mb-2">Already have an account? <a href="{% url 'accounts:recruiter_login' %}" class="text-cyan text-decoration-none fw-bold">Sign in</a></p>
+                        <p class="text-white-50">Looking for a job? <a href="{% url 'accounts:jobseeker_signup' %}" class="text-cyan text-decoration-none fw-bold">Create job seeker account</a></p>
+                    </div>
                 </div>
-                
-                <div class="mb-3">
-                    <label for="{{ form.email.id_for_label }}" class="form-label">Work Email</label>
-                    {{ form.email }}
-                    {% if form.email.errors %}
-                    <ul class="errorlist">{{ form.email.errors }}</ul>
-                    {% endif %}
-                </div>
-                
-                <div class="mb-3">
-                    <label for="{{ form.company_name.id_for_label }}" class="form-label">Company Name</label>
-                    {{ form.company_name }}
-                    {% if form.company_name.errors %}
-                    <ul class="errorlist">{{ form.company_name.errors }}</ul>
-                    {% endif %}
-                </div>
-                
-                <div class="mb-3">
-                    <label for="{{ form.password1.id_for_label }}" class="form-label">Password</label>
-                    {{ form.password1 }}
-                    {% if form.password1.errors %}
-                    <ul class="errorlist">{{ form.password1.errors }}</ul>
-                    {% endif %}
-                </div>
-                
-                <div class="mb-4">
-                    <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password</label>
-                    {{ form.password2 }}
-                    {% if form.password2.errors %}
-                    <ul class="errorlist">{{ form.password2.errors }}</ul>
-                    {% endif %}
-                </div>
-                
-                <button type="submit" class="btn btn-primary btn-auth w-100">
-                    <i class="bi bi-building-add me-2"></i>Create Account
-                </button>
-            </form>
-            
-            <div class="auth-footer">
-                <p>Already have an account? <a href="{% url 'accounts:recruiter_login' %}">Sign in</a></p>
-                <p class="switch-role">Looking for a job? <a href="{% url 'accounts:jobseeker_signup' %}">Create job seeker account</a></p>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    /* Scoped Styles for Auth Page */
+    .auth-page-wrapper {
+        min-height: 100vh;
+        background: radial-gradient(circle at 50% 0%, #0B1A36 0%, #050A18 40%);
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        padding: 80px 0;
+    }
+
+    /* Glass Card */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+        padding: 3rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Typography */
+    .text-gradient {
+        background: linear-gradient(135deg, #00F2FF 0%, #00E676 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .auth-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 0.5rem;
+    }
+    
+    .auth-subtitle {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 1rem;
+    }
+    
+    .text-cyan { color: #00F2FF; }
+
+    /* Icons */
+    .auth-icon-wrapper {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 1.5rem;
+        box-shadow: 0 0 30px rgba(0, 242, 255, 0.1);
+    }
+    
+    .auth-icon {
+        font-size: 2.5rem;
+        color: #00F2FF;
+        filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.5));
+    }
+
+    /* Form Inputs */
+    .form-control {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: white !important;
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+        border-left: none !important;
+    }
+    
+    .form-control:focus {
+        background: rgba(255, 255, 255, 0.08) !important;
+        border-color: #00F2FF !important;
+        box-shadow: 0 0 0 4px rgba(0, 242, 255, 0.1) !important;
+    }
+    
+    .glass-addon {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: none;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Buttons */
+    .glow-button {
+        background: linear-gradient(135deg, #0B57D0, #0096FF);
+        border: none;
+        box-shadow: 0 0 20px rgba(11, 87, 208, 0.4);
+        transition: all 0.3s ease;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    
+    .glow-button:hover {
+        background: linear-gradient(135deg, #0B57D0, #00E676);
+        box-shadow: 0 0 30px rgba(0, 230, 118, 0.4);
+        transform: translateY(-2px);
+    }
+
+    /* Alerts */
+    .glass-alert {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        backdrop-filter: blur(10px);
+    }
+    .alert-danger {
+        background: rgba(220, 53, 69, 0.2);
+        border-color: rgba(220, 53, 69, 0.4);
+        color: #ff8b8b;
+    }
+
+    /* Background Orbs */
+    .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.4;
+        z-index: 0;
+        pointer-events: none;
+    }
+    .orb-1 {
+        top: -10%;
+        left: -10%;
+        width: 50vw;
+        height: 50vw;
+        background: radial-gradient(circle, #0B57D0, transparent 70%);
+        animation: floatOrb 20s infinite ease-in-out;
+    }
+    .orb-2 {
+        bottom: -10%;
+        right: -10%;
+        width: 40vw;
+        height: 40vw;
+        background: radial-gradient(circle, #00F2FF, transparent 70%);
+        animation: floatOrb 25s infinite ease-in-out reverse;
+    }
+
+    @keyframes floatOrb {
+        0%, 100% { transform: translate(0, 0); }
+        50% { transform: translate(30px, 50px); }
+    }
+</style>
 {% endblock %}

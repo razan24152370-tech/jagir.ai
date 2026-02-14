@@ -97,12 +97,13 @@
 }
 
 .hero-title {
-    font-size: 5rem;
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -2px;
+    font-size: 6rem;
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -5px;
     margin-bottom: 24px;
     color: #fff;
+    text-shadow: 0 20px 60px rgba(0,0,0,0.7);
 }
 
 .hero-subtitle {
@@ -112,123 +113,207 @@
     line-height: 1.6;
 }
 
-/* Intelligence Hub Visualization */
-.intelligence-hub {
+/* Hero Background Aura & Mesh */
+.hero-aura-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.4;
+    mix-blend-mode: plus-lighter;
+    animation: orbFloat 20s infinite alternate ease-in-out;
+}
+
+.orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, var(--zenith-cyan), transparent); top: -20%; left: -10%; animation-delay: 0s; }
+.orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, var(--zenith-violet), transparent); bottom: -10%; right: -5%; animation-delay: -5s; }
+.orb-3 { width: 400px; height: 400px; background: radial-gradient(circle, var(--ai-green), transparent); top: 30%; left: 30%; animation-delay: -10s; }
+
+@keyframes orbFloat {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(100px, 50px) scale(1.2); }
+}
+
+.noise-overlay {
+    position: absolute;
+    inset: 0;
+    background: url('https://grainy-gradients.vercel.app/noise.svg');
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.tech-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle at center, black, transparent 80%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.tech-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--zenith-cyan);
+    border-radius: 50%;
+    opacity: 0.3;
+    pointer-events: none;
+    animation: particleFloat 10s infinite linear;
+}
+
+@keyframes particleFloat {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+/* Character Glitch Hover */
+.char-reveal {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: charReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transition: all 0.2s ease;
+}
+
+.char-reveal:hover {
+    color: var(--zenith-cyan);
+    text-shadow: 
+        2px 0 #ff00ff, 
+        -2px 0 #00ffff;
+    transform: skewX(-15deg) scale(1.1);
+}
+
+.text-gradient {
+    position: relative;
+    display: inline-block;
+}
+
+.text-gradient::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent 50%, rgba(0, 242, 255, 0.1) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+@keyframes charReveal {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Glassmorphic Light Beams */
+.light-beam {
+    position: absolute;
+    width: 2px;
+    height: 1000px;
+    background: linear-gradient(to bottom, transparent, rgba(0, 242, 255, 0.2), transparent);
+    transform: rotate(35deg);
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(5px);
+}
+
+.beam-1 { top: -200px; left: 10%; animation: beamSweep 15s infinite alternate ease-in-out; }
+.beam-2 { top: -200px; left: 60%; animation: beamSweep 20s infinite alternate-reverse ease-in-out; }
+
+@keyframes beamSweep {
+    0% { transform: rotate(35deg) translateX(-100px); opacity: 0.3; }
+    100% { transform: rotate(35deg) translateX(100px); opacity: 0.6; }
+}
+
+/* Interactive Cursor Glow */
+.hero-glow-follow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 242, 255, 0.08), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.5s ease;
+    opacity: 0;
+}
+
+.hero-zenith:hover .hero-glow-follow {
+    opacity: 1;
+}
+
+/* 3D Zenith Hub Visualization */
+.zenith-hub-3d {
     position: relative;
     width: 100%;
-    height: 500px;
+    height: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
+    perspective: 1200px;
 }
 
-.glass-sphere {
+.hub-platform {
     position: relative;
-    width: 180px;
-    height: 180px;
-    background: radial-gradient(circle at 30% 30%, rgba(0, 242, 255, 0.2), rgba(112, 0, 255, 0.3));
-    border-radius: 50%;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 80px rgba(0, 242, 255, 0.3), inset 0 0 40px rgba(255, 255, 255, 0.1);
-    animation: pulseSphere 4s ease-in-out infinite alternate;
-    z-index: 2;
-}
-
-.glass-sphere::after {
-    content: '';
-    position: absolute;
-    inset: -20px;
-    border: 2px dashed rgba(0, 242, 255, 0.2);
-    border-radius: 50%;
-    animation: rotate 10s linear infinite;
-}
-
-.glass-sphere::before {
-    content: '';
-    position: absolute;
-    inset: -40px;
-    border: 1px solid rgba(112, 0, 255, 0.1);
-    border-radius: 50%;
-    animation: rotate 15s linear infinite reverse;
-}
-
-.metric-float {
-    position: absolute;
-    padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(12px);
+    width: 400px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    color: #fff;
-    font-weight: 600;
-    font-size: 0.9rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    z-index: 3;
-    animation: floatMetric 6s ease-in-out infinite;
-}
-
-.m-1 { top: 15%; right: 10%; animation-delay: 0s; }
-.m-2 { bottom: 20%; left: 5%; animation-delay: -2s; }
-.m-3 { top: 30%; left: 15%; animation-delay: -4s; }
-
-.backdrop-blur {
     backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    border-radius: 40px;
+    transform: rotateX(25deg) rotateY(-15deg);
+    transform-style: preserve-3d;
+    box-shadow: 
+        0 50px 100px rgba(0, 0, 0, 0.5),
+        inset 0 0 40px rgba(255, 255, 255, 0.05);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes pulseSphere {
-    0% { transform: scale(1); box-shadow: 0 0 80px rgba(0, 242, 255, 0.3); }
-    100% { transform: scale(1.05); box-shadow: 0 0 120px rgba(112, 0, 255, 0.4); }
+.hub-platform:hover {
+    transform: rotateX(20deg) rotateY(-10deg) translateY(-10px);
 }
 
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes floatMetric {
-    0%, 100% { transform: translateY(0) translateX(0); }
-    50% { transform: translateY(-20px) translateX(10px); }
-}
-
-@keyframes heroFadeUp {
-    0% { opacity: 0; transform: translateY(30px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-.heroFadeUp {
-    animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Hero Background Aura */
-.hero-aura {
+.hub-data-line {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60%;
-    height: 60%;
-    background: radial-gradient(circle, rgba(0, 242, 255, 0.1) 0%, rgba(112, 0, 255, 0.05) 50%, transparent 70%);
-    filter: blur(100px);
-    z-index: -1;
-    pointer-events: none;
-    animation: auraBreath 8s ease-in-out infinite alternate;
+    width: 150px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--zenith-cyan), transparent);
+    animation: dataStream 3s infinite linear;
+    opacity: 0.6;
 }
 
-@keyframes auraBreath {
-    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+@keyframes dataStream {
+    0% { transform: translateX(-100%) translateZ(20px); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateX(200%) translateZ(20px); opacity: 0; }
 }
 
-.hero-title {
-    font-size: 5rem;
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -2px;
-    margin-bottom: 24px;
+.floating-card {
+    position: absolute;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
     color: #fff;
-    text-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    transform: translateZ(50px);
+    animation: float3D 6s infinite ease-in-out;
+}
+
+@keyframes float3D {
+    0%, 100% { transform: translateZ(50px) translateY(0); }
+    50% { transform: translateZ(80px) translateY(-15px); }
 }
 
 .text-gradient {
@@ -243,31 +328,80 @@
     to { background-position: 200% center; }
 }
 
-/* Marquee Repair */
+/* Enhanced Marquee */
 .marquee-container {
-    mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
     overflow: hidden;
-    white-space: nowrap;
+    padding: 40px 0;
+    background: radial-gradient(circle at center, rgba(0, 242, 255, 0.03), transparent);
 }
+
 .marquee-content {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 100px;
-    animation: marquee-scroll 40s linear infinite;
+    gap: 40px;
+    animation: marquee-scroll 30s linear infinite;
+    width: max-content;
 }
-.marquee-content img {
-    height: 45px;
+
+.logo-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    padding: 20px 40px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    min-width: 180px;
+}
+
+.logo-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.05), 
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: holoShimmer 4s infinite linear;
+}
+
+@keyframes holoShimmer {
+    0% { transform: rotate(45deg) translateX(-150%); }
+    100% { transform: rotate(45deg) translateX(150%); }
+}
+
+.logo-card img {
+    height: 40px;
     width: auto;
-    filter: grayscale(1) brightness(2) contrast(0.5);
+    filter: grayscale(1) brightness(2);
     opacity: 0.6;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
 }
-.marquee-content img:hover {
-    filter: grayscale(0) brightness(1) contrast(1);
+
+.logo-card:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--zenith-cyan);
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0, 242, 255, 0.1);
+}
+
+.logo-card:hover img {
+    filter: grayscale(0) brightness(1);
     opacity: 1;
-    transform: scale(1.1);
 }
+
 @keyframes marquee-scroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
@@ -289,11 +423,92 @@
     border-radius: 32px;
     padding: 40px;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     backdrop-filter: blur(12px);
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.1s linear, box-shadow 0.4s ease;
 }
 
 .bento-card:hover {
+    z-index: 10;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3), 
+        0 0 0 1px rgba(0, 242, 255, 0.2);
+}
+
+/* Holographic Border Effect */
+.bento-card::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 34px;
+    padding: 2px;
+    background: conic-gradient(
+        from var(--angle, 0deg), 
+        transparent 0%, 
+        var(--zenith-cyan) 20%, 
+        transparent 40%,
+        var(--zenith-violet) 60%,
+        transparent 80%
+    );
+    opacity: 0;
+    mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    animation: borderRotate 4s linear infinite;
+}
+
+.bento-card:hover::after {
+    opacity: 1;
+}
+
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes borderRotate {
+    to { --angle: 360deg; }
+}
+
+/* Internal Visualizations */
+.visualization-bg {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: 0.1;
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+.bento-card:hover .visualization-bg {
+    transform: scale(1.1) translateX(-20px) translateY(-20px);
+    opacity: 0.2;
+}
+
+.match-ring {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 20px solid var(--zenith-cyan);
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    transform: rotate(45deg);
+}
+
+.radar-chart {
+    width: 200px;
+    height: 200px;
+    background: 
+        radial-gradient(circle, transparent 20%, var(--zenith-violet) 21%, transparent 22%),
+        radial-gradient(circle, transparent 40%, var(--zenith-violet) 41%, transparent 42%),
+        conic-gradient(from 0deg, transparent 0%, rgba(112, 0, 255, 0.2) 20%, transparent 40%);
+}
     transform: translateY(-5px);
     border-color: rgba(0, 242, 255, 0.3);
     background: rgba(255, 255, 255, 0.05);
@@ -558,31 +773,71 @@
 {% block content %}
 <div class="page-wrapper">
     <!-- Zenith Hero -->
-    <section class="hero-zenith overflow-hidden" style="padding-top: 110px; padding-bottom: 100px;">
-        <div class="hero-aura"></div>
+    <section class="hero-zenith overflow-hidden" style="padding-top: 140px; padding-bottom: 120px;">
+        <div class="noise-overlay"></div>
+        <div class="tech-grid"></div>
+        <div class="hero-glow-follow" id="heroGlow"></div>
+        <div class="light-beam beam-1"></div>
+        <div class="light-beam beam-2"></div>
+        
+        <div id="particleContainer"></div>
+        
+        <div class="hero-aura-container">
+            <div class="hero-orb orb-1"></div>
+            <div class="hero-orb orb-2"></div>
+            <div class="hero-orb orb-3"></div>
+        </div>
+        
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 heroFadeUp">
-                    <span class="section-label">Intelligence Hub</span>
-                    <h1 class="hero-title">Beyond <br><span class="text-gradient">Screening.</span></h1>
-                    <p class="hero-subtitle mb-5">Predict talent success with Zenith AI—The world's first semantic recruitment engine built for global scale.</p>
-                    <div class="d-flex flex-wrap gap-3">
-                        <a href="{% url 'accounts:jobseeker_signup' %}" class="btn btn-primary btn-lg px-5 py-3 rounded-pill neumorph-btn">Launch Your Hub</a>
-                        <a href="#" class="btn btn-outline-info btn-lg px-5 py-3 rounded-pill border-2 glass-link" style="border-color: var(--zenith-cyan); color: var(--zenith-cyan);">Explore Ecosystem</a>
-                    </div>
-                    <div class="mt-5 d-flex align-items-center gap-4 text-white-75 small">
-                        <span><i class="bi bi-shield-check text-cyan me-2"></i> SOC2 Compliant</span>
-                        <span><i class="bi bi-lightning text-cyan me-2"></i> 0.4s Latency</span>
+                    <span class="section-label mb-4 d-inline-block">Zenith Pulse V2.0</span>
+                    <h1 class="hero-title">
+                        <span class="char-reveal" style="animation-delay: 0.1s;">B</span>
+                        <span class="char-reveal" style="animation-delay: 0.15s;">e</span>
+                        <span class="char-reveal" style="animation-delay: 0.2s;">y</span>
+                        <span class="char-reveal" style="animation-delay: 0.25s;">o</span>
+                        <span class="char-reveal" style="animation-delay: 0.3s;">n</span>
+                        <span class="char-reveal" style="animation-delay: 0.35s;">d</span>
+                        <br>
+                        <span class="text-gradient char-reveal" style="animation-delay: 0.5s;">Screening.</span>
+                    </h1>
+                    <p class="hero-subtitle mb-5 fs-4">Predict talent success with Zenith AI—The world's first semantic recruitment engine built for global scale.</p>
+                    <div class="d-flex flex-wrap gap-4">
+                        <a href="{% url 'accounts:jobseeker_signup' %}" class="btn btn-primary btn-lg px-5 py-3 rounded-pill neumorph-btn scale-hover">Launch Your Hub</a>
+                        <a href="#" class="btn btn-outline-info btn-lg px-5 py-3 rounded-pill border-2 glass-link scale-hover" style="border-color: var(--zenith-cyan); color: var(--zenith-cyan);">Explore Ecosystem</a>
                     </div>
                 </div>
-                <div class="col-lg-6 heroFadeUp" style="animation-delay: 0.2s;">
-                    <div class="intelligence-hub">
-                        <div class="glass-sphere"></div>
-                        <div class="metric-float m-1">99.4% Match</div>
-                        <div class="metric-float m-2">Semantic AI</div>
-                        <div class="metric-float m-3">NLP V4.0</div>
-                        <div class="position-absolute text-center bg-white bg-opacity-5 p-4 rounded-4 backdrop-blur shadow-2xl scale-125" style="z-index: 1;">
-                            <i class="bi bi-robot display-3 text-gradient"></i>
+                <div class="col-lg-6 heroFadeUp" style="animation-delay: 0.4s;">
+                    <div class="zenith-hub-3d">
+                        <div class="hub-platform">
+                            <div class="hub-data-line" style="top: 20%; animation-delay: 0s;"></div>
+                            <div class="hub-data-line" style="top: 50%; animation-delay: -1s;"></div>
+                            <div class="hub-data-line" style="top: 80%; animation-delay: -2s;"></div>
+                            
+                            <div class="floating-card" style="top: 10%; right: -20px; animation-delay: 0s;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="icon-sm bg-cyan rounded-circle p-2"><i class="bi bi-check2"></i></div>
+                                    <div>
+                                        <div class="fw-bold small">99.4% Match</div>
+                                        <div class="text-white-50 extra-small">Elite Candidate</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="floating-card" style="bottom: 20%; left: -30px; animation-delay: -3s;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="icon-sm bg-violet rounded-circle p-2"><i class="bi bi-cpu"></i></div>
+                                    <div>
+                                        <div class="fw-bold small">Semantic AI</div>
+                                        <div class="text-white-50 extra-small">NLP V4.0 Active</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="position-absolute translate-middle top-50 start-50" style="transform: translateZ(100px);">
+                                <i class="bi bi-robot display-1 text-gradient"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -597,17 +852,22 @@
         </div>
         <div class="marquee-container">
             <div class="marquee-content">
-                <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Samsung_wordmark.svg/512px-Samsung_wordmark.svg.png" alt="Samsung">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/512px-Microsoft_logo.svg.png" alt="Microsoft">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/512px-Apple_logo_black.svg.png" alt="Apple" style="filter: brightness(2) invert(1);">
-                <!-- Duplicate for loop -->
-                <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/512px-Samsung_Logo.svg.png" alt="Samsung">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/512px-Microsoft_logo.svg.png" alt="Microsoft">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/512px-Apple_logo_black.svg.png" alt="Apple" style="filter: brightness(2) invert(1);">
+                <div class="logo-card"><img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google"></div>
+                <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM"></div>
+                <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Samsung_wordmark.svg/512px-Samsung_wordmark.svg.png" alt="Samsung"></div>
+                <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/512px-Microsoft_logo.svg.png" alt="Microsoft"></div>
+                <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/512px-Apple_logo_black.svg.png" alt="Apple" style="filter: brightness(2) invert(1);"></div>
+                <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/512px-Netflix_2015_logo.svg.png" alt="Netflix"></div>
+                <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/512px-Amazon_logo.svg.png" alt="Amazon"></div>
+                
+                <!-- Duplicate for seamless loop -->
+                <div class="logo-card"><img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google"></div>
+                <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM"></div>
+                <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Samsung_wordmark.svg/512px-Samsung_wordmark.svg.png" alt="Samsung"></div>
+                <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/512px-Microsoft_logo.svg.png" alt="Microsoft"></div>
+                <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/512px-Apple_logo_black.svg.png" alt="Apple" style="filter: brightness(2) invert(1);"></div>
+                <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/512px-Netflix_2015_logo.svg.png" alt="Netflix"></div>
+                <div class="logo-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/512px-Amazon_logo.svg.png" alt="Amazon"></div>
             </div>
         </div>
     </section>
@@ -628,7 +888,9 @@
                         <h3 class="display-5 fw-bold mb-3">Neural Resume Ranking</h3>
                         <p class="text-muted fs-5 mb-0" style="max-width: 90%;">Our proprietary LLM understands the nuances of human experience—going beyond keyword matching to find true potential in every candidate.</p>
                     </div>
-                    <div class="position-absolute bottom-0 end-0 p-5 opacity-10"><i class="bi bi-grid-3x3-gap" style="font-size: 15rem;"></i></div>
+                    <div class="visualization-bg">
+                        <div class="match-ring"></div>
+                    </div>
                 </div>
 
                 <!-- Side Feature -->
@@ -637,6 +899,9 @@
                         <div class="icon-box bg-white bg-opacity-5 text-violet mb-4" style="box-shadow: 0 0 20px rgba(112, 0, 255, 0.2); border: 1px solid rgba(112, 0, 255, 0.2);"><i class="bi bi-stars"></i></div>
                         <h3 class="h3 fw-bold mb-3">Skill Gap Analysis</h3>
                         <p class="text-muted mb-0">AI-driven insights that reveal hidden talent gaps and recommend precise upskilling paths for your entire workforce.</p>
+                    </div>
+                    <div class="visualization-bg">
+                        <div class="radar-chart"></div>
                     </div>
                 </div>
 
@@ -797,15 +1062,89 @@ document.addEventListener('DOMContentLoaded', function() {
 
     revealElements.forEach(el => revealObserver.observe(el));
 
+    // Hero Glow Follow & Magnetic Buttons
+    const heroSection = document.querySelector('.hero-zenith');
+    const heroGlow = document.getElementById('heroGlow');
+    const magneticBtns = document.querySelectorAll('.scale-hover');
+
+    // Tech Particle Spawning
+    const particleContainer = document.getElementById('particleContainer');
+    if (particleContainer) {
+        for (let i = 0; i < 20; i++) {
+            const p = document.createElement('div');
+            p.className = 'tech-particle';
+            p.style.left = `${Math.random() * 100}%`;
+            p.style.top = `${Math.random() * 100}%`;
+            p.style.animationDelay = `${Math.random() * 10}s`;
+            p.style.animationDuration = `${7 + Math.random() * 5}s`;
+            particleContainer.appendChild(p);
+        }
+    }
+
+    if (heroSection && heroGlow) {
+        heroSection.addEventListener('mousemove', (e) => {
+            const rect = heroSection.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Move glow orb
+            requestAnimationFrame(() => {
+                heroGlow.style.left = `${x}px`;
+                heroGlow.style.top = `${y}px`;
+            });
+
+            // Magnetic Buttons
+            magneticBtns.forEach(btn => {
+                const btnRect = btn.getBoundingClientRect();
+                const btnCenterX = btnRect.left + btnRect.width / 2;
+                const btnCenterY = btnRect.top + btnRect.height / 2;
+                
+                const distanceX = e.clientX - btnCenterX;
+                const distanceY = e.clientY - btnCenterY;
+                const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                if (distance < 150) {
+                    const moveX = (distanceX / 10);
+                    const moveY = (distanceY / 10);
+                    btn.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.05)`;
+                    btn.style.boxShadow = `${-moveX}px ${-moveY}px 25px rgba(0, 242, 255, 0.3)`;
+                } else {
+                    btn.style.transform = `translate(0, 0) scale(1)`;
+                    btn.style.boxShadow = '';
+                }
+            });
+        });
+
+        heroSection.addEventListener('mouseleave', () => {
+            magneticBtns.forEach(btn => {
+                btn.style.transform = `translate(0, 0) scale(1)`;
+                btn.style.boxShadow = '';
+            });
+        });
+    }
+
     // Mouse reveal gradient for Bento cards
+    // 3D Tilt Effect for Bento Cards
     const bentoCards = document.querySelectorAll('.bento-card');
     bentoCards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
+            
+            // Calculate tilt
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -5; // Max 5deg rotation
+            const rotateY = ((x - centerX) / centerX) * 5;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
             card.style.setProperty('--mouse-x', `${x}px`);
             card.style.setProperty('--mouse-y', `${y}px`);
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
         });
     });
 });
