@@ -73,16 +73,23 @@ WSGI_APPLICATION = 'ProRecruiterAI.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# Use PostgreSQL on Render, SQLite locally
-if config('DATABASE_URL', default=''):
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
+    # Print masked URL for debugging during Render build
+    import re
+    masked_url = re.sub(r':([^@]+)@', ':****@', DATABASE_URL)
+    print(f"DATABASE_URL detected: {masked_url}")
+    
     DATABASES = {
         'default': dj_database_url.config(
-            default=config('DATABASE_URL'),
+            default=DATABASE_URL,
             conn_max_age=600,
             conn_health_checks=True,
         )
     }
 else:
+    print("DATABASE_URL not found, using SQLite")
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
