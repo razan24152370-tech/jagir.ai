@@ -436,8 +436,10 @@ def view_candidate(request, application_id):
     
     # Generate fresh XAI data for AI Analysis
     from .ai_service import _build_xai, _build_resume_text, _build_job_text, _calculate_feature_importance
-    from .ai_service import ranker
-    from sklearn.metrics.pairwise import cosine_similarity
+    from .ai_lazy_loader import get_ranker, get_sklearn
+    
+    ranker = get_ranker()
+    cosine_similarity = get_sklearn()
     
     xai_data = None
     feature_importance = None

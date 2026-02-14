@@ -19,6 +19,8 @@ def create_admin():
     password = os.environ.get('DJANGO_SUPERUSER_PASSWORD', 'admin')
     email = os.environ.get('DJANGO_SUPERUSER_EMAIL', 'admin@prorecruiter.ai')
     
+    from accounts.models import Profile
+    
     try:
         # Try to get existing admin user
         user = User.objects.get(username=username)
@@ -32,7 +34,10 @@ def create_admin():
         user.is_active = True
         user.save()
         
-        print(f"✅ Admin user '{username}' updated successfully!")
+        # Ensure Profile exists
+        Profile.objects.get_or_create(user=user, defaults={'user_type': 'recruiter'})
+        
+        print(f"✅ Admin user '{username}' and profile updated successfully!")
         
     except User.DoesNotExist:
         # Create new admin user
@@ -44,7 +49,10 @@ def create_admin():
             password=password
         )
         
-        print(f"✅ Admin user '{username}' created successfully!")
+        # Create Profile
+        Profile.objects.create(user=user, user_type='recruiter')
+        
+        print(f"✅ Admin user '{username}' and profile created successfully!")
     
     print("\n" + "="*60)
     print("Admin Credentials:")
