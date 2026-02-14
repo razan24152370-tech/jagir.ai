@@ -37,7 +37,7 @@ def jobseeker_signup_view(request):
             Profile.objects.create(user=user, user_type='jobseeker')
             login(request, user)
             messages.success(request, 'Welcome! Your job seeker account has been created.')
-            return redirect('user_dashboard')
+            return redirect('jobs:user_dashboard')
         else:
             messages.error(request, 'Signup failed. Please correct the errors below.')
     else:
@@ -59,7 +59,7 @@ def jobseeker_login_view(request):
                 pass
             login(request, user)
             messages.success(request, f'Welcome back, {user.username}!')
-            return redirect('user_dashboard')
+            return redirect('jobs:user_dashboard')
         else:
             messages.error(request, 'Login failed. Please check your credentials.')
     else:
@@ -84,7 +84,7 @@ def recruiter_signup_view(request):
             )
             login(request, user)
             messages.success(request, 'Welcome! Your recruiter account has been created.')
-            return redirect('recruiter_dashboard')
+            return redirect('jobs:recruiter_dashboard')
         else:
             messages.error(request, 'Signup failed. Please correct the errors below.')
     else:
@@ -106,7 +106,7 @@ def recruiter_login_view(request):
                 pass
             login(request, user)
             messages.success(request, f'Welcome back, {user.username}!')
-            return redirect('recruiter_dashboard')
+            return redirect('jobs:recruiter_dashboard')
         else:
             messages.error(request, 'Login failed. Please check your credentials.')
     else:
@@ -214,7 +214,7 @@ def edit_profile(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile updated successfully!')
-            return redirect('profile')
+            return redirect('accounts:profile')
     else:
         form = FormClass(instance=profile)
     

@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'jobs',
 ]
 
-STATICFILES_DIRS = [BASE_DIR / 'accounts' / 'static']
+STATICFILES_DIRS = []  # App static files are found automatically
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -139,9 +139,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Auth Redirects
-LOGIN_URL = 'login'
+LOGIN_URL = 'accounts:jobseeker_login'
 LOGIN_REDIRECT_URL = 'project_home'
-LOGOUT_REDIRECT_URL = 'admin:login'
+LOGOUT_REDIRECT_URL = 'project_home'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -161,27 +161,25 @@ LOGGING = {
         },
     },
     'handlers': {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'debug.log',
-            'formatter': 'verbose',
-        },
         'console': {
-            'level': 'INFO',
+            'level': 'DEBUG' if DEBUG else 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
         },
     },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
     'loggers': {
-        'jobs': {
-            'handlers': ['file', 'console'],
+        'django': {
+            'handlers': ['console'],
             'level': 'INFO',
-            'propagate': False,
+            'propagate': True,
         },
-        'accounts': {
-            'handlers': ['file', 'console'],
-            'level': 'INFO',
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'ERROR',
             'propagate': False,
         },
     },
