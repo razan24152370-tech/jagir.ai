@@ -15,4 +15,8 @@ echo "==> Collecting static files..."
 # Collect static files
 python manage.py collectstatic --no-input
 
+echo "==> Creating/Updating Admin User..."
+# Create admin user automatically
+python create_admin.py
+
 echo "==> Build complete!"

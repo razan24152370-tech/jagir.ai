@@ -14,17 +14,17 @@ django.setup()
 from django.contrib.auth.models import User
 
 def create_admin():
-    """Create or reset admin user"""
-    username = 'admin'
-    password = 'admin'
-    email = 'admin@prorecruiter.ai'
+    """Create or reset admin user using env vars or defaults"""
+    username = os.environ.get('DJANGO_SUPERUSER_USERNAME', 'admin')
+    password = os.environ.get('DJANGO_SUPERUSER_PASSWORD', 'admin')
+    email = os.environ.get('DJANGO_SUPERUSER_EMAIL', 'admin@prorecruiter.ai')
     
     try:
         # Try to get existing admin user
         user = User.objects.get(username=username)
-        print(f"User '{username}' already exists. Resetting password...")
+        print(f"User '{username}' already exists. Updating...")
         
-        # Reset password
+        # Update user
         user.set_password(password)
         user.email = email
         user.is_staff = True
@@ -32,7 +32,7 @@ def create_admin():
         user.is_active = True
         user.save()
         
-        print(f"✅ Admin user '{username}' password reset successfully!")
+        print(f"✅ Admin user '{username}' updated successfully!")
         
     except User.DoesNotExist:
         # Create new admin user
@@ -52,8 +52,6 @@ def create_admin():
     print(f"Username: {username}")
     print(f"Password: {password}")
     print(f"Email: {email}")
-    print("="*60)
-    print(f"\nAdmin panel: http://localhost:8000/admin/")
     print("="*60)
 
 if __name__ == '__main__':
