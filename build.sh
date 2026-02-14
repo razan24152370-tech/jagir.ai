@@ -2,12 +2,17 @@
 # exit on error
 set -o errexit
 
+echo "==> Installing dependencies..."
 # Install dependencies with no cache to reduce memory usage
 pip install --upgrade pip --no-cache-dir
 pip install -r requirements.txt --no-cache-dir
 
+echo "==> Running database migrations..."
+# Run migrations (this creates all database tables)
+python manage.py migrate --no-input
+
+echo "==> Collecting static files..."
 # Collect static files
 python manage.py collectstatic --no-input
 
-# Run migrations
-python manage.py migrate
+echo "==> Build complete!"
