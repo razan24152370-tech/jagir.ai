@@ -2,9 +2,9 @@
 # exit on error
 set -o errexit
 
-# Install dependencies
-pip install --upgrade pip
-pip install -r requirements.txt
+# Install dependencies with no cache to reduce memory usage
+pip install --upgrade pip --no-cache-dir
+pip install -r requirements.txt --no-cache-dir
 
 # Collect static files
 python manage.py collectstatic --no-input
