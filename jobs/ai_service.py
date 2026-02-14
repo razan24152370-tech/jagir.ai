@@ -561,19 +561,40 @@ def get_job_recommendations(user_profile, jobs, use_personalization=True):
         .values_list('job_id', flat=True)
     )
 
-    for job in jobs:
-        # Skip already applied/rejected/ignored jobs
+    # Batch collect job texts for encoding
+    job_list = list(jobs)
+    job_texts = []
+    job_valid_indices = []
+    
+    for i, job in enumerate(job_list):
         if job.id in applied_job_ids or job.id in rejected_job_ids or job.id in ignored_job_ids:
             continue
-        
-        job_text = _build_job_text(job)
-        if not job_text:
-            continue
+        text = _build_job_text(job)
+        if text:
+            job_texts.append(text)
+            job_valid_indices.append(i)
 
-        job_emb = ranker.model.encode(job_text)
-        cosine_similarity = get_sklearn()
-        if cosine_similarity:
-            similarity = cosine_similarity([user_embedding], [job_emb]).flatten()[0] * 100
+    if not job_texts:
+        return recommendations
+
+    # Batch encode all valid jobs
+    job_embs = []
+    if ranker and hasattr(ranker, "model") and ranker.model:
+        try:
+            job_embs = ranker.model.encode(job_texts, batch_size=32, show_progress_bar=False)
+        except Exception as e:
+            logger.error(f"Batch encoding failed: {e}")
+            job_embs = [None] * len(job_texts)
+    else:
+        job_embs = [None] * len(job_texts)
+
+    cosine_sim_func = get_sklearn()
+
+    for idx, job_emb in enumerate(job_embs):
+        job = job_list[job_valid_indices[idx]]
+        
+        if job_emb is not None and cosine_sim_func:
+            similarity = float(cosine_sim_func([user_embedding], [job_emb]).flatten()[0] * 100)
         else:
             similarity = 0.0
         
