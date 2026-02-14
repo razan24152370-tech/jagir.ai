@@ -12,8 +12,10 @@ echo "==> Running database migrations..."
 python manage.py migrate --no-input
 
 echo "==> Collecting static files..."
-# Collect static files
-python manage.py collectstatic --no-input
+# Ensure staticfiles directory exists
+mkdir -p staticfiles
+# Collect static files with verbose output
+python manage.py collectstatic --no-input --clear --no-post-process
 
 echo "==> Creating/Updating Admin User..."
 # Create admin user automatically

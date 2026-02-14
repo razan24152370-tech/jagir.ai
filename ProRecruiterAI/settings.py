@@ -17,6 +17,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-)+c75&#)t&jn$btqcz#aw
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS.append('.onrender.com')
 
 # Add Render.com host
 RENDER_EXTERNAL_HOSTNAME = config('RENDER_EXTERNAL_HOSTNAME', default='')
@@ -76,11 +77,6 @@ WSGI_APPLICATION = 'ProRecruiterAI.wsgi.application'
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 if DATABASE_URL:
-    # Print masked URL for debugging during Render build
-    import re
-    masked_url = re.sub(r':([^@]+)@', ':****@', DATABASE_URL)
-    print(f"DATABASE_URL detected: {masked_url}")
-    
     DATABASES = {
         'default': dj_database_url.config(
             default=DATABASE_URL,
@@ -136,7 +132,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # WhiteNoise configuration
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Media files (Uploads)
 MEDIA_URL = '/media/'
