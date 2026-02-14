@@ -11,9 +11,10 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from pypdf import PdfReader
-from sklearn.metrics.pairwise import cosine_similarity
 
-from ProRecruiterAI.utils.resume_ranker import ranker
+# Lazy load heavy AI dependencies
+from .ai_lazy_loader import get_ranker, get_sklearn
+
 from django.conf import settings
 from datetime import timedelta
 from django.utils import timezone
@@ -385,7 +386,8 @@ def _build_user_embedding(user, resume_text):
     
     Returns weighted embedding vector
     """
-    if not resume_text or not hasattr(ranker, "model") or ranker.model is None:
+    ranker = get_ranker()
+    if not resume_text or not ranker or not hasattr(ranker, "model") or ranker.model is None:
         return None
     
     # Import here to avoid circular dependency
@@ -525,8 +527,9 @@ def get_job_recommendations(user_profile, jobs, use_personalization=True):
     
     recommendations = []
     resume_text = _read_text_resume(user_profile.resume)
+    ranker = get_ranker()
 
-    if not resume_text or not hasattr(ranker, "model") or ranker.model is None:
+    if not resume_text or not ranker or not hasattr(ranker, "model") or ranker.model is None:
         for job in jobs:
             recommendations.append({
                 "job": job,
@@ -568,7 +571,11 @@ def get_job_recommendations(user_profile, jobs, use_personalization=True):
             continue
 
         job_emb = ranker.model.encode(job_text)
-        similarity = cosine_similarity([user_embedding], [job_emb]).flatten()[0] * 100
+        cosine_similarity = get_sklearn()
+        if cosine_similarity:
+            similarity = cosine_similarity([user_embedding], [job_emb]).flatten()[0] * 100
+        else:
+            similarity = 0.0
         
         # Apply collaborative filtering boost
         if use_personalization:
@@ -705,7 +712,8 @@ def rank_applications(job, applications, job_description=None):
         return []
 
     job_text = _build_job_text(job, job_description)
-    if not job_text or not hasattr(ranker, "model") or ranker.model is None:
+    ranker = get_ranker()
+    if not job_text or not ranker or not hasattr(ranker, "model") or ranker.model is None:
         for application in applications:
             application.match_score = 0.0
             application.ranking_notes = "AI model unavailable"
@@ -736,6 +744,9 @@ def rank_applications(job, applications, job_description=None):
     try:
         job_emb = ranker.model.encode(job_text)
         resume_embs = ranker.model.encode(resume_texts)
+        cosine_similarity = get_sklearn()
+        if not cosine_similarity:
+            raise Exception("Sklearn not available")
         similarity_scores = cosine_similarity(resume_embs, [job_emb]).flatten() * 100
 
         for application, similarity, resume_text in zip(ai_apps, similarity_scores, resume_texts):
