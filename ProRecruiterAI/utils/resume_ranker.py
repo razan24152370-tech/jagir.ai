@@ -68,5 +68,12 @@ class ResumeRanker:
         
         return results[['rank_score', 'skills_list', 'full_resume_text']].to_dict('records')
 
-# Global singleton instance
-ranker = ResumeRanker()
+# Helper for true lazy loading
+_ranker_instance = None
+
+def get_ranker_instance():
+    """Get or create the singleton ResumeRanker instance"""
+    global _ranker_instance
+    if _ranker_instance is None:
+        _ranker_instance = ResumeRanker()
+    return _ranker_instance

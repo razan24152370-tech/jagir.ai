@@ -16,9 +16,10 @@ def get_ranker():
     global _ranker
     if _ranker is None:
         try:
-            from ProRecruiterAI.utils.resume_ranker import ranker
-            _ranker = ranker
-            logger.info("Resume ranker model loaded successfully")
+            # Use the getter function instead of direct import
+            from ProRecruiterAI.utils.resume_ranker import get_ranker_instance
+            _ranker = get_ranker_instance()
+            logger.info("Resume ranker model loaded successfully via getter")
         except Exception as e:
             logger.warning(f"Failed to load resume ranker: {e}")
             _ranker = None
